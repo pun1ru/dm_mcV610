@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32H723xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../LibSE/BSP/CAN;../LibSE/BSP/PWM;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../USB_DEVICE/App;../USB_DEVICE/Target;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc</IncludePath>
+              <IncludePath>../Core/Inc;../LibSE/BSP/CAN;../LibSE/BSP/PWM;../LibSE/BSP/UART;../LibSE/BSP/DWT;../LibSE/Drivers/Buzzer;../LibSE/Drivers/Bmi088;../LibSE/Drivers/Referee;../LibSE/Algorithm/Math;../LibSE/Algorithm/INS/Madgwick;../LibSE/Modules/INS;../LibSE/Task/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../USB_DEVICE/App;../USB_DEVICE/Target;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -367,11 +367,11 @@
             <Rwpi>0</Rwpi>
             <noStLib>0</noStLib>
             <RepFail>1</RepFail>
-            <useFile>0</useFile>
+            <useFile>1</useFile>
             <TextAddressRange></TextAddressRange>
             <DataAddressRange></DataAddressRange>
             <pXoBase></pXoBase>
-            <ScatterFile></ScatterFile>
+            <ScatterFile>dm_mcV610_dm_mcV610.sct</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
             <Misc></Misc>
@@ -409,6 +409,22 @@
               <FileType>1</FileType>
               <FilePath>../LibSE/BSP/PWM/bsp_pwm.c</FilePath>
             </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>LibSE/Features</GroupName>
+          <Files>
+            <File><FileName>bsp_uart.c</FileName><FileType>1</FileType><FilePath>../LibSE/BSP/UART/bsp_uart.c</FilePath></File>
+            <File><FileName>bsp_dwt.c</FileName><FileType>1</FileType><FilePath>../LibSE/BSP/DWT/bsp_dwt.c</FilePath></File>
+            <File><FileName>bsp_buzzer.c</FileName><FileType>1</FileType><FilePath>../LibSE/Drivers/Buzzer/bsp_buzzer.c</FilePath></File>
+            <File><FileName>bmi088_driver.c</FileName><FileType>1</FileType><FilePath>../LibSE/Drivers/Bmi088/bmi088_driver.c</FilePath></File>
+            <File><FileName>bmi088_middleware.c</FileName><FileType>1</FileType><FilePath>../LibSE/Drivers/Bmi088/bmi088_middleware.c</FilePath></File>
+            <File><FileName>judge_receive.c</FileName><FileType>1</FileType><FilePath>../LibSE/Drivers/Referee/judge_receive.c</FilePath></File>
+            <File><FileName>referee.c</FileName><FileType>1</FileType><FilePath>../LibSE/Drivers/Referee/referee.c</FilePath></File>
+            <File><FileName>algorism.c</FileName><FileType>1</FileType><FilePath>../LibSE/Algorithm/Math/algorism.c</FilePath></File>
+            <File><FileName>Madgwick.c</FileName><FileType>1</FileType><FilePath>../LibSE/Algorithm/INS/Madgwick/Madgwick.c</FilePath></File>
+            <File><FileName>ins.c</FileName><FileType>1</FileType><FilePath>../LibSE/Modules/INS/ins.c</FilePath></File>
+            <File><FileName>ins_task.c</FileName><FileType>1</FileType><FilePath>../LibSE/Task/Src/ins_task.c</FilePath></File>
           </Files>
         </Group>
         <Group>

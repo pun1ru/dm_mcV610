@@ -12,6 +12,15 @@ project:
         - ../Core/Inc
         - ../LibSE/BSP/CAN
         - ../LibSE/BSP/PWM
+        - ../LibSE/BSP/UART
+        - ../LibSE/BSP/DWT
+        - ../LibSE/Drivers/Buzzer
+        - ../LibSE/Drivers/Bmi088
+        - ../LibSE/Drivers/Referee
+        - ../LibSE/Algorithm/Math
+        - ../LibSE/Algorithm/INS/Madgwick
+        - ../LibSE/Modules/INS
+        - ../LibSE/Task/Inc
         - ../Drivers/STM32H7xx_HAL_Driver/Inc
         - ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy
         - ../Drivers/CMSIS/Device/ST/STM32H7xx/Include
@@ -79,6 +88,35 @@ project:
     - group: LibSE/BSP/PWM
       files:
         - file: ../LibSE/BSP/PWM/bsp_pwm.c
+    - group: LibSE/BSP/UART
+      files:
+        - file: ../LibSE/BSP/UART/bsp_uart.c
+    - group: LibSE/BSP/DWT
+      files:
+        - file: ../LibSE/BSP/DWT/bsp_dwt.c
+    - group: LibSE/Drivers/Buzzer
+      files:
+        - file: ../LibSE/Drivers/Buzzer/bsp_buzzer.c
+    - group: LibSE/Drivers/Bmi088
+      files:
+        - file: ../LibSE/Drivers/Bmi088/bmi088_driver.c
+        - file: ../LibSE/Drivers/Bmi088/bmi088_middleware.c
+    - group: LibSE/Drivers/Referee
+      files:
+        - file: ../LibSE/Drivers/Referee/judge_receive.c
+        - file: ../LibSE/Drivers/Referee/referee.c
+    - group: LibSE/Algorithm/Math
+      files:
+        - file: ../LibSE/Algorithm/Math/algorism.c
+    - group: LibSE/Algorithm/INS
+      files:
+        - file: ../LibSE/Algorithm/INS/Madgwick/Madgwick.c
+    - group: LibSE/Modules/INS
+      files:
+        - file: ../LibSE/Modules/INS/ins.c
+    - group: LibSE/Task
+      files:
+        - file: ../LibSE/Task/Src/ins_task.c
     - group: Application/User/Core
       files:
         - file: ../Core/Src/main.c
