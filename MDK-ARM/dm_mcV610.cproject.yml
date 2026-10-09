@@ -10,6 +10,8 @@ project:
         fpu: dp
       add-path:
         - ../Core/Inc
+        - ../LibSE/BSP/CAN
+        - ../LibSE/BSP/PWM
         - ../Drivers/STM32H7xx_HAL_Driver/Inc
         - ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy
         - ../Drivers/CMSIS/Device/ST/STM32H7xx/Include
@@ -71,6 +73,12 @@ project:
     - group: Application/MDK-ARM
       files:
         - file: startup_stm32h723xx.s
+    - group: LibSE/BSP/CAN
+      files:
+        - file: ../LibSE/BSP/CAN/CAN_driver.c
+    - group: LibSE/BSP/PWM
+      files:
+        - file: ../LibSE/BSP/PWM/bsp_pwm.c
     - group: Application/User/Core
       files:
         - file: ../Core/Src/main.c

@@ -1,0 +1,26 @@
+# ninja log v5
+0	38	8132391139078248	dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-mkdir	b0b8720f5a6cf20b
+0	38	8132391139078248	E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-mkdir	b0b8720f5a6cf20b
+38	73	8132391139428253	dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-download	36cc76c6da3f0286
+38	73	8132391139428253	E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-download	36cc76c6da3f0286
+74	114	8132391139838242	dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-update	40148795a4b7ebb9
+74	114	8132391139838242	E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-update	40148795a4b7ebb9
+115	148	8132391140168238	dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-patch	585208d13af840d3
+115	148	8132391140168238	E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-patch	585208d13af840d3
+148	2692	8132391165605674	dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-configure	a0674f1c5f3e2b9f
+148	2692	8132391165605674	E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-configure	a0674f1c5f3e2b9f
+2692	3965	8132391165605674	dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-build	e079005bb6f505a4
+2692	3965	8132391165605674	E:/Embedded/STM32project/dm_mcV610/MDK-ARM/out/dm_mcV610/dm_mcV610/dm_mcV610.axf	e079005bb6f505a4
+2692	3965	8132391165605674	E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-build	e079005bb6f505a4
+3965	4004	8132391178728632	dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-executes	50e531e0cec3bedb
+3965	4004	8132391178728632	E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-executes	50e531e0cec3bedb
+3970	4055	0	dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-database	7910eab69eda16c4
+3970	4055	0	E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-database	7910eab69eda16c4
+4055	4075	0	dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-install	a2f07a9fcc9660c6
+4055	4075	0	E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-install	a2f07a9fcc9660c6
+4075	4108	8132391179775355	dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-test	1faa748d00fb2de5
+4075	4108	8132391179775355	E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-test	1faa748d00fb2de5
+4108	4155	8132391180237295	CMakeFiles/dm_mcV610+dm_mcV610-complete	19d2dbe2dc9b5e4d
+4108	4155	8132391180237295	dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-done	19d2dbe2dc9b5e4d
+4108	4155	8132391180237295	E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/CMakeFiles/dm_mcV610+dm_mcV610-complete	19d2dbe2dc9b5e4d
+4108	4155	8132391180237295	E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-done	19d2dbe2dc9b5e4d

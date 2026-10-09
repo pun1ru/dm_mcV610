@@ -25,6 +25,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "CAN_driver.h"
 
 /* USER CODE END Includes */
 
@@ -98,7 +99,9 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE END RTOS_TIMERS */
 
   /* USER CODE BEGIN RTOS_QUEUES */
-  /* add queues, ... */
+  if (CANTransmit_QueueInit() != pdPASS) {
+    Error_Handler();
+  }
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
@@ -107,7 +110,14 @@ void MX_FREERTOS_Init(void) {
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
-  /* add threads, ... */
+  if (xTaskCreate(CANTransmit_QueueTask, "CAN1Tx", 256, &hfdcan1,
+                  tskIDLE_PRIORITY + 2, NULL) != pdPASS ||
+      xTaskCreate(CANTransmit_QueueTask, "CAN2Tx", 256, &hfdcan2,
+                  tskIDLE_PRIORITY + 2, NULL) != pdPASS ||
+      xTaskCreate(CANTransmit_QueueTask, "CAN3Tx", 256, &hfdcan3,
+                  tskIDLE_PRIORITY + 2, NULL) != pdPASS) {
+    Error_Handler();
+  }
   /* USER CODE END RTOS_THREADS */
 
 }
