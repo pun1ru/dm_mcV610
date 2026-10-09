@@ -1,0 +1,9 @@
+{
+    "targetSet": {
+        "dm_mcV610": {
+            "activeTargetType": "dm_mcV610"
+        }
+    },
+    "activeSolution": "../dm_mcV610.csolution.yml",
+    "activeTarget": "dm_mcV610"
+}

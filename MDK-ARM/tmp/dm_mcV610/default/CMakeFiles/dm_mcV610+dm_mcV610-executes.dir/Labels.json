@@ -1,0 +1,40 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610/default/CMakeFiles/dm_mcV610+dm_mcV610-executes"
+		},
+		{
+			"file" : "E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610/default/CMakeFiles/dm_mcV610+dm_mcV610-executes.rule"
+		},
+		{
+			"file" : "E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610/default/dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-executes.rule"
+		},
+		{
+			"file" : "E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610/default/dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-build.rule"
+		},
+		{
+			"file" : "E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610/default/dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-configure.rule"
+		},
+		{
+			"file" : "E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610/default/dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-patch.rule"
+		},
+		{
+			"file" : "E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610/default/dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-update.rule"
+		},
+		{
+			"file" : "E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610/default/dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-download.rule"
+		},
+		{
+			"file" : "E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610/default/dm_mcV610+dm_mcV610/src/dm_mcV610+dm_mcV610-stamp/dm_mcV610+dm_mcV610-mkdir.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"dm_mcV610+dm_mcV610"
+		],
+		"name" : "dm_mcV610+dm_mcV610-executes"
+	}
+}

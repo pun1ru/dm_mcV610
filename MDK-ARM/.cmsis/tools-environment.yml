@@ -1,0 +1,56 @@
+cmsis-tools-environment:
+  version: 1.0.0
+  generated-by: arm.cmsis-csolution version 1.72.0
+  solution: ../dm_mcV610.csolution.yml
+  environment:
+    path:
+      - c:/Users/liaoz/.vscode/extensions/arm.vscode-cmsis-debugger-1.8.0-win32-x64/tools/pyocd
+      - c:/Users/liaoz/.vscode/extensions/arm.cmsis-csolution-1.72.0-win32-x64/tools/cmsis-toolbox/bin
+      - c:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.12/bin
+      - c:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.ninja.build.ninja/1.13.2
+      - c:/Users/liaoz/.vscode/extensions/arm.vscode-cmsis-debugger-1.8.0-win32-x64/tools/gdb/bin
+    variables:
+      cmake: c:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.12/bin/cmake.exe
+      cmake_gui: c:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.12/bin/cmake-gui.exe
+      CMSIS_PACK_ROOT: C:/Keil_v5/ARM/PACK
+      ctest: c:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.12/bin/ctest.exe
+      ninja: c:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.ninja.build.ninja/1.13.2/ninja.exe
+  tools:
+    - name: pyOCD
+      version: 0.45.1
+      origin: built-in
+      provider:
+        type: vscode-extension
+        id: arm.vscode-cmsis-debugger
+      directory: c:/Users/liaoz/.vscode/extensions/arm.vscode-cmsis-debugger-1.8.0-win32-x64/tools/pyocd
+      manual: https://pyocd.io/docs/
+    - name: CMSIS-Toolbox
+      version: 2.15.0
+      origin: built-in
+      provider:
+        type: vscode-extension
+        id: arm.cmsis-csolution
+      directory: c:/Users/liaoz/.vscode/extensions/arm.cmsis-csolution-1.72.0-win32-x64/tools/cmsis-toolbox/bin
+      manual: https://open-cmsis-pack.github.io/cmsis-toolbox/
+    - name: tools.kitware.cmake
+      version: 3.31.12
+      origin: installed
+      provider:
+        type: vcpkg
+        id: arm.environment-manager
+      directory: c:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.12
+    - name: tools.ninja.build.ninja
+      version: 1.13.2
+      origin: installed
+      provider:
+        type: vcpkg
+        id: arm.environment-manager
+      directory: c:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.ninja.build.ninja/1.13.2
+    - name: Arm GNU GDB
+      version: 15.2.1
+      origin: built-in
+      provider:
+        type: vscode-extension
+        id: arm.vscode-cmsis-debugger
+      directory: c:/Users/liaoz/.vscode/extensions/arm.vscode-cmsis-debugger-1.8.0-win32-x64/tools/gdb/bin
+      manual: https://developer.arm.com/Tools%20and%20Software/GNU%20Toolchain

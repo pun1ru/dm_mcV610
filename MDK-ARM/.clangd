@@ -1,0 +1,10 @@
+CompileFlags:
+  CompilationDatabase: e:\Embedded\STM32project\dm_mcV610\MDK-ARM\out\dm_mcV610\dm_mcV610
+
+---
+If:
+  PathMatch: .*\.(c|C|h)$
+CompileFlags:
+  Add:
+    - -include
+    - e:\Embedded\STM32project\dm_mcV610\MDK-ARM\out\dm_mcV610\dm_mcV610\compile_macros_c.h

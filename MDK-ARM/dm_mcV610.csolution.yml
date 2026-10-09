@@ -1,0 +1,10 @@
+solution:
+  created-by: uv2csolution@1.6.0
+  created-for: CMSIS-Toolbox@2.7.0
+  compiler: AC6@6.19.0
+  target-types:
+    - type: dm_mcV610
+      device: STM32H723VGTx
+      optimize: debug
+  projects:
+    - project: dm_mcV610.cproject.yml

@@ -1,0 +1,20 @@
+build-idx:
+  generated-by: csolution version 2.15.1+p3-gf46d68bf
+  target: dm_mcV610
+  csolution: dm_mcV610.csolution.yml
+  cbuild-run: out/dm_mcV610+dm_mcV610.cbuild-run.yml
+  tmpdir: tmp/dm_mcV610/default
+  cprojects:
+    - cproject: dm_mcV610.cproject.yml
+  cbuilds:
+    - cbuild: out/dm_mcV610/dm_mcV610/dm_mcV610+dm_mcV610.cbuild.yml
+      project: dm_mcV610
+      configuration: +dm_mcV610
+      messages:
+        info:
+          - dm_mcV610.cbuild-pack.yml - file is already up-to-date
+          - dm_mcV610+dm_mcV610.cbuild-run.yml - file generated successfully
+          - dm_mcV610+dm_mcV610.cbuild.yml - file is already up-to-date
+      packs-unused:
+        - pack: ARM::CMSIS-DSP@1.16.2
+        - pack: ARM::CMSIS-NN@4.0.0

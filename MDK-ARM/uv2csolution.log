@@ -1,0 +1,17 @@
+Error: 0 error(s), 1 warning(s):
+
+Warnings:
+
+	Fix compiler version (6.19.0) is configured in the uVision project.
+
+	However 6.22.0, the earliest version available through vcpkg,
+
+	is specified in the generated vcpkg-configuration.json and csolution file.
+
+1 out of 1 target(s) converted
+
+Created solution: E:/Embedded/STM32project/dm_mcV610/MDK-ARM/dm_mcV610.csolution.yml
+
+With projects:
+
+- E:/Embedded/STM32project/dm_mcV610/MDK-ARM/dm_mcV610.cproject.yml
