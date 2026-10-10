@@ -425,6 +425,7 @@
             <File><FileName>Madgwick.c</FileName><FileType>1</FileType><FilePath>../LibSE/Algorithm/INS/Madgwick/Madgwick.c</FilePath></File>
             <File><FileName>ins.c</FileName><FileType>1</FileType><FilePath>../LibSE/Modules/INS/ins.c</FilePath></File>
             <File><FileName>ins_task.c</FileName><FileType>1</FileType><FilePath>../LibSE/Task/Src/ins_task.c</FilePath></File>
+            <File><FileName>task_receive.c</FileName><FileType>1</FileType><FilePath>../LibSE/Task/Src/task_receive.c</FilePath></File>
           </Files>
         </Group>
         <Group>

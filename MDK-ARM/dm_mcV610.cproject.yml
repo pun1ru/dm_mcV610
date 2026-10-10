@@ -117,6 +117,7 @@ project:
     - group: LibSE/Task
       files:
         - file: ../LibSE/Task/Src/ins_task.c
+        - file: ../LibSE/Task/Src/task_receive.c
     - group: Application/User/Core
       files:
         - file: ../Core/Src/main.c

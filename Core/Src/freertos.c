@@ -25,8 +25,6 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "CAN_driver.h"
-#include "ins_task.h"
 
 /* USER CODE END Includes */
 
@@ -47,7 +45,6 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
-CanInstance_t can_instances[3];
 
 /* USER CODE END Variables */
 osThreadId defaultTaskHandle;
@@ -101,17 +98,7 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE END RTOS_TIMERS */
 
   /* USER CODE BEGIN RTOS_QUEUES */
-  can_instances[0].can = &hfdcan1;
-  can_instances[0].rx_fifo = FDCAN_RX_FIFO0;
-  can_instances[1].can = &hfdcan2;
-  can_instances[1].rx_fifo = FDCAN_RX_FIFO1;
-  can_instances[2].can = &hfdcan3;
-  can_instances[2].rx_fifo = FDCAN_RX_FIFO1;
-  CAN_RegisterInstances(can_instances, 3U);
-  if (CANTransmit_QueueInit() != pdPASS ||
-      CANReceive_QueueInit() != pdPASS) {
-    Error_Handler();
-  }
+ 
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
@@ -120,22 +107,7 @@ void MX_FREERTOS_Init(void) {
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
-  if (xTaskCreate(CANTransmit_QueueTask, "CAN1Tx", 256, &hfdcan1,
-                  tskIDLE_PRIORITY + 2, NULL) != pdPASS ||
-      xTaskCreate(CANTransmit_QueueTask, "CAN2Tx", 256, &hfdcan2,
-                  tskIDLE_PRIORITY + 2, NULL) != pdPASS ||
-      xTaskCreate(CANTransmit_QueueTask, "CAN3Tx", 256, &hfdcan3,
-                  tskIDLE_PRIORITY + 2, NULL) != pdPASS ||
-      xTaskCreate(CANReceive_QueueTask, "CAN1Rx", 256, &hfdcan1,
-                  tskIDLE_PRIORITY + 2, NULL) != pdPASS ||
-      xTaskCreate(CANReceive_QueueTask, "CAN2Rx", 256, &hfdcan2,
-                  tskIDLE_PRIORITY + 2, NULL) != pdPASS ||
-      xTaskCreate(CANReceive_QueueTask, "CAN3Rx", 256, &hfdcan3,
-                  tskIDLE_PRIORITY + 2, NULL) != pdPASS ||
-      xTaskCreate(INS_Task, "INS", 512, NULL,
-                  tskIDLE_PRIORITY + 3, NULL) != pdPASS) {
-    Error_Handler();
-  }
+ 
   /* USER CODE END RTOS_THREADS */
 
 }
@@ -149,7 +121,7 @@ void MX_FREERTOS_Init(void) {
 /* USER CODE END Header_StartDefaultTask */
 void StartDefaultTask(void const * argument)
 {
-  can_bsp_init();
+
   /* init code for USB_DEVICE */
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN StartDefaultTask */
