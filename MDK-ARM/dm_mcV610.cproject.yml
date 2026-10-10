@@ -17,9 +17,16 @@ project:
         - ../LibSE/Drivers/Buzzer
         - ../LibSE/Drivers/Bmi088
         - ../LibSE/Drivers/Referee
+        - ../LibSE/Drivers/RC/DT7
         - ../LibSE/Algorithm/Math
+        - ../LibSE/Algorithm/Control/PID
+        - ../LibSE/Algorithm/Control/ADRC
+        - ../LibSE/Algorithm/Process/kalman_filter
+        - ../LibSE/Algorithm/Process/ekf
         - ../LibSE/Algorithm/INS/Madgwick
-        - ../LibSE/Modules/INS
+        - ../LibSE/Module/INS
+        - ../LibSE/Module/Monitor
+        - ../LibSE/Task
         - ../LibSE/Task/Inc
         - ../Drivers/STM32H7xx_HAL_Driver/Inc
         - ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy
@@ -105,19 +112,38 @@ project:
       files:
         - file: ../LibSE/Drivers/Referee/judge_receive.c
         - file: ../LibSE/Drivers/Referee/referee.c
+    - group: LibSE/Drivers/RC
+      files:
+        - file: ../LibSE/Drivers/RC/DT7/dt7_remote_driver.c
+        - file: ../LibSE/Drivers/RC/DT7/remote_control.c
     - group: LibSE/Algorithm/Math
       files:
         - file: ../LibSE/Algorithm/Math/algorism.c
+    - group: LibSE/Algorithm/Control
+      files:
+        - file: ../LibSE/Algorithm/Control/PID/pid.c
+        - file: ../LibSE/Algorithm/Control/ADRC/adrc.c
+    - group: LibSE/Algorithm/Process
+      files:
+        - file: ../LibSE/Algorithm/Process/kalman_filter/kalman_filter.c
+        - file: ../LibSE/Algorithm/Process/ekf/ekf_quaternion.c
     - group: LibSE/Algorithm/INS
       files:
         - file: ../LibSE/Algorithm/INS/Madgwick/Madgwick.c
-    - group: LibSE/Modules/INS
+    - group: LibSE/Module/INS
       files:
-        - file: ../LibSE/Modules/INS/ins.c
+        - file: ../LibSE/Module/INS/ins.c
+    - group: LibSE/Module/Monitor
+      files:
+        - file: ../LibSE/Module/Monitor/monitor.c
     - group: LibSE/Task
       files:
-        - file: ../LibSE/Task/Src/ins_task.c
+        - file: ../LibSE/Task/task_system.c
+        - file: ../LibSE/Task/Src/task_init.c
+        - file: ../LibSE/Task/Src/task_ins.c
         - file: ../LibSE/Task/Src/task_receive.c
+        - file: ../LibSE/Task/Src/task_transmit.c
+        - file: ../LibSE/Task/Src/task_monitor.c
     - group: Application/User/Core
       files:
         - file: ../Core/Src/main.c
@@ -380,3 +406,4 @@ project:
                 - -xc++
   components:
     - component: ARM::CMSIS:CORE
+    - component: ARM::CMSIS:DSP&Source
