@@ -61,6 +61,7 @@ target_include_directories(${CONTEXT} PUBLIC
     "${SOLUTION_ROOT}/../LibSE/BSP/UART"
     "${SOLUTION_ROOT}/../LibSE/BSP/DWT"
     "${SOLUTION_ROOT}/../LibSE/Drivers/Buzzer"
+    "${SOLUTION_ROOT}/../LibSE/Drivers/WS2812"
     "${SOLUTION_ROOT}/../LibSE/Drivers/Bmi088"
     "${SOLUTION_ROOT}/../LibSE/Drivers/Referee"
     "${SOLUTION_ROOT}/../LibSE/Drivers/RC/DT7"

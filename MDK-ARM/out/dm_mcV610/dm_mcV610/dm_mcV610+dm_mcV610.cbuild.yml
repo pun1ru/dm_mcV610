@@ -101,6 +101,7 @@ build:
     - ../../../../LibSE/BSP/UART
     - ../../../../LibSE/BSP/DWT
     - ../../../../LibSE/Drivers/Buzzer
+    - ../../../../LibSE/Drivers/WS2812
     - ../../../../LibSE/Drivers/Bmi088
     - ../../../../LibSE/Drivers/Referee
     - ../../../../LibSE/Drivers/RC/DT7
@@ -309,6 +310,8 @@ build:
     - group: LibSE/Features
       files:
         - file: ../../../../LibSE/BSP/UART/uart_driver.c
+          category: sourceC
+        - file: ../../../../LibSE/Drivers/WS2812/ws2812_board.c
           category: sourceC
         - file: ../../../../LibSE/BSP/DWT/bsp_dwt.c
           category: sourceC

@@ -74,6 +74,7 @@ target_link_libraries(Group_LibSE_BSP_PWM PUBLIC
 # group LibSE/Features
 add_library(Group_LibSE_Features OBJECT
   "${SOLUTION_ROOT}/../LibSE/BSP/UART/uart_driver.c"
+  "${SOLUTION_ROOT}/../LibSE/Drivers/WS2812/ws2812_board.c"
   "${SOLUTION_ROOT}/../LibSE/BSP/DWT/bsp_dwt.c"
   "${SOLUTION_ROOT}/../LibSE/Drivers/Buzzer/bsp_buzzer.c"
   "${SOLUTION_ROOT}/../LibSE/Drivers/Bmi088/bmi088_driver.c"

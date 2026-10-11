@@ -15,6 +15,7 @@ project:
         - ../LibSE/BSP/UART
         - ../LibSE/BSP/DWT
         - ../LibSE/Drivers/Buzzer
+        - ../LibSE/Drivers/WS2812
         - ../LibSE/Drivers/Bmi088
         - ../LibSE/Drivers/Referee
         - ../LibSE/Drivers/RC/DT7
@@ -98,6 +99,7 @@ project:
     - group: LibSE/Features
       files:
         - file: ../LibSE/BSP/UART/uart_driver.c
+        - file: ../LibSE/Drivers/WS2812/ws2812_board.c
         - file: ../LibSE/BSP/DWT/bsp_dwt.c
         - file: ../LibSE/Drivers/Buzzer/bsp_buzzer.c
         - file: ../LibSE/Drivers/Bmi088/bmi088_driver.c
