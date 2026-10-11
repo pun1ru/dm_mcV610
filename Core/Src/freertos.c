@@ -23,6 +23,7 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "task_init.h"
+#include "task_define.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -117,10 +118,9 @@ void MX_FREERTOS_Init(void) {
   osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
-  InitTask(NULL);
-
   /* USER CODE BEGIN RTOS_THREADS */
- 
+  xTaskCreate(InitTask, "InitTask", TASK_INIT_STACK_SIZE, NULL,
+              TASK_INIT_PRIORITY, NULL);
   /* USER CODE END RTOS_THREADS */
 
 }
