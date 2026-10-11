@@ -164,3 +164,12 @@
 228	369	8134024937267517	CMakeFiles/Group_LibSE_Features.dir/E_/Embedded/STM32project/dm_mcV610/LibSE/Task/Src/task_receive.o	3ad6c95e878360e0
 273	403	8134024937716766	CMakeFiles/Group_LibSE_Features.dir/E_/Embedded/STM32project/dm_mcV610/LibSE/Task/Src/task_transmit.o	26967faefd393fd8
 403	490	8134024939015627	E:/Embedded/STM32project/dm_mcV610/MDK-ARM/out/dm_mcV610/dm_mcV610/dm_mcV610.axf	629540f7d6c93bc0
+7	212	8134040639945368	CMakeFiles/Group_LibSE_Features.dir/E_/Embedded/STM32project/dm_mcV610/LibSE/Task/Src/task_init.o	c8fedc6b8115dbe6
+13	278	8134040640006693	CMakeFiles/Group_LibSE_Features.dir/E_/Embedded/STM32project/dm_mcV610/LibSE/Task/Src/task_receive.o	3ad6c95e878360e0
+212	339	8134040642001919	CMakeFiles/Group_LibSE_Features.dir/E_/Embedded/STM32project/dm_mcV610/LibSE/Task/Src/task_transmit.o	26967faefd393fd8
+339	431	8134040643271133	E:/Embedded/STM32project/dm_mcV610/MDK-ARM/out/dm_mcV610/dm_mcV610/dm_mcV610.axf	629540f7d6c93bc0
+6	205	8134047973721625	CMakeFiles/Group_LibSE_Features.dir/E_/Embedded/STM32project/dm_mcV610/LibSE/Task/task_system.o	9f059fee34e925ce
+13	270	8134047973789091	CMakeFiles/Group_LibSE_Features.dir/E_/Embedded/STM32project/dm_mcV610/LibSE/Task/Src/task_init.o	c8fedc6b8115dbe6
+25	289	8134047973921084	CMakeFiles/Group_LibSE_Features.dir/E_/Embedded/STM32project/dm_mcV610/LibSE/Task/Src/task_transmit.o	26967faefd393fd8
+19	291	8134047973848761	CMakeFiles/Group_LibSE_Features.dir/E_/Embedded/STM32project/dm_mcV610/LibSE/Task/Src/task_receive.o	3ad6c95e878360e0
+291	386	8134047976570035	E:/Embedded/STM32project/dm_mcV610/MDK-ARM/out/dm_mcV610/dm_mcV610/dm_mcV610.axf	629540f7d6c93bc0
