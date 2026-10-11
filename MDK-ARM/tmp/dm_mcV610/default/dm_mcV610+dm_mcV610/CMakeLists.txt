@@ -56,6 +56,24 @@ add_library(${CONTEXT}_GLOBAL INTERFACE)
 target_include_directories(${CONTEXT} PUBLIC
   $<$<COMPILE_LANGUAGE:C,CXX>:
     "${SOLUTION_ROOT}/../Core/Inc"
+    "${SOLUTION_ROOT}/../LibSE/BSP/CAN"
+    "${SOLUTION_ROOT}/../LibSE/BSP/PWM"
+    "${SOLUTION_ROOT}/../LibSE/BSP/UART"
+    "${SOLUTION_ROOT}/../LibSE/BSP/DWT"
+    "${SOLUTION_ROOT}/../LibSE/Drivers/Buzzer"
+    "${SOLUTION_ROOT}/../LibSE/Drivers/Bmi088"
+    "${SOLUTION_ROOT}/../LibSE/Drivers/Referee"
+    "${SOLUTION_ROOT}/../LibSE/Drivers/RC/DT7"
+    "${SOLUTION_ROOT}/../LibSE/Algorithm/Math"
+    "${SOLUTION_ROOT}/../LibSE/Algorithm/Control/PID"
+    "${SOLUTION_ROOT}/../LibSE/Algorithm/Control/ADRC"
+    "${SOLUTION_ROOT}/../LibSE/Algorithm/Process/kalman_filter"
+    "${SOLUTION_ROOT}/../LibSE/Algorithm/Process/ekf"
+    "${SOLUTION_ROOT}/../LibSE/Algorithm/INS/Madgwick"
+    "${SOLUTION_ROOT}/../LibSE/Module/INS"
+    "${SOLUTION_ROOT}/../LibSE/Module/Monitor"
+    "${SOLUTION_ROOT}/../LibSE/Task"
+    "${SOLUTION_ROOT}/../LibSE/Task/Inc"
     "${SOLUTION_ROOT}/../Drivers/STM32H7xx_HAL_Driver/Inc"
     "${SOLUTION_ROOT}/../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy"
     "${SOLUTION_ROOT}/../Drivers/CMSIS/Device/ST/STM32H7xx/Include"
@@ -69,6 +87,8 @@ target_include_directories(${CONTEXT} PUBLIC
     "${SOLUTION_ROOT}/../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"
   >
   "${SOLUTION_ROOT}/RTE/_dm_mcV610"
+  "${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.16.2/Include"
+  "${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.16.2/PrivateInclude"
   "${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/Core/Include"
 )
 
@@ -134,6 +154,9 @@ include("components.cmake")
 
 target_link_libraries(${CONTEXT} PUBLIC
   Group_Application_MDK-ARM
+  Group_LibSE_BSP_CAN
+  Group_LibSE_BSP_PWM
+  Group_LibSE_Features
   Group_Application_User_Core
   Group_Drivers_STM32H7xx_HAL_Driver
   Group_Drivers_CMSIS
@@ -142,6 +165,7 @@ target_link_libraries(${CONTEXT} PUBLIC
   Group_Middlewares_FreeRTOS
   Group_Middlewares_USB_Device_Library
   ARM_CMSIS_CORE_5_6_0
+  ARM_CMSIS_DSP_Source_1_16_2
 )
 
 # Linker options

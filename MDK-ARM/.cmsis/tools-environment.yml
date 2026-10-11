@@ -8,8 +8,10 @@ cmsis-tools-environment:
       - c:/Users/liaoz/.vscode/extensions/arm.cmsis-csolution-1.72.0-win32-x64/tools/cmsis-toolbox/bin
       - c:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.12/bin
       - c:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.ninja.build.ninja/1.13.2
+      - c:/Users/liaoz/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.22.0/bin
       - c:/Users/liaoz/.vscode/extensions/arm.vscode-cmsis-debugger-1.8.0-win32-x64/tools/gdb/bin
     variables:
+      AC6_TOOLCHAIN_6_22_0: c:/Users/liaoz/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.22.0/bin/
       cmake: c:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.12/bin/cmake.exe
       cmake_gui: c:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.12/bin/cmake-gui.exe
       CMSIS_PACK_ROOT: C:/Keil_v5/ARM/PACK
@@ -46,6 +48,13 @@ cmsis-tools-environment:
         type: vcpkg
         id: arm.environment-manager
       directory: c:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.ninja.build.ninja/1.13.2
+    - name: compilers.arm.armclang
+      version: 6.22.0
+      origin: installed
+      provider:
+        type: vcpkg
+        id: arm.environment-manager
+      directory: c:/Users/liaoz/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.22.0
     - name: Arm GNU GDB
       version: 15.2.1
       origin: built-in

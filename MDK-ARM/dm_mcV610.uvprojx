@@ -414,7 +414,7 @@
         <Group>
           <GroupName>LibSE/Features</GroupName>
           <Files>
-            <File><FileName>bsp_uart.c</FileName><FileType>1</FileType><FilePath>../LibSE/BSP/UART/bsp_uart.c</FilePath></File>
+              <File><FileName>uart_driver.c</FileName><FileType>1</FileType><FilePath>../LibSE/BSP/UART/uart_driver.c</FilePath></File>
             <File><FileName>bsp_dwt.c</FileName><FileType>1</FileType><FilePath>../LibSE/BSP/DWT/bsp_dwt.c</FilePath></File>
             <File><FileName>bsp_buzzer.c</FileName><FileType>1</FileType><FilePath>../LibSE/Drivers/Buzzer/bsp_buzzer.c</FilePath></File>
             <File><FileName>bmi088_driver.c</FileName><FileType>1</FileType><FilePath>../LibSE/Drivers/Bmi088/bmi088_driver.c</FilePath></File>

@@ -1,8 +1,8 @@
 #define _ILP32 1
 #define _USE_STATIC_INLINE 1
 #define __APCS_32__ 1
-#define __ARMCC_VERSION 6190004
-#define __ARMCOMPILER_VERSION 6190004
+#define __ARMCC_VERSION 6220000
+#define __ARMCOMPILER_VERSION 6220000
 #define __ARMEL__ 1
 #define __ARM_32BIT_STATE 1
 #define __ARM_ACLE 200
@@ -13,6 +13,7 @@
 #define __ARM_ARCH_PROFILE 'M'
 #define __ARM_EABI__ 1
 #define __ARM_FEATURE_CLZ 1
+#define __ARM_FEATURE_COPROC 0xf
 #define __ARM_FEATURE_DSP 1
 #define __ARM_FEATURE_FMA 1
 #define __ARM_FEATURE_IDIV 1
@@ -31,8 +32,6 @@
 #define __ARM_PROMISE __builtin_assume
 #define __ARM_SIZEOF_MINIMAL_ENUM 1
 #define __ARM_SIZEOF_WCHAR_T 2
-#define __ARM_TARGET_COPROC 1
-#define __ARM_TARGET_COPROC_V7 1
 #define __ARM_VFPV2__ 1
 #define __ARM_VFPV3__ 1
 #define __ARM_VFPV4__ 1
@@ -108,6 +107,16 @@
 #define __FLT_MIN_EXP__ (-125)
 #define __FLT_MIN__ 1.17549435e-38F
 #define __FLT_RADIX__ 2
+#define __FPCLASS_NEGINF 0x0004
+#define __FPCLASS_NEGNORMAL 0x0008
+#define __FPCLASS_NEGSUBNORMAL 0x0010
+#define __FPCLASS_NEGZERO 0x0020
+#define __FPCLASS_POSINF 0x0200
+#define __FPCLASS_POSNORMAL 0x0100
+#define __FPCLASS_POSSUBNORMAL 0x0080
+#define __FPCLASS_POSZERO 0x0040
+#define __FPCLASS_QNAN 0x0002
+#define __FPCLASS_SNAN 0x0001
 #define __GCC_ATOMIC_BOOL_LOCK_FREE 2
 #define __GCC_ATOMIC_CHAR16_T_LOCK_FREE 2
 #define __GCC_ATOMIC_CHAR32_T_LOCK_FREE 2
@@ -222,6 +231,11 @@
 #define __LONG_LONG_MAX__ 9223372036854775807LL
 #define __LONG_MAX__ 2147483647L
 #define __LONG_WIDTH__ 32
+#define __MEMORY_SCOPE_DEVICE 1
+#define __MEMORY_SCOPE_SINGLE 4
+#define __MEMORY_SCOPE_SYSTEM 0
+#define __MEMORY_SCOPE_WRKGRP 2
+#define __MEMORY_SCOPE_WVFRNT 3
 #define __NO_INLINE__ 1
 #define __OBJC_BOOL_IS_BOOL 0
 #define __OPENCL_MEMORY_SCOPE_ALL_SVM_DEVICES 3
@@ -364,7 +378,7 @@
 #define __UINT_LEAST8_MAX__ 255
 #define __UINT_LEAST8_TYPE__ unsigned char
 #define __USER_LABEL_PREFIX__ 
-#define __VERSION__ "Clang 16.0.0"
+#define __VERSION__ "Clang 19.0.0git"
 #define __VFP_FP__ 1
 #define __WCHAR_MAX__ 65535
 #define __WCHAR_TYPE__ unsigned short
@@ -377,10 +391,10 @@
 #define __arm__ 1
 #define __clang__ 1
 #define __clang_literal_encoding__ "UTF-8"
-#define __clang_major__ 16
+#define __clang_major__ 19
 #define __clang_minor__ 0
 #define __clang_patchlevel__ 0
-#define __clang_version__ "16.0.0 "
+#define __clang_version__ "19.0.0git "
 #define __clang_wide_literal_encoding__ "UTF-16"
 #define __llvm__ 1
 #define __thumb2__ 1

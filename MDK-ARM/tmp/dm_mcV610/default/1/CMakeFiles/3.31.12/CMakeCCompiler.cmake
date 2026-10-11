@@ -1,8 +1,8 @@
-set(CMAKE_C_COMPILER "C:/Keil_v5/ARM/ARMCLANG/bin/armclang.exe")
+set(CMAKE_C_COMPILER "c:/Users/liaoz/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.22.0/bin/armclang.exe")
 set(CMAKE_C_COMPILER_ARG1 "")
 set(CMAKE_C_COMPILER_ID "ARMClang")
-set(CMAKE_C_COMPILER_VERSION "6.19.0")
-set(CMAKE_C_COMPILER_VERSION_INTERNAL "6190004")
+set(CMAKE_C_COMPILER_VERSION "6.22.0")
+set(CMAKE_C_COMPILER_VERSION_INTERNAL "6220000")
 set(CMAKE_C_COMPILER_WRAPPER "")
 set(CMAKE_C_STANDARD_COMPUTED_DEFAULT "17")
 set(CMAKE_C_EXTENSIONS_COMPUTED_DEFAULT "ON")
@@ -22,11 +22,11 @@ set(CMAKE_C_SIMULATE_VERSION "")
 
 
 
-set(CMAKE_AR "C:/Keil_v5/ARM/ARMCLANG/bin/armar.exe")
+set(CMAKE_AR "c:/Users/liaoz/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.22.0/bin/armar.exe")
 set(CMAKE_C_COMPILER_AR "")
 set(CMAKE_RANLIB ":")
 set(CMAKE_C_COMPILER_RANLIB "")
-set(CMAKE_LINKER "C:/Keil_v5/ARM/ARMCLANG/bin/armlink.exe")
+set(CMAKE_LINKER "c:/Users/liaoz/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.22.0/bin/armlink.exe")
 set(CMAKE_LINKER_LINK "")
 set(CMAKE_LINKER_LLD "")
 set(CMAKE_C_COMPILER_LINKER "NOTFOUND")
@@ -77,7 +77,7 @@ endif()
 
 
 
-set(CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES "C:/Keil_v5/ARM/ARMCLANG/include")
+set(CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES "C:/Users/liaoz/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.22.0/include")
 set(CMAKE_C_IMPLICIT_LINK_LIBRARIES "")
 set(CMAKE_C_IMPLICIT_LINK_DIRECTORIES "")
 set(CMAKE_C_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES "")

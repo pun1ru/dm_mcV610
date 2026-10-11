@@ -1,1 +1,0 @@
-cmd='C:/Program Files/CMake/bin/cmake.exe;-G;Ninja;-S;<SOURCE_DIR>;-B;<BINARY_DIR>;-DSOLUTION_ROOT=E:/Embedded/STM32project/dm_mcV610/MDK-ARM;-DCMSIS_PACK_ROOT=C:/Keil_v5/ARM/PACK;-DCMSIS_COMPILER_ROOT=C:/Users/liaoz/Desktop/VStools/cmsis-toolbox-windows-amd64/etc'

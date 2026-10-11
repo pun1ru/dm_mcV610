@@ -6,6 +6,7 @@ cbuild-pack:
     - resolved-pack: ARM::CMSIS-DSP@1.16.2
       selected-by-pack:
         - ARM::CMSIS-DSP@^1.10.1
+        - ARM::CMSIS-DSP@^1.16.2
     - resolved-pack: ARM::CMSIS-NN@4.0.0
       selected-by-pack:
         - ARM::CMSIS-NN@^4.0.0

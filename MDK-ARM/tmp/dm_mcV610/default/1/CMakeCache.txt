@@ -17,6 +17,9 @@
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=CMAKE_ADDR2LINE-NOTFOUND
 
+//Path to a program.
+CMAKE_AR:FILEPATH=c:/Users/liaoz/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.22.0/bin/armar.exe
+
 //Flags used by the ASM compiler during all build types.
 CMAKE_ASM_FLAGS:STRING=
 
@@ -78,6 +81,9 @@ CMAKE_FIND_PACKAGE_REDIRECTS_DIR:STATIC=E:/Embedded/STM32project/dm_mcV610/MDK-A
 //Install path prefix, prepended onto install directories.
 CMAKE_INSTALL_PREFIX:PATH=C:/Program Files (x86)/dm_mcV610+dm_mcV610
 
+//Path to a program.
+CMAKE_LINKER:FILEPATH=c:/Users/liaoz/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.22.0/bin/armlink.exe
+
 //Program used to build from build.ninja files.
 CMAKE_MAKE_PROGRAM:FILEPATH=C:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.ninja.build.ninja/1.13.2/ninja.exe
 
@@ -103,6 +109,9 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 
 //Path to a program.
 CMAKE_NM:FILEPATH=CMAKE_NM-NOTFOUND
+
+//Path to a program.
+CMAKE_OBJCOPY:FILEPATH=c:/Users/liaoz/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.22.0/bin/fromelf.exe
 
 //Path to a program.
 CMAKE_OBJDUMP:FILEPATH=CMAKE_OBJDUMP-NOTFOUND
@@ -203,6 +212,8 @@ dm_mcV610+dm_mcV610_SOURCE_DIR:STATIC=E:/Embedded/STM32project/dm_mcV610/MDK-ARM
 
 //ADVANCED property for variable: CMAKE_ADDR2LINE
 CMAKE_ADDR2LINE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_AR
+CMAKE_AR-ADVANCED:INTERNAL=1
 CMAKE_ASM_COMPILER_WORKS:INTERNAL=1
 //ADVANCED property for variable: CMAKE_ASM_FLAGS
 CMAKE_ASM_FLAGS-ADVANCED:INTERNAL=1
@@ -269,6 +280,8 @@ CMAKE_GENERATOR_TOOLSET:INTERNAL=
 //Source directory with the top level CMakeLists.txt file for this
 // project
 CMAKE_HOME_DIRECTORY:INTERNAL=E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610/default/dm_mcV610+dm_mcV610
+//ADVANCED property for variable: CMAKE_LINKER
+CMAKE_LINKER-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_MAKE_PROGRAM
 CMAKE_MAKE_PROGRAM-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_MODULE_LINKER_FLAGS
@@ -285,12 +298,12 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
 CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=1
+//ADVANCED property for variable: CMAKE_OBJCOPY
+CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
 CMAKE_OBJDUMP-ADVANCED:INTERNAL=1
 //Platform information initialized
 CMAKE_PLATFORM_INFO_INITIALIZED:INTERNAL=1
-//ADVANCED property for variable: CMAKE_RANLIB
-CMAKE_RANLIB-ADVANCED:INTERNAL=1
 //noop for ranlib
 CMAKE_RANLIB:INTERNAL=:
 //ADVANCED property for variable: CMAKE_READELF

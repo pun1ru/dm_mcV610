@@ -16,5 +16,4 @@ build-idx:
           - dm_mcV610+dm_mcV610.cbuild-run.yml - file generated successfully
           - dm_mcV610+dm_mcV610.cbuild.yml - file is already up-to-date
       packs-unused:
-        - pack: ARM::CMSIS-DSP@1.16.2
         - pack: ARM::CMSIS-NN@4.0.0

@@ -29,6 +29,91 @@ set_source_files_properties("${SOLUTION_ROOT}/startup_stm32h723xx.s" PROPERTIES
   COMPILE_FLAGS "${COMPILE_DEFINITIONS}"
 )
 
+# group LibSE/BSP/CAN
+add_library(Group_LibSE_BSP_CAN OBJECT
+  "${SOLUTION_ROOT}/../LibSE/BSP/CAN/CAN_driver.c"
+)
+target_include_directories(Group_LibSE_BSP_CAN PUBLIC
+  $<TARGET_PROPERTY:${CONTEXT},INTERFACE_INCLUDE_DIRECTORIES>
+)
+target_compile_definitions(Group_LibSE_BSP_CAN PUBLIC
+  $<TARGET_PROPERTY:${CONTEXT},INTERFACE_COMPILE_DEFINITIONS>
+)
+add_library(Group_LibSE_BSP_CAN_ABSTRACTIONS INTERFACE)
+target_link_libraries(Group_LibSE_BSP_CAN_ABSTRACTIONS INTERFACE
+  ${CONTEXT}_ABSTRACTIONS
+)
+target_compile_options(Group_LibSE_BSP_CAN PUBLIC
+  $<TARGET_PROPERTY:${CONTEXT},INTERFACE_COMPILE_OPTIONS>
+)
+target_link_libraries(Group_LibSE_BSP_CAN PUBLIC
+  Group_LibSE_BSP_CAN_ABSTRACTIONS
+)
+
+# group LibSE/BSP/PWM
+add_library(Group_LibSE_BSP_PWM OBJECT
+  "${SOLUTION_ROOT}/../LibSE/BSP/PWM/bsp_pwm.c"
+)
+target_include_directories(Group_LibSE_BSP_PWM PUBLIC
+  $<TARGET_PROPERTY:${CONTEXT},INTERFACE_INCLUDE_DIRECTORIES>
+)
+target_compile_definitions(Group_LibSE_BSP_PWM PUBLIC
+  $<TARGET_PROPERTY:${CONTEXT},INTERFACE_COMPILE_DEFINITIONS>
+)
+add_library(Group_LibSE_BSP_PWM_ABSTRACTIONS INTERFACE)
+target_link_libraries(Group_LibSE_BSP_PWM_ABSTRACTIONS INTERFACE
+  ${CONTEXT}_ABSTRACTIONS
+)
+target_compile_options(Group_LibSE_BSP_PWM PUBLIC
+  $<TARGET_PROPERTY:${CONTEXT},INTERFACE_COMPILE_OPTIONS>
+)
+target_link_libraries(Group_LibSE_BSP_PWM PUBLIC
+  Group_LibSE_BSP_PWM_ABSTRACTIONS
+)
+
+# group LibSE/Features
+add_library(Group_LibSE_Features OBJECT
+  "${SOLUTION_ROOT}/../LibSE/BSP/UART/uart_driver.c"
+  "${SOLUTION_ROOT}/../LibSE/BSP/DWT/bsp_dwt.c"
+  "${SOLUTION_ROOT}/../LibSE/Drivers/Buzzer/bsp_buzzer.c"
+  "${SOLUTION_ROOT}/../LibSE/Drivers/Bmi088/bmi088_driver.c"
+  "${SOLUTION_ROOT}/../LibSE/Drivers/Bmi088/bmi088_middleware.c"
+  "${SOLUTION_ROOT}/../LibSE/Drivers/Referee/judge_receive.c"
+  "${SOLUTION_ROOT}/../LibSE/Drivers/Referee/referee.c"
+  "${SOLUTION_ROOT}/../LibSE/Drivers/RC/DT7/dt7_remote_driver.c"
+  "${SOLUTION_ROOT}/../LibSE/Drivers/RC/DT7/remote_control.c"
+  "${SOLUTION_ROOT}/../LibSE/Algorithm/Math/algorism.c"
+  "${SOLUTION_ROOT}/../LibSE/Algorithm/Control/PID/pid.c"
+  "${SOLUTION_ROOT}/../LibSE/Algorithm/Control/ADRC/adrc.c"
+  "${SOLUTION_ROOT}/../LibSE/Algorithm/Process/kalman_filter/kalman_filter.c"
+  "${SOLUTION_ROOT}/../LibSE/Algorithm/Process/ekf/ekf_quaternion.c"
+  "${SOLUTION_ROOT}/../LibSE/Algorithm/INS/Madgwick/Madgwick.c"
+  "${SOLUTION_ROOT}/../LibSE/Module/INS/ins.c"
+  "${SOLUTION_ROOT}/../LibSE/Module/Monitor/monitor.c"
+  "${SOLUTION_ROOT}/../LibSE/Task/task_system.c"
+  "${SOLUTION_ROOT}/../LibSE/Task/Src/task_init.c"
+  "${SOLUTION_ROOT}/../LibSE/Task/Src/task_ins.c"
+  "${SOLUTION_ROOT}/../LibSE/Task/Src/task_receive.c"
+  "${SOLUTION_ROOT}/../LibSE/Task/Src/task_transmit.c"
+  "${SOLUTION_ROOT}/../LibSE/Task/Src/task_monitor.c"
+)
+target_include_directories(Group_LibSE_Features PUBLIC
+  $<TARGET_PROPERTY:${CONTEXT},INTERFACE_INCLUDE_DIRECTORIES>
+)
+target_compile_definitions(Group_LibSE_Features PUBLIC
+  $<TARGET_PROPERTY:${CONTEXT},INTERFACE_COMPILE_DEFINITIONS>
+)
+add_library(Group_LibSE_Features_ABSTRACTIONS INTERFACE)
+target_link_libraries(Group_LibSE_Features_ABSTRACTIONS INTERFACE
+  ${CONTEXT}_ABSTRACTIONS
+)
+target_compile_options(Group_LibSE_Features PUBLIC
+  $<TARGET_PROPERTY:${CONTEXT},INTERFACE_COMPILE_OPTIONS>
+)
+target_link_libraries(Group_LibSE_Features PUBLIC
+  Group_LibSE_Features_ABSTRACTIONS
+)
+
 # group Application/User/Core
 add_library(Group_Application_User_Core OBJECT
   "${SOLUTION_ROOT}/../Core/Src/main.c"

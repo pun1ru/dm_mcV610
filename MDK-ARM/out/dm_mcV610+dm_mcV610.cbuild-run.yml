@@ -3,7 +3,7 @@ cbuild-run:
   solution: ../dm_mcV610.csolution.yml
   target-type: dm_mcV610
   target-set: <default>
-  compiler: AC6@6.19.0
+  compiler: AC6@6.22.0
   device: STMicroelectronics::STM32H723VGTx
   device-pack: Keil::STM32H7xx_DFP@4.1.3
   device-pack-path: ${CMSIS_PACK_ROOT}/Keil/STM32H7xx_DFP/4.1.3

@@ -1,3 +1,11 @@
+1 out of 1 target(s) converted
+
+Created solution: E:/Embedded/STM32project/dm_mcV610/MDK-ARM/dm_mcV610.csolution.yml
+
+With projects:
+
+- E:/Embedded/STM32project/dm_mcV610/MDK-ARM/dm_mcV610.cproject.yml
+
 Error: 0 error(s), 1 warning(s):
 
 Warnings:
@@ -7,11 +15,3 @@ Warnings:
 	However 6.22.0, the earliest version available through vcpkg,
 
 	is specified in the generated vcpkg-configuration.json and csolution file.
-
-1 out of 1 target(s) converted
-
-Created solution: E:/Embedded/STM32project/dm_mcV610/MDK-ARM/dm_mcV610.csolution.yml
-
-With projects:
-
-- E:/Embedded/STM32project/dm_mcV610/MDK-ARM/dm_mcV610.cproject.yml

@@ -1,9 +1,9 @@
 project:
   packs:
     - pack: ARM::CMSIS@^5.9.0
+    - pack: ARM::CMSIS-DSP@^1.16.2
     - pack: Keil::STM32H7xx_DFP@^4.1.3
     - pack: ARM::CMSIS-NN@^4.0.0
-    - pack: ARM::CMSIS-DSP@^1.10.1
   setups:
     - setup: Options for dm_mcV610
       processor:
@@ -95,49 +95,25 @@ project:
     - group: LibSE/BSP/PWM
       files:
         - file: ../LibSE/BSP/PWM/bsp_pwm.c
-    - group: LibSE/BSP/UART
+    - group: LibSE/Features
       files:
-        - file: ../LibSE/BSP/UART/bsp_uart.c
-    - group: LibSE/BSP/DWT
-      files:
+        - file: ../LibSE/BSP/UART/uart_driver.c
         - file: ../LibSE/BSP/DWT/bsp_dwt.c
-    - group: LibSE/Drivers/Buzzer
-      files:
         - file: ../LibSE/Drivers/Buzzer/bsp_buzzer.c
-    - group: LibSE/Drivers/Bmi088
-      files:
         - file: ../LibSE/Drivers/Bmi088/bmi088_driver.c
         - file: ../LibSE/Drivers/Bmi088/bmi088_middleware.c
-    - group: LibSE/Drivers/Referee
-      files:
         - file: ../LibSE/Drivers/Referee/judge_receive.c
         - file: ../LibSE/Drivers/Referee/referee.c
-    - group: LibSE/Drivers/RC
-      files:
         - file: ../LibSE/Drivers/RC/DT7/dt7_remote_driver.c
         - file: ../LibSE/Drivers/RC/DT7/remote_control.c
-    - group: LibSE/Algorithm/Math
-      files:
         - file: ../LibSE/Algorithm/Math/algorism.c
-    - group: LibSE/Algorithm/Control
-      files:
         - file: ../LibSE/Algorithm/Control/PID/pid.c
         - file: ../LibSE/Algorithm/Control/ADRC/adrc.c
-    - group: LibSE/Algorithm/Process
-      files:
         - file: ../LibSE/Algorithm/Process/kalman_filter/kalman_filter.c
         - file: ../LibSE/Algorithm/Process/ekf/ekf_quaternion.c
-    - group: LibSE/Algorithm/INS
-      files:
         - file: ../LibSE/Algorithm/INS/Madgwick/Madgwick.c
-    - group: LibSE/Module/INS
-      files:
         - file: ../LibSE/Module/INS/ins.c
-    - group: LibSE/Module/Monitor
-      files:
         - file: ../LibSE/Module/Monitor/monitor.c
-    - group: LibSE/Task
-      files:
         - file: ../LibSE/Task/task_system.c
         - file: ../LibSE/Task/Src/task_init.c
         - file: ../LibSE/Task/Src/task_ins.c

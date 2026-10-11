@@ -1,11 +1,11 @@
 -- The ASM compiler identification is ARMClang
--- Found assembler: C:/Keil_v5/ARM/ARMCLANG/bin/armclang.exe
--- The C compiler identification is ARMClang 6.19.0
+-- Found assembler: c:/Users/liaoz/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.22.0/bin/armclang.exe
+-- The C compiler identification is ARMClang 6.22.0
 -- Detecting C compiler ABI info
 -- Detecting C compiler ABI info - done
--- Check for working C compiler: C:/Keil_v5/ARM/ARMCLANG/bin/armclang.exe - skipped
+-- Check for working C compiler: c:/Users/liaoz/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.22.0/bin/armclang.exe - skipped
 -- Detecting C compile features
 -- Detecting C compile features - done
--- Configuring done (2.2s)
--- Generating done (0.0s)
+-- Configuring done (3.2s)
+-- Generating done (0.1s)
 -- Build files have been written to: E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610/default/1
