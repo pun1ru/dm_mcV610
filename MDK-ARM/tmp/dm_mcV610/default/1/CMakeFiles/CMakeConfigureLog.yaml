@@ -12,6 +12,28 @@ events:
   -
     kind: "message-v1"
     backtrace:
+      - "C:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.12/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.12/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.12/share/cmake-3.31/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:33 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: c:/Users/liaoz/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.22.0/bin/armclang.exe 
+      Build flags: --target=arm-arm-none-eabi;-mcpu=Cortex-M7;-mfpu=fpv5-d16;-mfloat-abi=hard
+      Id flags: -c;--target=arm-arm-none-eabi 
+      
+      The output was:
+      0
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.o"
+      
+      The C compiler identification is ARMClang, found in:
+        E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610/default/1/CMakeFiles/3.31.12/CompilerIdC/CMakeCCompilerId.o
+      
+  -
+    kind: "message-v1"
+    backtrace:
       - "C:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.12/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:1251 (message)"
       - "C:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.12/share/cmake-3.31/Modules/CMakeDetermineASMCompiler.cmake:135 (CMAKE_DETERMINE_COMPILER_ID_VENDOR)"
       - "CMakeLists.txt:33 (project)"
@@ -62,28 +84,6 @@ events:
       
       Target: unspecified-arm-none-unspecified
   -
-    kind: "message-v1"
-    backtrace:
-      - "C:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.12/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
-      - "C:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.12/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
-      - "C:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.12/share/cmake-3.31/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
-      - "CMakeLists.txt:33 (project)"
-    message: |
-      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
-      Compiler: c:/Users/liaoz/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.22.0/bin/armclang.exe 
-      Build flags: --target=arm-arm-none-eabi;-mcpu=Cortex-M7;-mfpu=fpv5-d16;-mfloat-abi=hard
-      Id flags: -c;--target=arm-arm-none-eabi 
-      
-      The output was:
-      0
-      
-      
-      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.o"
-      
-      The C compiler identification is ARMClang, found in:
-        E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610/default/1/CMakeFiles/3.31.12/CompilerIdC/CMakeCCompilerId.o
-      
-  -
     kind: "try_compile-v1"
     backtrace:
       - "C:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.12/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:74 (try_compile)"
@@ -92,8 +92,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610/default/1/CMakeFiles/CMakeScratch/TryCompile-327vxw"
-      binary: "E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610/default/1/CMakeFiles/CMakeScratch/TryCompile-327vxw"
+      source: "E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610/default/1/CMakeFiles/CMakeScratch/TryCompile-mamr5d"
+      binary: "E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610/default/1/CMakeFiles/CMakeScratch/TryCompile-mamr5d"
     cmakeVariables:
       CMAKE_CXX_COMPILER_TARGET: "arm-arm-none-eabi"
       CMAKE_C_COMPILER_TARGET: "arm-arm-none-eabi"
@@ -105,23 +105,23 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610/default/1/CMakeFiles/CMakeScratch/TryCompile-327vxw'
+        Change Dir: 'E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610/default/1/CMakeFiles/CMakeScratch/TryCompile-mamr5d'
         
-        Run Build Command(s): C:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.ninja.build.ninja/1.13.2/ninja.exe -v cmTC_214b5
-        [1/2] c:\\Users\\liaoz\\.vcpkg\\artifacts\\2139c4c6\\compilers.arm.armclang\\6.22.0\\bin\\armclang.exe --target=arm-arm-none-eabi   --target=arm-arm-none-eabi -mcpu=Cortex-M7 -mfpu=fpv5-d16 -mfloat-abi=hard    -v -MD -MT CMakeFiles/cmTC_214b5.dir/CMakeCCompilerABI.o -MF CMakeFiles\\cmTC_214b5.dir\\CMakeCCompilerABI.o.d -o CMakeFiles/cmTC_214b5.dir/CMakeCCompilerABI.o -c C:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.12/share/cmake-3.31/Modules/CMakeCCompilerABI.c
+        Run Build Command(s): C:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.ninja.build.ninja/1.13.2/ninja.exe -v cmTC_f324d
+        [1/2] c:\\Users\\liaoz\\.vcpkg\\artifacts\\2139c4c6\\compilers.arm.armclang\\6.22.0\\bin\\armclang.exe --target=arm-arm-none-eabi   --target=arm-arm-none-eabi -mcpu=Cortex-M7 -mfpu=fpv5-d16 -mfloat-abi=hard    -v -MD -MT CMakeFiles/cmTC_f324d.dir/CMakeCCompilerABI.o -MF CMakeFiles\\cmTC_f324d.dir\\CMakeCCompilerABI.o.d -o CMakeFiles/cmTC_f324d.dir/CMakeCCompilerABI.o -c C:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.12/share/cmake-3.31/Modules/CMakeCCompilerABI.c
         Product: Keil MDK Community (non-commercial free of charge)
         Component: Arm Compiler for Embedded 6.22
         Tool: armclang [5ee92100]
         
         Target: arm-arm-none-eabi
          (in-process)
-         "C:\\\\Users\\\\liaoz\\\\.vcpkg\\\\artifacts\\\\2139c4c6\\\\compilers.arm.armclang\\\\6.22.0\\\\bin\\\\armclang.exe" -cc1 -triple thumbv7em-arm-none-eabihf -emit-obj -mrelax-all -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model static -mframe-pointer=none -menable-no-infs -menable-no-nans -fmath-errno -fno-signed-zeros -fdenormal-fp-math=preserve-sign,preserve-sign -ffp-contract=on -fno-rounding-math -ffinite-math-only -mconstructor-aliases -target-cpu cortex-m7 -target-feature +vfp2 -target-feature +vfp2sp -target-feature -vfp3 -target-feature +vfp3d16 -target-feature +vfp3d16sp -target-feature -vfp3sp -target-feature +fp16 -target-feature -vfp4 -target-feature +vfp4d16 -target-feature +vfp4d16sp -target-feature -vfp4sp -target-feature -fp-armv8 -target-feature +fp-armv8d16 -target-feature +fp-armv8d16sp -target-feature -fp-armv8sp -target-feature -fullfp16 -target-feature +fp64 -target-feature -d32 -target-feature -neon -target-feature -sha2 -target-feature -aes -target-feature -fp16fml -target-abi aapcs -mfloat-abi hard -debugger-tuning=gdb -fforce-dwarf-frame "-fdebug-compilation-dir=E:\\\\Embedded\\\\STM32project\\\\dm_mcV610\\\\MDK-ARM\\\\tmp\\\\dm_mcV610\\\\default\\\\1\\\\CMakeFiles\\\\CMakeScratch\\\\TryCompile-327vxw" -v -ffunction-sections -fdata-sections "-fcoverage-compilation-dir=E:\\\\Embedded\\\\STM32project\\\\dm_mcV610\\\\MDK-ARM\\\\tmp\\\\dm_mcV610\\\\default\\\\1\\\\CMakeFiles\\\\CMakeScratch\\\\TryCompile-327vxw" -resource-dir "C:\\\\Users\\\\liaoz\\\\.vcpkg\\\\artifacts\\\\2139c4c6\\\\compilers.arm.armclang\\\\6.22.0\\\\lib\\\\clang\\\\19" -dependency-file "CMakeFiles\\\\cmTC_214b5.dir\\\\CMakeCCompilerABI.o.d" -MT CMakeFiles/cmTC_214b5.dir/CMakeCCompilerABI.o -sys-header-deps -internal-isystem "C:\\\\Users\\\\liaoz\\\\.vcpkg\\\\artifacts\\\\2139c4c6\\\\compilers.arm.armclang\\\\6.22.0\\\\bin\\\\..\\\\include" -nobuiltininc -ferror-limit 19 -fvisibility=hidden -fno-signed-char -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fsuppress-licensing -aggressive-jump-threading -o CMakeFiles/cmTC_214b5.dir/CMakeCCompilerABI.o -x c C:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.12/share/cmake-3.31/Modules/CMakeCCompilerABI.c
+         "C:\\\\Users\\\\liaoz\\\\.vcpkg\\\\artifacts\\\\2139c4c6\\\\compilers.arm.armclang\\\\6.22.0\\\\bin\\\\armclang.exe" -cc1 -triple thumbv7em-arm-none-eabihf -emit-obj -mrelax-all -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model static -mframe-pointer=none -menable-no-infs -menable-no-nans -fmath-errno -fno-signed-zeros -fdenormal-fp-math=preserve-sign,preserve-sign -ffp-contract=on -fno-rounding-math -ffinite-math-only -mconstructor-aliases -target-cpu cortex-m7 -target-feature +vfp2 -target-feature +vfp2sp -target-feature -vfp3 -target-feature +vfp3d16 -target-feature +vfp3d16sp -target-feature -vfp3sp -target-feature +fp16 -target-feature -vfp4 -target-feature +vfp4d16 -target-feature +vfp4d16sp -target-feature -vfp4sp -target-feature -fp-armv8 -target-feature +fp-armv8d16 -target-feature +fp-armv8d16sp -target-feature -fp-armv8sp -target-feature -fullfp16 -target-feature +fp64 -target-feature -d32 -target-feature -neon -target-feature -sha2 -target-feature -aes -target-feature -fp16fml -target-abi aapcs -mfloat-abi hard -debugger-tuning=gdb -fforce-dwarf-frame "-fdebug-compilation-dir=E:\\\\Embedded\\\\STM32project\\\\dm_mcV610\\\\MDK-ARM\\\\tmp\\\\dm_mcV610\\\\default\\\\1\\\\CMakeFiles\\\\CMakeScratch\\\\TryCompile-mamr5d" -v -ffunction-sections -fdata-sections "-fcoverage-compilation-dir=E:\\\\Embedded\\\\STM32project\\\\dm_mcV610\\\\MDK-ARM\\\\tmp\\\\dm_mcV610\\\\default\\\\1\\\\CMakeFiles\\\\CMakeScratch\\\\TryCompile-mamr5d" -resource-dir "C:\\\\Users\\\\liaoz\\\\.vcpkg\\\\artifacts\\\\2139c4c6\\\\compilers.arm.armclang\\\\6.22.0\\\\lib\\\\clang\\\\19" -dependency-file "CMakeFiles\\\\cmTC_f324d.dir\\\\CMakeCCompilerABI.o.d" -MT CMakeFiles/cmTC_f324d.dir/CMakeCCompilerABI.o -sys-header-deps -internal-isystem "C:\\\\Users\\\\liaoz\\\\.vcpkg\\\\artifacts\\\\2139c4c6\\\\compilers.arm.armclang\\\\6.22.0\\\\bin\\\\..\\\\include" -nobuiltininc -ferror-limit 19 -fvisibility=hidden -fno-signed-char -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fsuppress-licensing -aggressive-jump-threading -o CMakeFiles/cmTC_f324d.dir/CMakeCCompilerABI.o -x c C:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.12/share/cmake-3.31/Modules/CMakeCCompilerABI.c
         Arm Compiler for Embedded 6.22 -cc1 default target aarch64-arm-none-eabi
         #include "..." search starts here:
         #include <...> search starts here:
          C:\\Users\\liaoz\\.vcpkg\\artifacts\\2139c4c6\\compilers.arm.armclang\\6.22.0\\bin\\..\\include
         End of search list.
-        [2/2] C:\\Windows\\system32\\cmd.exe /C "cd . && c:\\Users\\liaoz\\.vcpkg\\artifacts\\2139c4c6\\compilers.arm.armclang\\6.22.0\\bin\\armar.exe --create -cr libcmTC_214b5.a  CMakeFiles/cmTC_214b5.dir/CMakeCCompilerABI.o && cd ."
+        [2/2] C:\\Windows\\system32\\cmd.exe /C "cd . && c:\\Users\\liaoz\\.vcpkg\\artifacts\\2139c4c6\\compilers.arm.armclang\\6.22.0\\bin\\armar.exe --create -cr libcmTC_f324d.a  CMakeFiles/cmTC_f324d.dir/CMakeCCompilerABI.o && cd ."
         
       exitCode: 0
   -
@@ -150,23 +150,23 @@ events:
       Parsed C implicit link information:
         link line regex: [^( *|.*[/\\])(armlink\\.exe|;ld[0-9]*(\\.[a-z]+)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(armlink\\.exe|;ld[0-9]*(\\.[a-z]+)?))("|,| |$)]
-        ignore line: [Change Dir: 'E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610/default/1/CMakeFiles/CMakeScratch/TryCompile-327vxw']
+        ignore line: [Change Dir: 'E:/Embedded/STM32project/dm_mcV610/MDK-ARM/tmp/dm_mcV610/default/1/CMakeFiles/CMakeScratch/TryCompile-mamr5d']
         ignore line: []
-        ignore line: [Run Build Command(s): C:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.ninja.build.ninja/1.13.2/ninja.exe -v cmTC_214b5]
-        ignore line: [[1/2] c:\\Users\\liaoz\\.vcpkg\\artifacts\\2139c4c6\\compilers.arm.armclang\\6.22.0\\bin\\armclang.exe --target=arm-arm-none-eabi   --target=arm-arm-none-eabi -mcpu=Cortex-M7 -mfpu=fpv5-d16 -mfloat-abi=hard    -v -MD -MT CMakeFiles/cmTC_214b5.dir/CMakeCCompilerABI.o -MF CMakeFiles\\cmTC_214b5.dir\\CMakeCCompilerABI.o.d -o CMakeFiles/cmTC_214b5.dir/CMakeCCompilerABI.o -c C:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.12/share/cmake-3.31/Modules/CMakeCCompilerABI.c]
+        ignore line: [Run Build Command(s): C:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.ninja.build.ninja/1.13.2/ninja.exe -v cmTC_f324d]
+        ignore line: [[1/2] c:\\Users\\liaoz\\.vcpkg\\artifacts\\2139c4c6\\compilers.arm.armclang\\6.22.0\\bin\\armclang.exe --target=arm-arm-none-eabi   --target=arm-arm-none-eabi -mcpu=Cortex-M7 -mfpu=fpv5-d16 -mfloat-abi=hard    -v -MD -MT CMakeFiles/cmTC_f324d.dir/CMakeCCompilerABI.o -MF CMakeFiles\\cmTC_f324d.dir\\CMakeCCompilerABI.o.d -o CMakeFiles/cmTC_f324d.dir/CMakeCCompilerABI.o -c C:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.12/share/cmake-3.31/Modules/CMakeCCompilerABI.c]
         ignore line: [Product: Keil MDK Community (non-commercial free of charge)]
         ignore line: [Component: Arm Compiler for Embedded 6.22]
         ignore line: [Tool: armclang [5ee92100]]
         ignore line: []
         ignore line: [Target: arm-arm-none-eabi]
         ignore line: [ (in-process)]
-        ignore line: [ "C:\\\\Users\\\\liaoz\\\\.vcpkg\\\\artifacts\\\\2139c4c6\\\\compilers.arm.armclang\\\\6.22.0\\\\bin\\\\armclang.exe" -cc1 -triple thumbv7em-arm-none-eabihf -emit-obj -mrelax-all -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model static -mframe-pointer=none -menable-no-infs -menable-no-nans -fmath-errno -fno-signed-zeros -fdenormal-fp-math=preserve-sign preserve-sign -ffp-contract=on -fno-rounding-math -ffinite-math-only -mconstructor-aliases -target-cpu cortex-m7 -target-feature +vfp2 -target-feature +vfp2sp -target-feature -vfp3 -target-feature +vfp3d16 -target-feature +vfp3d16sp -target-feature -vfp3sp -target-feature +fp16 -target-feature -vfp4 -target-feature +vfp4d16 -target-feature +vfp4d16sp -target-feature -vfp4sp -target-feature -fp-armv8 -target-feature +fp-armv8d16 -target-feature +fp-armv8d16sp -target-feature -fp-armv8sp -target-feature -fullfp16 -target-feature +fp64 -target-feature -d32 -target-feature -neon -target-feature -sha2 -target-feature -aes -target-feature -fp16fml -target-abi aapcs -mfloat-abi hard -debugger-tuning=gdb -fforce-dwarf-frame "-fdebug-compilation-dir=E:\\\\Embedded\\\\STM32project\\\\dm_mcV610\\\\MDK-ARM\\\\tmp\\\\dm_mcV610\\\\default\\\\1\\\\CMakeFiles\\\\CMakeScratch\\\\TryCompile-327vxw" -v -ffunction-sections -fdata-sections "-fcoverage-compilation-dir=E:\\\\Embedded\\\\STM32project\\\\dm_mcV610\\\\MDK-ARM\\\\tmp\\\\dm_mcV610\\\\default\\\\1\\\\CMakeFiles\\\\CMakeScratch\\\\TryCompile-327vxw" -resource-dir "C:\\\\Users\\\\liaoz\\\\.vcpkg\\\\artifacts\\\\2139c4c6\\\\compilers.arm.armclang\\\\6.22.0\\\\lib\\\\clang\\\\19" -dependency-file "CMakeFiles\\\\cmTC_214b5.dir\\\\CMakeCCompilerABI.o.d" -MT CMakeFiles/cmTC_214b5.dir/CMakeCCompilerABI.o -sys-header-deps -internal-isystem "C:\\\\Users\\\\liaoz\\\\.vcpkg\\\\artifacts\\\\2139c4c6\\\\compilers.arm.armclang\\\\6.22.0\\\\bin\\\\..\\\\include" -nobuiltininc -ferror-limit 19 -fvisibility=hidden -fno-signed-char -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fsuppress-licensing -aggressive-jump-threading -o CMakeFiles/cmTC_214b5.dir/CMakeCCompilerABI.o -x c C:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.12/share/cmake-3.31/Modules/CMakeCCompilerABI.c]
+        ignore line: [ "C:\\\\Users\\\\liaoz\\\\.vcpkg\\\\artifacts\\\\2139c4c6\\\\compilers.arm.armclang\\\\6.22.0\\\\bin\\\\armclang.exe" -cc1 -triple thumbv7em-arm-none-eabihf -emit-obj -mrelax-all -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model static -mframe-pointer=none -menable-no-infs -menable-no-nans -fmath-errno -fno-signed-zeros -fdenormal-fp-math=preserve-sign preserve-sign -ffp-contract=on -fno-rounding-math -ffinite-math-only -mconstructor-aliases -target-cpu cortex-m7 -target-feature +vfp2 -target-feature +vfp2sp -target-feature -vfp3 -target-feature +vfp3d16 -target-feature +vfp3d16sp -target-feature -vfp3sp -target-feature +fp16 -target-feature -vfp4 -target-feature +vfp4d16 -target-feature +vfp4d16sp -target-feature -vfp4sp -target-feature -fp-armv8 -target-feature +fp-armv8d16 -target-feature +fp-armv8d16sp -target-feature -fp-armv8sp -target-feature -fullfp16 -target-feature +fp64 -target-feature -d32 -target-feature -neon -target-feature -sha2 -target-feature -aes -target-feature -fp16fml -target-abi aapcs -mfloat-abi hard -debugger-tuning=gdb -fforce-dwarf-frame "-fdebug-compilation-dir=E:\\\\Embedded\\\\STM32project\\\\dm_mcV610\\\\MDK-ARM\\\\tmp\\\\dm_mcV610\\\\default\\\\1\\\\CMakeFiles\\\\CMakeScratch\\\\TryCompile-mamr5d" -v -ffunction-sections -fdata-sections "-fcoverage-compilation-dir=E:\\\\Embedded\\\\STM32project\\\\dm_mcV610\\\\MDK-ARM\\\\tmp\\\\dm_mcV610\\\\default\\\\1\\\\CMakeFiles\\\\CMakeScratch\\\\TryCompile-mamr5d" -resource-dir "C:\\\\Users\\\\liaoz\\\\.vcpkg\\\\artifacts\\\\2139c4c6\\\\compilers.arm.armclang\\\\6.22.0\\\\lib\\\\clang\\\\19" -dependency-file "CMakeFiles\\\\cmTC_f324d.dir\\\\CMakeCCompilerABI.o.d" -MT CMakeFiles/cmTC_f324d.dir/CMakeCCompilerABI.o -sys-header-deps -internal-isystem "C:\\\\Users\\\\liaoz\\\\.vcpkg\\\\artifacts\\\\2139c4c6\\\\compilers.arm.armclang\\\\6.22.0\\\\bin\\\\..\\\\include" -nobuiltininc -ferror-limit 19 -fvisibility=hidden -fno-signed-char -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fsuppress-licensing -aggressive-jump-threading -o CMakeFiles/cmTC_f324d.dir/CMakeCCompilerABI.o -x c C:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.12/share/cmake-3.31/Modules/CMakeCCompilerABI.c]
         ignore line: [Arm Compiler for Embedded 6.22 -cc1 default target aarch64-arm-none-eabi]
         ignore line: [#include "..." search starts here:]
         ignore line: [#include <...> search starts here:]
         ignore line: [ C:\\Users\\liaoz\\.vcpkg\\artifacts\\2139c4c6\\compilers.arm.armclang\\6.22.0\\bin\\..\\include]
         ignore line: [End of search list.]
-        ignore line: [[2/2] C:\\Windows\\system32\\cmd.exe /C "cd . && c:\\Users\\liaoz\\.vcpkg\\artifacts\\2139c4c6\\compilers.arm.armclang\\6.22.0\\bin\\armar.exe --create -cr libcmTC_214b5.a  CMakeFiles/cmTC_214b5.dir/CMakeCCompilerABI.o && cd ."]
+        ignore line: [[2/2] C:\\Windows\\system32\\cmd.exe /C "cd . && c:\\Users\\liaoz\\.vcpkg\\artifacts\\2139c4c6\\compilers.arm.armclang\\6.22.0\\bin\\armar.exe --create -cr libcmTC_f324d.a  CMakeFiles/cmTC_f324d.dir/CMakeCCompilerABI.o && cd ."]
         ignore line: []
         ignore line: []
         implicit libs: []

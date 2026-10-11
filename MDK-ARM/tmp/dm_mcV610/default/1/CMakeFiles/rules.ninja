@@ -23,19 +23,79 @@ rule C_EXECUTABLE_LINKER__dm_mcV610.2bdm_mcV610_
 
 
 #############################################
-# Rule for compiling ASM files.
+# Rule for compiling C files.
 
-rule ASM_COMPILER__Group_Application_MDK-ARM_unscanned_
+rule C_COMPILER__Group_LibSE_Algorithm_Control_ADRC_unscanned_
   depfile = $DEP_FILE
   deps = gcc
-  command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -c -o $out $in
-  description = Building ASM object $out
+  command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__Group_LibSE_Algorithm_Control_PID_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__Group_LibSE_Algorithm_INS_Madgwick_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__Group_LibSE_Algorithm_Math_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__Group_LibSE_Algorithm_Process_ekf_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__Group_LibSE_Algorithm_Process_kalman_filter_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
 
 
 #############################################
 # Rule for compiling C files.
 
 rule C_COMPILER__Group_LibSE_BSP_CAN_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__Group_LibSE_BSP_DWT_unscanned_
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -55,7 +115,7 @@ rule C_COMPILER__Group_LibSE_BSP_PWM_unscanned_
 #############################################
 # Rule for compiling C files.
 
-rule C_COMPILER__Group_LibSE_Features_unscanned_
+rule C_COMPILER__Group_LibSE_BSP_SPI_unscanned_
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -65,7 +125,7 @@ rule C_COMPILER__Group_LibSE_Features_unscanned_
 #############################################
 # Rule for compiling C files.
 
-rule C_COMPILER__Group_Application_User_Core_unscanned_
+rule C_COMPILER__Group_Application_Core_unscanned_
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -75,7 +135,7 @@ rule C_COMPILER__Group_Application_User_Core_unscanned_
 #############################################
 # Rule for compiling C files.
 
-rule C_COMPILER__Group_Drivers_STM32H7xx_HAL_Driver_unscanned_
+rule C_COMPILER__Group_LibSE_BSP_UART_unscanned_
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -85,7 +145,7 @@ rule C_COMPILER__Group_Drivers_STM32H7xx_HAL_Driver_unscanned_
 #############################################
 # Rule for compiling C files.
 
-rule C_COMPILER__Group_Drivers_CMSIS_unscanned_
+rule C_COMPILER__Group_Application_USB_Device_unscanned_
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -95,7 +155,7 @@ rule C_COMPILER__Group_Drivers_CMSIS_unscanned_
 #############################################
 # Rule for compiling C files.
 
-rule C_COMPILER__Group_Application_User_USB_DEVICE_App_unscanned_
+rule C_COMPILER__Group_LibSE_Drivers_Bmi088_unscanned_
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -105,7 +165,7 @@ rule C_COMPILER__Group_Application_User_USB_DEVICE_App_unscanned_
 #############################################
 # Rule for compiling C files.
 
-rule C_COMPILER__Group_Application_User_USB_DEVICE_Target_unscanned_
+rule C_COMPILER__Group_LibSE_Drivers_Buzzer_unscanned_
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -115,7 +175,27 @@ rule C_COMPILER__Group_Application_User_USB_DEVICE_Target_unscanned_
 #############################################
 # Rule for compiling C files.
 
-rule C_COMPILER__Group_Middlewares_FreeRTOS_unscanned_
+rule C_COMPILER__Group_Application_System_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for compiling ASM files.
+
+rule ASM_COMPILER__Group_ThirdParty_CMSIS_Startup_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -c -o $out $in
+  description = Building ASM object $out
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__Group_ThirdParty_FreeRTOS_Source_unscanned_
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -125,7 +205,167 @@ rule C_COMPILER__Group_Middlewares_FreeRTOS_unscanned_
 #############################################
 # Rule for compiling C files.
 
-rule C_COMPILER__Group_Middlewares_USB_Device_Library_unscanned_
+rule C_COMPILER__Group_LibSE_Drivers_Motor_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__Group_LibSE_Drivers_Motor_DMMotor_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__Group_LibSE_Drivers_Motor_LKMotor_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__Group_LibSE_Drivers_Motor_RMMotor_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__Group_LibSE_Drivers_RC_DT7_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__Group_LibSE_Drivers_RC_VT13_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__Group_LibSE_Drivers_Referee_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__Group_ThirdParty_STM32H7xx_HAL_Driver_Source_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__Group_LibSE_Drivers_UI_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__Group_ThirdParty_USB_Device_Library_Source_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__Group_LibSE_Drivers_WS2812_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__Group_LibSE_Module_INS_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__Group_LibSE_Module_Monitor_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__Group_LibSE_Task_App_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__Group_Application_Core_Startup_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__Group_Application_FreeRTOS_unscanned_
+  depfile = $DEP_FILE
+  deps = gcc
+  command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  description = Building C object $out
+
+
+#############################################
+# Rule for compiling C files.
+
+rule C_COMPILER__Group_LibSE_Task_System_unscanned_
   depfile = $DEP_FILE
   deps = gcc
   command = ${LAUNCHER}${CODE_CHECK}c:\Users\liaoz\.vcpkg\artifacts\2139c4c6\compilers.arm.armclang\6.22.0\bin\armclang.exe --target=arm-arm-none-eabi $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in

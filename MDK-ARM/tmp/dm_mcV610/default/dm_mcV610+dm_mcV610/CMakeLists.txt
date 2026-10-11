@@ -30,7 +30,7 @@ set(COMPILER AC6)
 include("toolchain.cmake")
 
 # Setup project
-project(${CONTEXT} LANGUAGES ASM C)
+project(${CONTEXT} LANGUAGES C ASM)
 
 # Enable color diagnostics
 set(CMAKE_COLOR_DIAGNOSTICS ON)
@@ -55,42 +55,49 @@ add_library(${CONTEXT}_GLOBAL INTERFACE)
 # Includes
 target_include_directories(${CONTEXT} PUBLIC
   $<$<COMPILE_LANGUAGE:C,CXX>:
-    "${SOLUTION_ROOT}/../Core/Inc"
-    "${SOLUTION_ROOT}/../LibSE/BSP/CAN"
-    "${SOLUTION_ROOT}/../LibSE/BSP/PWM"
-    "${SOLUTION_ROOT}/../LibSE/BSP/UART"
-    "${SOLUTION_ROOT}/../LibSE/BSP/DWT"
-    "${SOLUTION_ROOT}/../LibSE/Drivers/Buzzer"
-    "${SOLUTION_ROOT}/../LibSE/Drivers/WS2812"
-    "${SOLUTION_ROOT}/../LibSE/Drivers/Bmi088"
-    "${SOLUTION_ROOT}/../LibSE/Drivers/Referee"
-    "${SOLUTION_ROOT}/../LibSE/Drivers/RC/DT7"
-    "${SOLUTION_ROOT}/../LibSE/Algorithm/Math"
-    "${SOLUTION_ROOT}/../LibSE/Algorithm/Control/PID"
-    "${SOLUTION_ROOT}/../LibSE/Algorithm/Control/ADRC"
-    "${SOLUTION_ROOT}/../LibSE/Algorithm/Process/kalman_filter"
-    "${SOLUTION_ROOT}/../LibSE/Algorithm/Process/ekf"
-    "${SOLUTION_ROOT}/../LibSE/Algorithm/INS/Madgwick"
-    "${SOLUTION_ROOT}/../LibSE/Module/INS"
-    "${SOLUTION_ROOT}/../LibSE/Module/Monitor"
-    "${SOLUTION_ROOT}/../LibSE/Task"
-    "${SOLUTION_ROOT}/../LibSE/Task/Inc"
-    "${SOLUTION_ROOT}/../Drivers/STM32H7xx_HAL_Driver/Inc"
-    "${SOLUTION_ROOT}/../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy"
-    "${SOLUTION_ROOT}/../Drivers/CMSIS/Device/ST/STM32H7xx/Include"
-    "${SOLUTION_ROOT}/../Drivers/CMSIS/Include"
-    "${SOLUTION_ROOT}/../USB_DEVICE/App"
-    "${SOLUTION_ROOT}/../USB_DEVICE/Target"
-    "${SOLUTION_ROOT}/../Middlewares/Third_Party/FreeRTOS/Source/include"
-    "${SOLUTION_ROOT}/../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS"
     "${SOLUTION_ROOT}/../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F"
-    "${SOLUTION_ROOT}/../Middlewares/ST/STM32_USB_Device_Library/Core/Inc"
-    "${SOLUTION_ROOT}/../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"
   >
   "${SOLUTION_ROOT}/RTE/_dm_mcV610"
   "${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.16.2/Include"
   "${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.16.2/PrivateInclude"
   "${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/Core/Include"
+  "${SOLUTION_ROOT}/../LibSE/Algorithm/Control/ADRC"
+  "${SOLUTION_ROOT}/../LibSE/Algorithm/Control/PID"
+  "${SOLUTION_ROOT}/../LibSE/Algorithm/INS/Madgwick"
+  "${SOLUTION_ROOT}/../LibSE/Algorithm/Math"
+  "${SOLUTION_ROOT}/../LibSE/Algorithm/Process/ekf"
+  "${SOLUTION_ROOT}/../LibSE/Algorithm/Process/kalman_filter"
+  "${SOLUTION_ROOT}/../LibSE/BSP/CAN"
+  "${SOLUTION_ROOT}/../LibSE/BSP/DWT"
+  "${SOLUTION_ROOT}/../LibSE/BSP/PWM"
+  "${SOLUTION_ROOT}/../LibSE/BSP/SPI"
+  "${SOLUTION_ROOT}/../Core/Inc"
+  "${SOLUTION_ROOT}/../LibSE/BSP/UART"
+  "${SOLUTION_ROOT}/../USB_DEVICE/App"
+  "${SOLUTION_ROOT}/../USB_DEVICE/Target"
+  "${SOLUTION_ROOT}/../LibSE/Drivers/Bmi088"
+  "${SOLUTION_ROOT}/../LibSE/Drivers/Buzzer"
+  "${SOLUTION_ROOT}/../Drivers/CMSIS/Include"
+  "${SOLUTION_ROOT}/../Drivers/CMSIS/Device/ST/STM32H7xx/Include"
+  "${SOLUTION_ROOT}/../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS"
+  "${SOLUTION_ROOT}/../Middlewares/Third_Party/FreeRTOS/Source/include"
+  "${SOLUTION_ROOT}/../LibSE/Drivers/Motor"
+  "${SOLUTION_ROOT}/../LibSE/Drivers/Motor/DMMotor"
+  "${SOLUTION_ROOT}/../LibSE/Drivers/Motor/LKMotor"
+  "${SOLUTION_ROOT}/../LibSE/Drivers/Motor/RMMotor"
+  "${SOLUTION_ROOT}/../LibSE/Drivers/RC/DT7"
+  "${SOLUTION_ROOT}/../LibSE/Drivers/RC/VT13"
+  "${SOLUTION_ROOT}/../LibSE/Drivers/Referee"
+  "${SOLUTION_ROOT}/../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy"
+  "${SOLUTION_ROOT}/../Drivers/STM32H7xx_HAL_Driver/Inc"
+  "${SOLUTION_ROOT}/../LibSE/Drivers/UI"
+  "${SOLUTION_ROOT}/../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc"
+  "${SOLUTION_ROOT}/../Middlewares/ST/STM32_USB_Device_Library/Core/Inc"
+  "${SOLUTION_ROOT}/../LibSE/Drivers/WS2812"
+  "${SOLUTION_ROOT}/../LibSE/Module/INS"
+  "${SOLUTION_ROOT}/../LibSE/Module/Monitor"
+  "${SOLUTION_ROOT}/../LibSE/Task/Inc"
+  "${SOLUTION_ROOT}/../LibSE/Task"
 )
 
 # Defines
@@ -138,14 +145,14 @@ target_compile_options(${CONTEXT} PUBLIC
 
 # Compile Options Abstractions
 add_library(${CONTEXT}_ABSTRACTIONS INTERFACE)
-cbuild_set_options_flags(ASM "debug" "on" "" "" ASM_OPTIONS_FLAGS_${CONTEXT})
 cbuild_set_options_flags(CC "debug" "on" "" "" CC_OPTIONS_FLAGS_${CONTEXT})
+cbuild_set_options_flags(ASM "debug" "on" "" "" ASM_OPTIONS_FLAGS_${CONTEXT})
 target_compile_options(${CONTEXT}_ABSTRACTIONS INTERFACE
-  $<$<COMPILE_LANGUAGE:ASM>:
-    "SHELL:${ASM_OPTIONS_FLAGS_${CONTEXT}}"
-  >
   $<$<COMPILE_LANGUAGE:C>:
     "SHELL:${CC_OPTIONS_FLAGS_${CONTEXT}}"
+  >
+  $<$<COMPILE_LANGUAGE:ASM>:
+    "SHELL:${ASM_OPTIONS_FLAGS_${CONTEXT}}"
   >
 )
 
@@ -154,17 +161,50 @@ include("groups.cmake")
 include("components.cmake")
 
 target_link_libraries(${CONTEXT} PUBLIC
-  Group_Application_MDK-ARM
+  Group_LibSE_Algorithm_Control_ADRC
+  Group_LibSE_Algorithm_Control_PID
+  Group_LibSE_Algorithm_INS_Madgwick
+  Group_LibSE_Algorithm_Math
+  Group_LibSE_Algorithm_Process_ekf
+  Group_LibSE_Algorithm_Process_kalman_filter
   Group_LibSE_BSP_CAN
+  Group_LibSE_BSP_DWT
   Group_LibSE_BSP_PWM
-  Group_LibSE_Features
-  Group_Application_User_Core
-  Group_Drivers_STM32H7xx_HAL_Driver
-  Group_Drivers_CMSIS
-  Group_Application_User_USB_DEVICE_App
-  Group_Application_User_USB_DEVICE_Target
-  Group_Middlewares_FreeRTOS
-  Group_Middlewares_USB_Device_Library
+  Group_LibSE_BSP_SPI
+  Group_Application_Core
+  Group_LibSE_BSP_UART
+  Group_Application_USB_Device
+  Group_Application_USB_Device_Headers
+  Group_Application_USB_Device_Target
+  Group_LibSE_Drivers_Bmi088
+  Group_LibSE_Drivers_Buzzer
+  Group_Application_System
+  Group_ThirdParty_CMSIS_Core
+  Group_ThirdParty_CMSIS_Device
+  Group_ThirdParty_CMSIS_Startup
+  Group_ThirdParty_FreeRTOS_Source
+  Group_ThirdParty_FreeRTOS_CMSIS_RTOS
+  Group_ThirdParty_FreeRTOS_Include
+  Group_LibSE_Drivers_Motor
+  Group_LibSE_Drivers_Motor_DMMotor
+  Group_LibSE_Drivers_Motor_LKMotor
+  Group_LibSE_Drivers_Motor_RMMotor
+  Group_LibSE_Drivers_RC_DT7
+  Group_LibSE_Drivers_RC_VT13
+  Group_LibSE_Drivers_Referee
+  Group_ThirdParty_STM32H7xx_HAL_Driver_Source
+  Group_ThirdParty_STM32H7xx_HAL_Driver_Include
+  Group_LibSE_Drivers_UI
+  Group_ThirdParty_USB_Device_Library_Source
+  Group_ThirdParty_USB_Device_Library_CDC
+  Group_ThirdParty_USB_Device_Library_Core
+  Group_LibSE_Drivers_WS2812
+  Group_LibSE_Module_INS
+  Group_LibSE_Module_Monitor
+  Group_LibSE_Task_App
+  Group_Application_Core_Startup
+  Group_Application_FreeRTOS
+  Group_LibSE_Task_System
   ARM_CMSIS_CORE_5_6_0
   ARM_CMSIS_DSP_Source_1_16_2
 )

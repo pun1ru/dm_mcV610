@@ -14,11 +14,15 @@ project:
         - ../LibSE/BSP/PWM
         - ../LibSE/BSP/UART
         - ../LibSE/BSP/DWT
+        - ../LibSE/BSP/SPI
         - ../LibSE/Drivers/Buzzer
         - ../LibSE/Drivers/WS2812
         - ../LibSE/Drivers/Bmi088
+        - ../LibSE/Drivers/Motor
+        - ../LibSE/Drivers/RC/VT13
         - ../LibSE/Drivers/Referee
         - ../LibSE/Drivers/RC/DT7
+        - ../LibSE/Drivers/UI
         - ../LibSE/Algorithm/Math
         - ../LibSE/Algorithm/Control/PID
         - ../LibSE/Algorithm/Control/ADRC
@@ -87,49 +91,51 @@ project:
   linker:
     - script: dm_mcV610_dm_mcV610.sct
   groups:
-    - group: Application/MDK-ARM
+    - group: LibSE/Algorithm/Control/ADRC
       files:
-        - file: startup_stm32h723xx.s
+        - file: ../LibSE/Algorithm/Control/ADRC/adrc.c
+        - file: ../LibSE/Algorithm/Control/ADRC/adrc.h
+    - group: LibSE/Algorithm/Control/PID
+      files:
+        - file: ../LibSE/Algorithm/Control/PID/pid.c
+        - file: ../LibSE/Algorithm/Control/PID/pid.h
+    - group: LibSE/Algorithm/INS/Madgwick
+      files:
+        - file: ../LibSE/Algorithm/INS/Madgwick/Madgwick.c
+        - file: ../LibSE/Algorithm/INS/Madgwick/Madgwick.h
+    - group: LibSE/Algorithm/Math
+      files:
+        - file: ../LibSE/Algorithm/Math/algorism.c
+        - file: ../LibSE/Algorithm/Math/algorism.h
+        - file: ../LibSE/Algorithm/Math/arm_matrix.h
+        - file: ../LibSE/Algorithm/Math/rotation_Martix.h
+    - group: LibSE/Algorithm/Process/ekf
+      files:
+        - file: ../LibSE/Algorithm/Process/ekf/ekf_quaternion.c
+        - file: ../LibSE/Algorithm/Process/ekf/ekf_quaternion.h
+    - group: LibSE/Algorithm/Process/kalman_filter
+      files:
+        - file: ../LibSE/Algorithm/Process/kalman_filter/kalman_filter.c
+        - file: ../LibSE/Algorithm/Process/kalman_filter/kalman_filter.h
     - group: LibSE/BSP/CAN
       files:
         - file: ../LibSE/BSP/CAN/CAN_driver.c
+        - file: ../LibSE/BSP/CAN/CAN_driver.h
+    - group: LibSE/BSP/DWT
+      files:
+        - file: ../LibSE/BSP/DWT/bsp_dwt.c
+        - file: ../LibSE/BSP/DWT/bsp_dwt.h
     - group: LibSE/BSP/PWM
       files:
         - file: ../LibSE/BSP/PWM/bsp_pwm.c
-    - group: LibSE/Features
+        - file: ../LibSE/BSP/PWM/bsp_pwm.h
+    - group: LibSE/BSP/SPI
       files:
-        - file: ../LibSE/BSP/UART/uart_driver.c
-        - file: ../LibSE/Drivers/WS2812/ws2812_board.c
-        - file: ../LibSE/BSP/DWT/bsp_dwt.c
-        - file: ../LibSE/Drivers/Buzzer/bsp_buzzer.c
-        - file: ../LibSE/Drivers/Bmi088/bmi088_driver.c
-        - file: ../LibSE/Drivers/Bmi088/bmi088_middleware.c
-        - file: ../LibSE/Drivers/Referee/judge_receive.c
-        - file: ../LibSE/Drivers/Referee/referee.c
-        - file: ../LibSE/Drivers/RC/DT7/dt7_remote_driver.c
-        - file: ../LibSE/Drivers/RC/DT7/remote_control.c
-        - file: ../LibSE/Algorithm/Math/algorism.c
-        - file: ../LibSE/Algorithm/Control/PID/pid.c
-        - file: ../LibSE/Algorithm/Control/ADRC/adrc.c
-        - file: ../LibSE/Algorithm/Process/kalman_filter/kalman_filter.c
-        - file: ../LibSE/Algorithm/Process/ekf/ekf_quaternion.c
-        - file: ../LibSE/Algorithm/INS/Madgwick/Madgwick.c
-        - file: ../LibSE/Module/INS/ins.c
-        - file: ../LibSE/Module/Monitor/monitor.c
-        - file: ../LibSE/Task/task_system.c
-        - file: ../LibSE/Task/Src/task_init.c
-        - file: ../LibSE/Task/Src/task_ins.c
-        - file: ../LibSE/Task/Src/task_receive.c
-        - file: ../LibSE/Task/Src/task_transmit.c
-        - file: ../LibSE/Task/Src/task_monitor.c
-    - group: Application/User/Core
+        - file: ../LibSE/BSP/SPI/bsp_spi.c
+        - file: ../LibSE/BSP/SPI/bsp_spi.h
+    - group: Application/Core
       files:
-        - file: ../Core/Src/main.c
         - file: ../Core/Src/gpio.c
-          misc:
-            - CPP:
-                - -xc++
-        - file: ../Core/Src/freertos.c
           misc:
             - CPP:
                 - -xc++
@@ -163,70 +169,20 @@ project:
           misc:
             - CPP:
                 - -xc++
-    - group: Drivers/STM32H7xx_HAL_Driver
+        - file: ../Core/Inc/adc.h
+        - file: ../Core/Inc/dma.h
+        - file: ../Core/Inc/fdcan.h
+        - file: ../Core/Inc/gpio.h
+        - file: ../Core/Inc/spi.h
+        - file: ../Core/Inc/stm32h7xx_hal_conf.h
+        - file: ../Core/Inc/stm32h7xx_it.h
+        - file: ../Core/Inc/tim.h
+        - file: ../Core/Inc/usart.h
+    - group: LibSE/BSP/UART
       files:
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd.c
-          misc:
-            - CPP:
-                - -xc++
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd_ex.c
-          misc:
-            - CPP:
-                - -xc++
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_usb.c
-          misc:
-            - CPP:
-                - -xc++
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.c
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.c
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash.c
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash_ex.c
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.c
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_hsem.c
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma.c
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma_ex.c
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_mdma.c
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr.c
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex.c
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.c
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.c
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c.c
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c_ex.c
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_exti.c
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.c
-          misc:
-            - CPP:
-                - -xc++
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.c
-          misc:
-            - CPP:
-                - -xc++
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_fdcan.c
-          misc:
-            - CPP:
-                - -xc++
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_spi.c
-          misc:
-            - CPP:
-                - -xc++
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_spi_ex.c
-          misc:
-            - CPP:
-                - -xc++
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim.c
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.c
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.c
-          misc:
-            - CPP:
-                - -xc++
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.c
-          misc:
-            - CPP:
-                - -xc++
-    - group: Drivers/CMSIS
-      files:
-        - file: ../Core/Src/system_stm32h7xx.c
-    - group: Application/User/USB_DEVICE/App
+        - file: ../LibSE/BSP/UART/uart_driver.c
+        - file: ../LibSE/BSP/UART/uart_driver.h
+    - group: Application/USB_Device
       misc:
         - C-CPP:
             - -Wno-packed
@@ -259,32 +215,68 @@ project:
           misc:
             - CPP:
                 - -xc++
-    - group: Application/User/USB_DEVICE/Target
-      misc:
-        - C-CPP:
-            - -Wno-packed
-            - -Wno-missing-variable-declarations
-            - -Wno-missing-prototypes
-            - -Wno-missing-noreturn
-            - -Wno-sign-conversion
-            - -Wno-nonportable-include-path
-            - -Wno-reserved-id-macro
-            - -Wno-unused-macros
-            - -Wno-documentation-unknown-command
-            - -Wno-documentation
-            - -Wno-license-management
-            - -Wno-parentheses-equality
-            - -Wno-covered-switch-default
-            - -Wno-unreachable-code-break
-          CPP:
-            - -xc++
-            - -fno-exceptions
-      files:
         - file: ../USB_DEVICE/Target/usbd_conf.c
           misc:
             - CPP:
                 - -xc++
-    - group: Middlewares/FreeRTOS
+    - group: Application/USB_Device/Headers
+      files:
+        - file: ../USB_DEVICE/App/usb_device.h
+        - file: ../USB_DEVICE/App/usbd_cdc_if.h
+        - file: ../USB_DEVICE/App/usbd_desc.h
+    - group: Application/USB_Device/Target
+      files:
+        - file: ../USB_DEVICE/Target/usbd_conf.h
+    - group: LibSE/Drivers/Bmi088
+      files:
+        - file: ../LibSE/Drivers/Bmi088/bmi088_driver.c
+        - file: ../LibSE/Drivers/Bmi088/bmi088_middleware.c
+        - file: ../LibSE/Drivers/Bmi088/imu_temp_ctrl.c
+        - file: ../LibSE/Drivers/Bmi088/bmi088_driver.h
+        - file: ../LibSE/Drivers/Bmi088/bmi088_middleware.h
+        - file: ../LibSE/Drivers/Bmi088/bmi088_reg.h
+    - group: LibSE/Drivers/Buzzer
+      files:
+        - file: ../LibSE/Drivers/Buzzer/bsp_buzzer.c
+        - file: ../LibSE/Drivers/Buzzer/bsp_buzzer.h
+    - group: Application/System
+      files:
+        - file: ../Core/Src/system_stm32h7xx.c
+    - group: ThirdParty/CMSIS/Core
+      files:
+        - file: ../Drivers/CMSIS/Include/cmsis_armcc.h
+        - file: ../Drivers/CMSIS/Include/cmsis_armclang.h
+        - file: ../Drivers/CMSIS/Include/cmsis_armclang_ltm.h
+        - file: ../Drivers/CMSIS/Include/cmsis_compiler.h
+        - file: ../Drivers/CMSIS/Include/cmsis_gcc.h
+        - file: ../Drivers/CMSIS/Include/cmsis_iccarm.h
+        - file: ../Drivers/CMSIS/Include/cmsis_version.h
+        - file: ../Drivers/CMSIS/Include/core_armv81mml.h
+        - file: ../Drivers/CMSIS/Include/core_armv8mbl.h
+        - file: ../Drivers/CMSIS/Include/core_armv8mml.h
+        - file: ../Drivers/CMSIS/Include/core_cm0.h
+        - file: ../Drivers/CMSIS/Include/core_cm0plus.h
+        - file: ../Drivers/CMSIS/Include/core_cm1.h
+        - file: ../Drivers/CMSIS/Include/core_cm23.h
+        - file: ../Drivers/CMSIS/Include/core_cm3.h
+        - file: ../Drivers/CMSIS/Include/core_cm33.h
+        - file: ../Drivers/CMSIS/Include/core_cm35p.h
+        - file: ../Drivers/CMSIS/Include/core_cm4.h
+        - file: ../Drivers/CMSIS/Include/core_cm7.h
+        - file: ../Drivers/CMSIS/Include/core_sc000.h
+        - file: ../Drivers/CMSIS/Include/core_sc300.h
+        - file: ../Drivers/CMSIS/Include/mpu_armv7.h
+        - file: ../Drivers/CMSIS/Include/mpu_armv8.h
+        - file: ../Drivers/CMSIS/Include/tz_context.h
+    - group: ThirdParty/CMSIS/Device
+      files:
+        - file: ../Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h723xx.h
+        - file: ../Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h7xx.h
+        - file: ../Drivers/CMSIS/Device/ST/STM32H7xx/Include/system_stm32h7xx.h
+    - group: ThirdParty/CMSIS/Startup
+      files:
+        - file: startup_stm32h723xx.s
+    - group: ThirdParty/FreeRTOS/Source
       misc:
         - C-CPP:
             - -Wno-packed
@@ -345,7 +337,177 @@ project:
           misc:
             - CPP:
                 - -xc++
-    - group: Middlewares/USB_Device_Library
+    - group: ThirdParty/FreeRTOS/CMSIS_RTOS
+      files:
+        - file: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+    - group: ThirdParty/FreeRTOS/Include
+      files:
+        - file: ../Middlewares/Third_Party/FreeRTOS/Source/include/atomic.h
+        - file: ../Middlewares/Third_Party/FreeRTOS/Source/include/croutine.h
+        - file: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+        - file: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
+        - file: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+        - file: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
+        - file: ../Middlewares/Third_Party/FreeRTOS/Source/include/message_buffer.h
+        - file: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_prototypes.h
+        - file: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+        - file: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+        - file: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+        - file: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
+        - file: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
+        - file: ../Middlewares/Third_Party/FreeRTOS/Source/include/stack_macros.h
+        - file: ../Middlewares/Third_Party/FreeRTOS/Source/include/StackMacros.h
+        - file: ../Middlewares/Third_Party/FreeRTOS/Source/include/stream_buffer.h
+        - file: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+        - file: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
+    - group: LibSE/Drivers/Motor
+      files:
+        - file: ../LibSE/Drivers/Motor/Motor.c
+        - file: ../LibSE/Drivers/Motor/Motor.h
+    - group: LibSE/Drivers/Motor/DMMotor
+      files:
+        - file: ../LibSE/Drivers/Motor/DMMotor/DMMotor.c
+        - file: ../LibSE/Drivers/Motor/DMMotor/DMMotor.h
+    - group: LibSE/Drivers/Motor/LKMotor
+      files:
+        - file: ../LibSE/Drivers/Motor/LKMotor/LKMotor.c
+        - file: ../LibSE/Drivers/Motor/LKMotor/LKMotor.h
+    - group: LibSE/Drivers/Motor/RMMotor
+      files:
+        - file: ../LibSE/Drivers/Motor/RMMotor/RMMotor.c
+        - file: ../LibSE/Drivers/Motor/RMMotor/RMMotor.h
+    - group: LibSE/Drivers/RC/DT7
+      files:
+        - file: ../LibSE/Drivers/RC/DT7/dt7_remote_driver.c
+        - file: ../LibSE/Drivers/RC/DT7/remote_control.c
+        - file: ../LibSE/Drivers/RC/DT7/dt7_remote_driver.h
+        - file: ../LibSE/Drivers/RC/DT7/remote_control.h
+    - group: LibSE/Drivers/RC/VT13
+      files:
+        - file: ../LibSE/Drivers/RC/VT13/CRC.c
+        - file: ../LibSE/Drivers/RC/VT13/VT13_rc_ctrl.c
+        - file: ../LibSE/Drivers/RC/VT13/VT13_rc_ctrl.h
+    - group: LibSE/Drivers/Referee
+      files:
+        - file: ../LibSE/Drivers/Referee/judge_receive.c
+        - file: ../LibSE/Drivers/Referee/referee.c
+        - file: ../LibSE/Drivers/Referee/judge_receive.h
+        - file: ../LibSE/Drivers/Referee/referee.h
+    - group: ThirdParty/STM32H7xx_HAL_Driver/Source
+      files:
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd.c
+          misc:
+            - CPP:
+                - -xc++
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd_ex.c
+          misc:
+            - CPP:
+                - -xc++
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_ll_usb.c
+          misc:
+            - CPP:
+                - -xc++
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.c
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.c
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash.c
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash_ex.c
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_gpio.c
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_hsem.c
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma.c
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dma_ex.c
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_mdma.c
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr.c
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pwr_ex.c
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_cortex.c
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.c
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c.c
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c_ex.c
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_exti.c
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.c
+          misc:
+            - CPP:
+                - -xc++
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.c
+          misc:
+            - CPP:
+                - -xc++
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_fdcan.c
+          misc:
+            - CPP:
+                - -xc++
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_spi.c
+          misc:
+            - CPP:
+                - -xc++
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_spi_ex.c
+          misc:
+            - CPP:
+                - -xc++
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim.c
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.c
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.c
+          misc:
+            - CPP:
+                - -xc++
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.c
+          misc:
+            - CPP:
+                - -xc++
+    - group: ThirdParty/STM32H7xx_HAL_Driver/Include
+      files:
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_adc.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_adc_ex.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_cortex.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_dma.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_dma_ex.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_exti.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_fdcan.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_flash.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_flash_ex.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_gpio_ex.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_hsem.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_i2c.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_i2c_ex.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_mdma.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pcd.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pcd_ex.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pwr.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pwr_ex.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_rcc_ex.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_spi.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_spi_ex.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_tim_ex.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_uart_ex.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_adc.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_bus.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_cortex.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_crs.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_dma.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_dmamux.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_exti.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_gpio.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_hsem.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_lpuart.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_pwr.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_rcc.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_spi.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_system.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_tim.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_usart.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_usb.h
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_utils.h
+    - group: LibSE/Drivers/UI
+      files:
+        - file: ../LibSE/Drivers/UI/UI_driver.c
+        - file: ../LibSE/Drivers/UI/UI_driver.h
+    - group: ThirdParty/USB_Device_Library/Source
       misc:
         - C-CPP:
             - -Wno-packed
@@ -382,6 +544,56 @@ project:
           misc:
             - CPP:
                 - -xc++
+    - group: ThirdParty/USB_Device_Library/CDC
+      files:
+        - file: ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h
+    - group: ThirdParty/USB_Device_Library/Core
+      files:
+        - file: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h
+        - file: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h
+        - file: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h
+        - file: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h
+    - group: LibSE/Drivers/WS2812
+      files:
+        - file: ../LibSE/Drivers/WS2812/WS2812.c
+        - file: ../LibSE/Drivers/WS2812/ws2812_board.c
+        - file: ../LibSE/Drivers/WS2812/WS2812.h
+    - group: LibSE/Module/INS
+      files:
+        - file: ../LibSE/Module/INS/ins.c
+        - file: ../LibSE/Module/INS/ins.h
+    - group: LibSE/Module/Monitor
+      files:
+        - file: ../LibSE/Module/Monitor/monitor.c
+        - file: ../LibSE/Module/Monitor/monitor.h
+    - group: LibSE/Task/App
+      files:
+        - file: ../LibSE/Task/Src/task_init.c
+        - file: ../LibSE/Task/Src/task_ins.c
+        - file: ../LibSE/Task/Src/task_receive.c
+        - file: ../LibSE/Task/Src/task_transmit.c
+        - file: ../LibSE/Task/Src/task_monitor.c
+        - file: ../LibSE/Task/Inc/task_init.h
+        - file: ../LibSE/Task/Inc/task_ins.h
+        - file: ../LibSE/Task/Inc/task_monitor.h
+        - file: ../LibSE/Task/Inc/task_receive.h
+        - file: ../LibSE/Task/Inc/task_transmit.h
+    - group: Application/Core/Startup
+      files:
+        - file: ../Core/Src/main.c
+        - file: ../Core/Inc/main.h
+    - group: Application/FreeRTOS
+      files:
+        - file: ../Core/Src/freertos.c
+          misc:
+            - CPP:
+                - -xc++
+        - file: ../Core/Inc/FreeRTOSConfig.h
+    - group: LibSE/Task/System
+      files:
+        - file: ../LibSE/Task/task_system.c
+        - file: ../LibSE/Task/task_define.h
+        - file: ../LibSE/Task/task_system.h
   components:
     - component: ARM::CMSIS:CORE
     - component: ARM::CMSIS:DSP&Source
