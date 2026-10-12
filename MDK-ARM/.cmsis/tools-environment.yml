@@ -34,15 +34,3 @@ cmsis-tools-environment:
         id: arm.vscode-cmsis-debugger
       directory: c:/Users/liaoz/.vscode/extensions/arm.vscode-cmsis-debugger-1.8.0-win32-x64/tools/gdb/bin
       manual: https://developer.arm.com/Tools%20and%20Software/GNU%20Toolchain
-    - name: tools.kitware.cmake\3.31.12\bin
-      origin: installed
-      provider:
-        type: vcpkg
-        id: arm.environment-manager
-      directory: c:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.12
-    - name: tools.ninja.build.ninja\1.13.2
-      origin: installed
-      provider:
-        type: vcpkg
-        id: arm.environment-manager
-      directory: c:/Users/liaoz/.vcpkg/artifacts/2139c4c6/tools.ninja.build.ninja

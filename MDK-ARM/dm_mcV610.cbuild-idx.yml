@@ -14,7 +14,6 @@ build-idx:
         info:
           - dm_mcV610.cbuild-pack.yml - file is already up-to-date
           - dm_mcV610+dm_mcV610.cbuild-run.yml - file generated successfully
-          - dm_mcV610+dm_mcV610.cbuild.yml - file generated successfully
+          - dm_mcV610+dm_mcV610.cbuild.yml - file is already up-to-date
       packs-unused:
         - pack: ARM::CMSIS-NN@4.0.0
-      rebuild: true
