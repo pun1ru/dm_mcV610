@@ -68,13 +68,6 @@
 #define configMAX_TASK_NAME_LEN                  ( 16 )
 #define configUSE_16_BIT_TICKS                   0
 #define configUSE_MUTEXES                        1
-#define configUSE_QUEUE_SETS                     1
-#define configUSE_TRACE_FACILITY                1
-#define configUSE_TIMERS                        1
-#define configTIMER_TASK_PRIORITY                2
-#define configTIMER_QUEUE_LENGTH                 10
-#define configTIMER_TASK_STACK_DEPTH             256
-#define INCLUDE_xTimerPendFunctionCall           1
 #define configQUEUE_REGISTRY_SIZE                8
 #define configUSE_PORT_OPTIMISED_TASK_SELECTION  1
 /* USER CODE BEGIN MESSAGE_BUFFER_LENGTH_TYPE */
@@ -94,7 +87,7 @@ to exclude the API function. */
 #define INCLUDE_vTaskDelete                  1
 #define INCLUDE_vTaskCleanUpResources        0
 #define INCLUDE_vTaskSuspend                 1
-#define INCLUDE_vTaskDelayUntil              1
+#define INCLUDE_vTaskDelayUntil              0
 #define INCLUDE_vTaskDelay                   1
 #define INCLUDE_xTaskGetSchedulerState       1
 
@@ -140,7 +133,16 @@ standard names. */
 #define xPortSysTickHandler SysTick_Handler
 
 /* USER CODE BEGIN Defines */
-/* Section where parameter definitions can be added (for instance, to override default ones in FreeRTOS.h) */
+/* Settings required by the application tasks and static timer allocation. */
+#define configUSE_QUEUE_SETS                     1
+#define configUSE_TRACE_FACILITY                1
+#define configUSE_TIMERS                        1
+#define configTIMER_TASK_PRIORITY                2
+#define configTIMER_QUEUE_LENGTH                 10
+#define configTIMER_TASK_STACK_DEPTH             256
+#define INCLUDE_xTimerPendFunctionCall           1
+#undef INCLUDE_vTaskDelayUntil
+#define INCLUDE_vTaskDelayUntil                  1
 /* USER CODE END Defines */
 
 #endif /* FREERTOS_CONFIG_H */

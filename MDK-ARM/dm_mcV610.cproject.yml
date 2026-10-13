@@ -131,7 +131,6 @@ project:
         - file: ../LibSE/BSP/PWM/bsp_pwm.h
     - group: LibSE/BSP/SPI
       files:
-        - file: ../LibSE/BSP/SPI/bsp_spi.c
         - file: ../LibSE/BSP/SPI/bsp_spi.h
     - group: Application/Core
       files:
@@ -505,7 +504,6 @@ project:
         - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_utils.h
     - group: LibSE/Drivers/UI
       files:
-        - file: ../LibSE/Drivers/UI/UI_driver.c
         - file: ../LibSE/Drivers/UI/UI_driver.h
     - group: ThirdParty/USB_Device_Library/Source
       misc:
@@ -555,7 +553,6 @@ project:
         - file: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h
     - group: LibSE/Drivers/WS2812
       files:
-        - file: ../LibSE/Drivers/WS2812/WS2812.c
         - file: ../LibSE/Drivers/WS2812/ws2812_board.c
         - file: ../LibSE/Drivers/WS2812/WS2812.h
     - group: LibSE/Module/INS
