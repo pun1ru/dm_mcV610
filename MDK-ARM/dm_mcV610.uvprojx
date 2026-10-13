@@ -338,7 +338,7 @@
               <MiscControls />
               <Define>USE_HAL_DRIVER,STM32H723xx</Define>
               <Undefine />
-              <IncludePath>../Core/Inc;../LibSE/BSP/CAN;../LibSE/BSP/PWM;../LibSE/BSP/UART;../LibSE/BSP/DWT;../LibSE/Drivers/Buzzer;../LibSE/Drivers/Bmi088;../LibSE/Drivers/Referee;../LibSE/Drivers/RC/DT7;../LibSE/Drivers/Motor;../LibSE/Drivers/Motor/DMMotor;../LibSE/Drivers/Motor/LKMotor;../LibSE/Drivers/Motor/RMMotor;../LibSE/Algorithm/Math;../LibSE/Algorithm/Control/PID;../LibSE/Algorithm/Control/ADRC;../LibSE/Algorithm/Process/kalman_filter;../LibSE/Algorithm/Process/ekf;../LibSE/Algorithm/INS/Madgwick;../LibSE/Module/INS;../LibSE/Module/Monitor;../LibSE/Task;../LibSE/Task/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../USB_DEVICE/App;../USB_DEVICE/Target;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc</IncludePath>
+              <IncludePath>../Core/Inc;../LibSE/BSP/CAN;../LibSE/BSP/PWM;../LibSE/BSP/UART;../LibSE/BSP/DWT;../LibSE/Drivers/Buzzer;../LibSE/Drivers/Bmi088;../LibSE/Drivers/Referee;../LibSE/Drivers/RC/DT7;../LibSE/Drivers/Motor;../LibSE/Drivers/Motor/DMMotor;../LibSE/Drivers/Motor/LKMotor;../LibSE/Drivers/Motor/RMMotor;../LibSE/Algorithm/Math;../LibSE/Algorithm/Control/PID;../LibSE/Algorithm/Control/ADRC;../LibSE/Algorithm/Process/kalman_filter;../LibSE/Algorithm/Process/ekf;../LibSE/Algorithm/INS/Madgwick;../LibSE/Algorithm/Kinematics;../LibSE/Module/INS;../LibSE/Module/Gimbal;../LibSE/Module/Monitor;../LibSE/Task;../LibSE/Task/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../USB_DEVICE/App;../USB_DEVICE/Target;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -421,6 +421,21 @@
               <FileName>Madgwick.h</FileName>
               <FileType>5</FileType>
               <FilePath>../LibSE/Algorithm/INS/Madgwick/Madgwick.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>LibSE/Algorithm/Kinematics</GroupName>
+          <Files>
+            <File>
+              <FileName>dh.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../LibSE/Algorithm/Kinematics/dh.c</FilePath>
+            </File>
+            <File>
+              <FileName>dh.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../LibSE/Algorithm/Kinematics/dh.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -3739,6 +3754,21 @@
               <FileName>ins.h</FileName>
               <FileType>5</FileType>
               <FilePath>../LibSE/Module/INS/ins.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>LibSE/Module/Gimbal</GroupName>
+          <Files>
+            <File>
+              <FileName>gimbal.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../LibSE/Module/Gimbal/gimbal.c</FilePath>
+            </File>
+            <File>
+              <FileName>gimbal.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../LibSE/Module/Gimbal/gimbal.h</FilePath>
             </File>
           </Files>
         </Group>
