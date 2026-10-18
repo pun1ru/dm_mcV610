@@ -338,7 +338,7 @@
               <MiscControls />
               <Define>USE_HAL_DRIVER,STM32H723xx</Define>
               <Undefine />
-              <IncludePath>../Core/Inc;../LibSE/BSP/CAN;../LibSE/BSP/PWM;../LibSE/BSP/UART;../LibSE/BSP/DWT;../LibSE/Drivers/Buzzer;../LibSE/Drivers/Bmi088;../LibSE/Drivers/Referee;../LibSE/Drivers/RC/DT7;../LibSE/Drivers/Motor;../LibSE/Drivers/Motor/DMMotor;../LibSE/Drivers/Motor/LKMotor;../LibSE/Drivers/Motor/RMMotor;../LibSE/Algorithm/Math;../LibSE/Algorithm/Control/PID;../LibSE/Algorithm/Control/ADRC;../LibSE/Algorithm/Process/kalman_filter;../LibSE/Algorithm/Process/ekf;../LibSE/Algorithm/INS/Madgwick;../LibSE/Algorithm/Kinematics;../LibSE/Module/INS;../LibSE/Module/Gimbal;../LibSE/Module/Monitor;../LibSE/Task;../LibSE/Task/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../USB_DEVICE/App;../USB_DEVICE/Target;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc</IncludePath>
+              <IncludePath>../Core/Inc;../LibSE/BSP/CAN;../LibSE/BSP/PWM;../LibSE/BSP/UART;../LibSE/BSP/DWT;../LibSE/Drivers/Buzzer;../LibSE/Drivers/Bmi088;../LibSE/Drivers/Referee;../LibSE/Drivers/RC/DT7;../LibSE/Drivers/Motor;../LibSE/Drivers/Motor/DMMotor;../LibSE/Drivers/Motor/LKMotor;../LibSE/Drivers/Motor/RMMotor;../LibSE/Algorithm/Math;../LibSE/Algorithm/Control/PID;../LibSE/Algorithm/Control/ADRC;../LibSE/Algorithm/Process/kalman_filter;../LibSE/Algorithm/Process/ekf;../LibSE/Algorithm/INS/Madgwick;../LibSE/Algorithm/Kinematics;../LibSE/Module/INS;../LibSE/Module/Gimbal;../LibSE/Module/Monitor;../App;../App/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../USB_DEVICE/App;../USB_DEVICE/Target;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -3783,67 +3783,67 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>LibSE/Task/App</GroupName>
+          <GroupName>App/Task</GroupName>
           <Files>
             <File>
               <FileName>task_init.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../LibSE/Task/Src/task_init.c</FilePath>
+              <FilePath>../App/Src/task_init.c</FilePath>
             </File>
             <File>
               <FileName>task_ins.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../LibSE/Task/Src/task_ins.c</FilePath>
+              <FilePath>../App/Src/task_ins.c</FilePath>
             </File>
             <File>
               <FileName>task_gimbal.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../LibSE/Task/Src/task_gimbal.c</FilePath>
+              <FilePath>../App/Src/task_gimbal.c</FilePath>
             </File>
             <File>
               <FileName>task_receive.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../LibSE/Task/Src/task_receive.c</FilePath>
+              <FilePath>../App/Src/task_receive.c</FilePath>
             </File>
             <File>
               <FileName>task_transmit.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../LibSE/Task/Src/task_transmit.c</FilePath>
+              <FilePath>../App/Src/task_transmit.c</FilePath>
             </File>
             <File>
               <FileName>task_monitor.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../LibSE/Task/Src/task_monitor.c</FilePath>
+              <FilePath>../App/Src/task_monitor.c</FilePath>
             </File>
             <File>
               <FileName>task_init.h</FileName>
               <FileType>5</FileType>
-              <FilePath>../LibSE/Task/Inc/task_init.h</FilePath>
+              <FilePath>../App/Inc/task_init.h</FilePath>
             </File>
             <File>
               <FileName>task_gimbal.h</FileName>
               <FileType>5</FileType>
-              <FilePath>../LibSE/Task/Inc/task_gimbal.h</FilePath>
+              <FilePath>../App/Inc/task_gimbal.h</FilePath>
             </File>
             <File>
               <FileName>task_ins.h</FileName>
               <FileType>5</FileType>
-              <FilePath>../LibSE/Task/Inc/task_ins.h</FilePath>
+              <FilePath>../App/Inc/task_ins.h</FilePath>
             </File>
             <File>
               <FileName>task_monitor.h</FileName>
               <FileType>5</FileType>
-              <FilePath>../LibSE/Task/Inc/task_monitor.h</FilePath>
+              <FilePath>../App/Inc/task_monitor.h</FilePath>
             </File>
             <File>
               <FileName>task_receive.h</FileName>
               <FileType>5</FileType>
-              <FilePath>../LibSE/Task/Inc/task_receive.h</FilePath>
+              <FilePath>../App/Inc/task_receive.h</FilePath>
             </File>
             <File>
               <FileName>task_transmit.h</FileName>
               <FileType>5</FileType>
-              <FilePath>../LibSE/Task/Inc/task_transmit.h</FilePath>
+              <FilePath>../App/Inc/task_transmit.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -3929,22 +3929,22 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>LibSE/Task/System</GroupName>
+          <GroupName>App/System</GroupName>
           <Files>
             <File>
               <FileName>task_system.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../LibSE/Task/task_system.c</FilePath>
+              <FilePath>../App/task_system.c</FilePath>
             </File>
             <File>
               <FileName>task_define.h</FileName>
               <FileType>5</FileType>
-              <FilePath>../LibSE/Task/task_define.h</FilePath>
+              <FilePath>../App/task_define.h</FilePath>
             </File>
             <File>
               <FileName>task_system.h</FileName>
               <FileType>5</FileType>
-              <FilePath>../LibSE/Task/task_system.h</FilePath>
+              <FilePath>../App/task_system.h</FilePath>
             </File>
           </Files>
         </Group>

@@ -11,7 +11,7 @@
 #include "task_receive.h"
 #include "task_system.h"
 #include "task_transmit.h"
-#include "../../Drivers/WS2812/WS2812.h"
+#include "WS2812.h"
 #include "spi.h"
 #include "usart.h"
 #include "bsp_buzzer.h"

@@ -1,7 +1,7 @@
 #include "task_monitor.h"
 
 #include "bsp_buzzer.h"
-#include "../../Drivers/WS2812/WS2812.h"
+#include "WS2812.h"
 #include "CAN_driver.h"
 #include "FreeRTOS.h"
 #include "task.h"
