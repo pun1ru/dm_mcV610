@@ -2,7 +2,6 @@ build-idx:
   generated-by: csolution version 2.15.1+p3-gf46d68bf
   target: dm_mcV610
   csolution: dm_mcV610.csolution.yml
-  cbuild-run: out/dm_mcV610+dm_mcV610.cbuild-run.yml
   tmpdir: tmp/dm_mcV610/default
   cprojects:
     - cproject: dm_mcV610.cproject.yml
@@ -11,9 +10,70 @@ build-idx:
       project: dm_mcV610
       configuration: +dm_mcV610
       messages:
+        errors:
+          - dm_mcV610.cproject.yml:101:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Algorithm/Control/ADRC/adrc.c' was not found
+          - dm_mcV610.cproject.yml:102:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Algorithm/Control/ADRC/adrc.h' was not found
+          - dm_mcV610.cproject.yml:105:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Algorithm/Control/PID/pid.c' was not found
+          - dm_mcV610.cproject.yml:106:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Algorithm/Control/PID/pid.h' was not found
+          - dm_mcV610.cproject.yml:109:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Algorithm/INS/Madgwick/Madgwick.c' was not found
+          - dm_mcV610.cproject.yml:110:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Algorithm/INS/Madgwick/Madgwick.h' was not found
+          - dm_mcV610.cproject.yml:119:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Algorithm/Kinematics/dh.c' was not found
+          - dm_mcV610.cproject.yml:120:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Algorithm/Kinematics/dh.h' was not found
+          - dm_mcV610.cproject.yml:113:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Algorithm/Math/algorism.c' was not found
+          - dm_mcV610.cproject.yml:114:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Algorithm/Math/algorism.h' was not found
+          - dm_mcV610.cproject.yml:115:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Algorithm/Math/arm_matrix.h' was not found
+          - dm_mcV610.cproject.yml:116:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Algorithm/Math/position_tran.h' was not found
+          - dm_mcV610.cproject.yml:123:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Algorithm/Process/ekf/ekf_quaternion.c' was not found
+          - dm_mcV610.cproject.yml:124:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Algorithm/Process/ekf/ekf_quaternion.h' was not found
+          - dm_mcV610.cproject.yml:127:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Algorithm/Process/kalman_filter/kalman_filter.c' was not found
+          - dm_mcV610.cproject.yml:128:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Algorithm/Process/kalman_filter/kalman_filter.h' was not found
+          - dm_mcV610.cproject.yml:131:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/BSP/CAN/CAN_driver.c' was not found
+          - dm_mcV610.cproject.yml:132:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/BSP/CAN/CAN_driver.h' was not found
+          - dm_mcV610.cproject.yml:135:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/BSP/DWT/bsp_dwt.c' was not found
+          - dm_mcV610.cproject.yml:136:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/BSP/DWT/bsp_dwt.h' was not found
+          - dm_mcV610.cproject.yml:139:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/BSP/PWM/bsp_pwm.c' was not found
+          - dm_mcV610.cproject.yml:140:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/BSP/PWM/bsp_pwm.h' was not found
+          - dm_mcV610.cproject.yml:143:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/BSP/SPI/bsp_spi.h' was not found
+          - dm_mcV610.cproject.yml:191:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/BSP/UART/uart_driver.c' was not found
+          - dm_mcV610.cproject.yml:192:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/BSP/UART/uart_driver.h' was not found
+          - dm_mcV610.cproject.yml:240:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/Bmi088/bmi088_driver.c' was not found
+          - dm_mcV610.cproject.yml:243:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/Bmi088/bmi088_driver.h' was not found
+          - dm_mcV610.cproject.yml:241:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/Bmi088/bmi088_middleware.c' was not found
+          - dm_mcV610.cproject.yml:244:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/Bmi088/bmi088_middleware.h' was not found
+          - dm_mcV610.cproject.yml:245:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/Bmi088/bmi088_reg.h' was not found
+          - dm_mcV610.cproject.yml:242:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/Bmi088/imu_temp_ctrl.c' was not found
+          - dm_mcV610.cproject.yml:248:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/Buzzer/bsp_buzzer.c' was not found
+          - dm_mcV610.cproject.yml:249:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/Buzzer/bsp_buzzer.h' was not found
+          - dm_mcV610.cproject.yml:377:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/Motor/DMMotor/DMMotor.c' was not found
+          - dm_mcV610.cproject.yml:378:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/Motor/DMMotor/DMMotor.h' was not found
+          - dm_mcV610.cproject.yml:381:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/Motor/LKMotor/LKMotor.c' was not found
+          - dm_mcV610.cproject.yml:382:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/Motor/LKMotor/LKMotor.h' was not found
+          - dm_mcV610.cproject.yml:373:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/Motor/Motor.c' was not found
+          - dm_mcV610.cproject.yml:374:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/Motor/Motor.h' was not found
+          - dm_mcV610.cproject.yml:385:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/Motor/RMMotor/RMMotor.c' was not found
+          - dm_mcV610.cproject.yml:386:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/Motor/RMMotor/RMMotor.h' was not found
+          - dm_mcV610.cproject.yml:389:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/RC/DT7/dt7_remote_driver.c' was not found
+          - dm_mcV610.cproject.yml:391:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/RC/DT7/dt7_remote_driver.h' was not found
+          - dm_mcV610.cproject.yml:390:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/RC/DT7/remote_control.c' was not found
+          - dm_mcV610.cproject.yml:392:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/RC/DT7/remote_control.h' was not found
+          - dm_mcV610.cproject.yml:395:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/RC/VT13/CRC.c' was not found
+          - dm_mcV610.cproject.yml:396:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/RC/VT13/VT13_rc_ctrl.c' was not found
+          - dm_mcV610.cproject.yml:397:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/RC/VT13/VT13_rc_ctrl.h' was not found
+          - dm_mcV610.cproject.yml:400:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/Referee/judge_receive.c' was not found
+          - dm_mcV610.cproject.yml:402:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/Referee/judge_receive.h' was not found
+          - dm_mcV610.cproject.yml:401:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/Referee/referee.c' was not found
+          - dm_mcV610.cproject.yml:403:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/Referee/referee.h' was not found
+          - dm_mcV610.cproject.yml:516:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/UI/UI_driver.h' was not found
+          - dm_mcV610.cproject.yml:566:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/WS2812/WS2812.h' was not found
+          - dm_mcV610.cproject.yml:565:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Drivers/WS2812/ws2812_board.c' was not found
+          - dm_mcV610.cproject.yml:573:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Module/Gimbal/gimbal.c' was not found
+          - dm_mcV610.cproject.yml:574:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Module/Gimbal/gimbal.h' was not found
+          - dm_mcV610.cproject.yml:569:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Module/INS/ins.c' was not found
+          - dm_mcV610.cproject.yml:570:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Module/INS/ins.h' was not found
+          - dm_mcV610.cproject.yml:577:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Module/Monitor/monitor.c' was not found
+          - dm_mcV610.cproject.yml:578:11 - file 'E:/Embedded/STM32project/dm_mcV610/LibSE/Module/Monitor/monitor.h' was not found
         info:
           - dm_mcV610.cbuild-pack.yml - file is already up-to-date
-          - dm_mcV610+dm_mcV610.cbuild-run.yml - file generated successfully
           - dm_mcV610+dm_mcV610.cbuild.yml - file is already up-to-date
       packs-unused:
         - pack: ARM::CMSIS-NN@4.0.0
