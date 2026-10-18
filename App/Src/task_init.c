@@ -9,6 +9,7 @@
 #include "task_ins.h"
 #include "task_monitor.h"
 #include "task_receive.h"
+#include "task_state.h"
 #include "task_system.h"
 #include "task_transmit.h"
 #include "WS2812.h"
@@ -97,6 +98,7 @@ void InitTask(void *argument)
     DWT_Init(TASK_CPU_FREQUENCY_MHZ);
     Monitor_Init();
     CommunicateInit();
+    gimbalCmdQueue = xQueueCreate(TASK_GIMBAL_CMD_QUEUE_LENGTH, sizeof(TaskGimbalCmdMail_t));
     WS2812_SPI_Init(&hspi6);
     Buzzer_BeepOnce();
     xTaskCreate(MonitorTask, "MonitorTask", TASK_MONITOR_STACK_SIZE, NULL,
@@ -109,6 +111,8 @@ void InitTask(void *argument)
                 TASK_INS_PRIORITY, &INSTaskHandle);
     xTaskCreate(GimbalTask, "GimbalTask", TASK_GIMBAL_STACK_SIZE, NULL,
                 TASK_GIMBAL_PRIORITY, &GimbalTaskHandle);
+    xTaskCreate(StateTask, "StateTask", TASK_STATE_STACK_SIZE, NULL,
+                TASK_STATE_PRIORITY, &StateTaskHandle);
     taskEXIT_CRITICAL();
     vTaskDelete(NULL);
 }

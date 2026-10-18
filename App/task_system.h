@@ -11,6 +11,8 @@
 #include "DMMotor.h"
 #include "LKMotor.h"
 #include "gimbal.h"
+#include "gimbal_ammo_state.h"
+#include "queue.h"
 
 #define TASK_CAN_INSTANCE_COUNT       3U
 #define TASK_CAN1_MOTOR_BINDING_COUNT  1U
@@ -22,6 +24,12 @@ typedef struct {
     uint16_t feedback_id;
     Motor_t *motor;
 } TaskMotorBinding_t;
+
+/* 带发布时刻的云台命令，接收方据此判断状态任务是否失联 */
+typedef struct {
+    GimbalAmmoCmd_t cmd;
+    TickType_t publish_tick;
+} TaskGimbalCmdMail_t;
 
 enum {
     TASK_UART_HUART5_INDEX = 0U,
@@ -58,9 +66,13 @@ extern TaskHandle_t ReceiveTaskHandle;
 extern TaskHandle_t TransmitTaskHandle;
 extern TaskHandle_t INSTaskHandle;
 extern TaskHandle_t GimbalTaskHandle;
+extern TaskHandle_t StateTaskHandle;
+/* 状态任务写、云台任务读的单槽邮箱，元素为 TaskGimbalCmdMail_t */
+extern QueueHandle_t gimbalCmdQueue;
 
 extern INS_t board_ins;
 extern Gimbal_t gimbalInstance;
+extern GimbalAmmoState_t gimbalAmmoState;
 extern DMMotor_t gimbalYawMotor;
 extern LKMotor_t gimbalPitchMotor;
 extern TaskMotorBinding_t can1MotorBindings[TASK_CAN1_MOTOR_BINDING_COUNT];

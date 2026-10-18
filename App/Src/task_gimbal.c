@@ -3,7 +3,7 @@
 #include "FreeRTOS.h"
 #include "fdcan.h"
 #include "monitor.h"
-#include "remote_control.h"
+#include "queue.h"
 #include "task.h"
 #include "task_define.h"
 #include "task_system.h"
@@ -38,9 +38,6 @@
 #define GIMBAL_DH_ALPHA_PITCH_DEG     90.0f
 #define GIMBAL_DH_ALPHA_END_DEG       (-90.0f)
 
-/* 遥控器：左拨杆选模式，右摇杆水平 / 竖直给 yaw / pitch 角速度 */
-#define GIMBAL_YAW_MAX_RATE_DPS       180.0f
-#define GIMBAL_PITCH_MAX_RATE_DPS     90.0f
 #define GIMBAL_MS_PER_S               1000.0f
 
 /* 启动等待（ms）与电机维护节拍（控制周期数），参照 hero_up 的 ControlTask 和电机发送逻辑 */
@@ -113,46 +110,22 @@ static void GimbalTask_Init(void)
 }
 
 /*--------------------------------------输入--------------------------------------*/
-/* 遥控器离线或还没收到有效帧时返回保护状态，目标沿用当前值不累加 */
-static GimbalInput_t GimbalTask_ReadInput(void)
+/* 取状态任务最近一次发布的命令；邮箱为空或超时未更新时进保护，角速度清零 */
+static GimbalAmmoCmd_t GimbalTask_ReadCmd(void)
 {
-    GimbalInput_t input =
+    TaskGimbalCmdMail_t mail;
+    GimbalAmmoCmd_t protect_cmd =
     {
-        .state = GIMBAL_PROTECTED,
-        .pitch_deg = gimbalInstance.target.pitch_deg,
-        .yaw_deg = gimbalInstance.target.yaw_deg,
+        .gimbal_state = GIMBAL_PROTECTED,
     };
-    DT7RecData raw;
-    DT7CmdData command;
-    uint32_t now_ms = (uint32_t)xTaskGetTickCount() * portTICK_PERIOD_MS;
 
-    if (RC_Remote_Read(&rc_receiver, &raw, &command) == 0U ||
-        RC_Remote_IsOnline(&rc_receiver, now_ms, RC_DBUS_ONLINE_TIMEOUT_MS) == 0U)
+    if (xQueuePeek(gimbalCmdQueue, &mail, 0U) != pdPASS ||
+        (TickType_t)(xTaskGetTickCount() - mail.publish_tick) >
+            pdMS_TO_TICKS(TASK_GIMBAL_CMD_TIMEOUT_MS))
     {
-        return input;
+        return protect_cmd;
     }
-
-    switch (command.switch_left)
-    {
-    case DT7_RC_SW_MID:
-        input.state = GIMBAL_NORMAL;
-        break;
-    case DT7_RC_SW_UP:
-        input.state = GIMBAL_SNIPER;
-        break;
-    default:
-        return input;
-    }
-
-    /* INS 约定：yaw 顺时针为正，pitch 抬头为正；右摇杆右推 / 上推对应这两个正方向 */
-    float stick_yaw = (float)command.ch0 / DT7_RC_CH_MAX_RELATIVE;
-    float stick_pitch = (float)command.ch1 / DT7_RC_CH_MAX_RELATIVE;
-    float period_s = (float)TASK_GIMBAL_PERIOD_MS / GIMBAL_MS_PER_S;
-    input.yaw_omega_dps = stick_yaw * GIMBAL_YAW_MAX_RATE_DPS;
-    input.pitch_omega_dps = stick_pitch * GIMBAL_PITCH_MAX_RATE_DPS;
-    input.yaw_deg += input.yaw_omega_dps * period_s;
-    input.pitch_deg += input.pitch_omega_dps * period_s;
-    return input;
+    return mail.cmd;
 }
 
 /*--------------------------------------电机维护--------------------------------------*/
@@ -197,13 +170,15 @@ void GimbalTask(void *argument)
     vTaskDelay(pdMS_TO_TICKS(GIMBAL_STARTUP_DELAY_MS));
     TickType_t last_wake = xTaskGetTickCount();
 
+    const float period_s = (float)TASK_GIMBAL_PERIOD_MS / GIMBAL_MS_PER_S;
+
     while (1)
     {
-        GimbalInput_t input = GimbalTask_ReadInput();
-        Gimbal_Input(&gimbalInstance, &input);
+        GimbalAmmoCmd_t cmd = GimbalTask_ReadCmd();
+        GimbalAmmoState_Apply(&gimbalInstance, &cmd, period_s);
         Gimbal_Estimate(&gimbalInstance);
         /* 使能帧排在本周期力矩帧之前，退出保护的第一帧力矩就能生效 */
-        GimbalTask_MaintainYawMotor(input.state);
+        GimbalTask_MaintainYawMotor(cmd.gimbal_state);
         Gimbal_Control(&gimbalInstance);
 
         Monitor_TaskBeat(MONITOR_TASK_GIMBAL);

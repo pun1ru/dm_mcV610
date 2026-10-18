@@ -16,8 +16,12 @@ TaskHandle_t TransmitTaskHandle;
 TaskHandle_t INSTaskHandle;
 TaskHandle_t GimbalTaskHandle;
 
+TaskHandle_t StateTaskHandle;
+QueueHandle_t gimbalCmdQueue;
+
 INS_t board_ins;
 Gimbal_t gimbalInstance;
+GimbalAmmoState_t gimbalAmmoState;
 DMMotor_t gimbalYawMotor;
 LKMotor_t gimbalPitchMotor;
 
