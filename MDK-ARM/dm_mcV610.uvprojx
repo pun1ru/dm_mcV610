@@ -457,11 +457,6 @@
               <FileType>5</FileType>
               <FilePath>../LibSE/Algorithm/Math/arm_matrix.h</FilePath>
             </File>
-            <File>
-              <FileName>rotation_Martix.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>../LibSE/Algorithm/Math/rotation_Martix.h</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -3801,6 +3796,11 @@
               <FilePath>../LibSE/Task/Src/task_ins.c</FilePath>
             </File>
             <File>
+              <FileName>task_gimbal.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../LibSE/Task/Src/task_gimbal.c</FilePath>
+            </File>
+            <File>
               <FileName>task_receive.c</FileName>
               <FileType>1</FileType>
               <FilePath>../LibSE/Task/Src/task_receive.c</FilePath>
@@ -3819,6 +3819,11 @@
               <FileName>task_init.h</FileName>
               <FileType>5</FileType>
               <FilePath>../LibSE/Task/Inc/task_init.h</FilePath>
+            </File>
+            <File>
+              <FileName>task_gimbal.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../LibSE/Task/Inc/task_gimbal.h</FilePath>
             </File>
             <File>
               <FileName>task_ins.h</FileName>
