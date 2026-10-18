@@ -1,0 +1,3 @@
+[submodule "LibSE"]
+	path = LibSE
+	url = https://github.com/pun1ru/LibSE.git
