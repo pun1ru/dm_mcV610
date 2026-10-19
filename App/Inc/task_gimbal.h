@@ -1,7 +1,7 @@
 #ifndef GIMBAL_TASK_H
 #define GIMBAL_TASK_H
 
-/* 任务启动时先初始化云台电机、CAN 反馈绑定表和云台对象，再进入控制循环 */
+/* 云台电机、绑定表和云台对象由 module_init 创建，这里只有任务本体 */
 void GimbalTask(void *argument);
 
 #endif

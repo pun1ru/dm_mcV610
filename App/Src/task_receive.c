@@ -15,22 +15,22 @@
 #define TASK_UART_PACKET_SIZE UART_DMA_BUFFER_SIZE
 
 /*--------------------------------------回调函数定义--------------------------------------*/
-static void TaskReceive_RCInput(const uint8_t *data, uint16_t size)
+void TaskReceive_RCInput(const uint8_t *data, uint16_t size)
 {
     RC_Remote_Input(&rc_receiver, data, size);
 }
 
-static void TaskReceive_RCError(void)
+void TaskReceive_RCError(void)
 {
     RC_Remote_OnError(&rc_receiver);
 }
 
-static void TaskReceive_RefereeInput(const uint8_t *data, uint16_t size)
+void TaskReceive_RefereeInput(const uint8_t *data, uint16_t size)
 {
     Referee_Input(&referee_receiver, data, size);
 }
 
-static void TaskReceive_RefereeError(void)
+void TaskReceive_RefereeError(void)
 {
     Referee_Reset(&referee_receiver);
 }
@@ -55,48 +55,22 @@ static void TaskReceive_DispatchMotorFeedback(const TaskMotorBinding_t *bindings
     }
 }
 
-static void TaskReceive_CAN1Callback(FDCAN_HandleTypeDef *can, uint16_t id,
+void TaskReceive_CAN1Callback(FDCAN_HandleTypeDef *can, uint16_t id,
                                       const uint8_t *data, uint8_t length)
 {
-    (void)can;
-    TaskReceive_DispatchMotorFeedback(can1MotorBindings,
-                                      TASK_CAN1_MOTOR_BINDING_COUNT,
-                                      id, data, length);
+    TaskReceive_DispatchMotorFeedback(can1MotorBindings,TASK_CAN1_MOTOR_BINDING_COUNT,id, data, length);
 }
 
-static void TaskReceive_CAN2Callback(FDCAN_HandleTypeDef *can, uint16_t id,
+void TaskReceive_CAN2Callback(FDCAN_HandleTypeDef *can, uint16_t id,
                                       const uint8_t *data, uint8_t length)
 {
-    (void)can;
-    TaskReceive_DispatchMotorFeedback(can2MotorBindings,
-                                      TASK_CAN2_MOTOR_BINDING_COUNT,
-                                      id, data, length);
+    TaskReceive_DispatchMotorFeedback(can2MotorBindings,TASK_CAN2_MOTOR_BINDING_COUNT,id, data, length);
 }
 
-static void TaskReceive_CAN3Callback(FDCAN_HandleTypeDef *can, uint16_t id,
+void TaskReceive_CAN3Callback(FDCAN_HandleTypeDef *can, uint16_t id,
                                       const uint8_t *data, uint8_t length)
 {
-    (void)can;
-    TaskReceive_DispatchMotorFeedback(can3MotorBindings,
-                                      TASK_CAN3_MOTOR_BINDING_COUNT,
-                                      id, data, length);
-}
-/*--------------------------------------初始化协议--------------------------------------*/
-static void TaskReceive_InitProtocols(void)
-{
-    //初始化
-    Referee_Init(&referee_receiver);
-    RC_Init(&rc_receiver);
-    // CAN callbacks
-    can_instances[0].on_receive = TaskReceive_CAN1Callback;
-    can_instances[1].on_receive = TaskReceive_CAN2Callback;
-    can_instances[2].on_receive = TaskReceive_CAN3Callback;
-    //定义函数指针映射到对应的回调函数
-    //UART回调
-    uart_instances[TASK_UART_HUART5_INDEX].on_packet = TaskReceive_RCInput;
-    uart_instances[TASK_UART_HUART5_INDEX].on_error = TaskReceive_RCError;
-    uart_instances[TASK_UART_HUART1_INDEX].on_packet = TaskReceive_RefereeInput;
-    uart_instances[TASK_UART_HUART1_INDEX].on_error = TaskReceive_RefereeError;
+    TaskReceive_DispatchMotorFeedback(can3MotorBindings,TASK_CAN3_MOTOR_BINDING_COUNT,id, data, length);
 }
 /*--------------------------------------默认回调函数--------------------------------------*/
 void CANReceive_Callback(FDCAN_HandleTypeDef *can, uint16_t id,
@@ -184,7 +158,6 @@ void ReceiveTask(void *argument)
 
     (void)argument;
 
-    TaskReceive_InitProtocols();
     TaskReceive_BindUartTask();
 
     while(1) {

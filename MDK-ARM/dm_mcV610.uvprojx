@@ -1068,6 +1068,26 @@
               <FileType>5</FileType>
               <FilePath>../LibSE/BSP/UART/uart_driver.h</FilePath>
             </File>
+            <File>
+              <FileName>vofa_justfloat.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../LibSE/BSP/UART/vofa_justfloat.c</FilePath>
+            </File>
+            <File>
+              <FileName>vofa_justfloat.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../LibSE/BSP/UART/vofa_justfloat.h</FilePath>
+            </File>
+            <File>
+              <FileName>vofa_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../LibSE/BSP/UART/vofa_uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>vofa_uart.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../LibSE/BSP/UART/vofa_uart.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -3804,11 +3824,6 @@
           <GroupName>App/Task</GroupName>
           <Files>
             <File>
-              <FileName>task_init.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../App/Src/task_init.c</FilePath>
-            </File>
-            <File>
               <FileName>task_ins.c</FileName>
               <FileType>1</FileType>
               <FilePath>../App/Src/task_ins.c</FilePath>
@@ -3837,11 +3852,6 @@
               <FileName>task_state.c</FileName>
               <FileType>1</FileType>
               <FilePath>../App/Src/task_state.c</FilePath>
-            </File>
-            <File>
-              <FileName>task_init.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>../App/Inc/task_init.h</FilePath>
             </File>
             <File>
               <FileName>task_gimbal.h</FileName>
@@ -3960,9 +3970,59 @@
           <GroupName>App/System</GroupName>
           <Files>
             <File>
+              <FileName>task_init.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../App/task_init.c</FilePath>
+            </File>
+            <File>
+              <FileName>base_init.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../App/base_init.c</FilePath>
+            </File>
+            <File>
+              <FileName>ipc_init.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../App/ipc_init.c</FilePath>
+            </File>
+            <File>
+              <FileName>comm_init.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../App/comm_init.c</FilePath>
+            </File>
+            <File>
+              <FileName>module_init.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../App/module_init.c</FilePath>
+            </File>
+            <File>
               <FileName>task_system.c</FileName>
               <FileType>1</FileType>
               <FilePath>../App/task_system.c</FilePath>
+            </File>
+            <File>
+              <FileName>task_init.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../App/task_init.h</FilePath>
+            </File>
+            <File>
+              <FileName>base_init.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../App/base_init.h</FilePath>
+            </File>
+            <File>
+              <FileName>ipc_init.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../App/ipc_init.h</FilePath>
+            </File>
+            <File>
+              <FileName>comm_init.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../App/comm_init.h</FilePath>
+            </File>
+            <File>
+              <FileName>module_init.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../App/module_init.h</FilePath>
             </File>
             <File>
               <FileName>task_define.h</FileName>

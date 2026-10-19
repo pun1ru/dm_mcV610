@@ -191,6 +191,10 @@ project:
       files:
         - file: ../LibSE/BSP/UART/uart_driver.c
         - file: ../LibSE/BSP/UART/uart_driver.h
+        - file: ../LibSE/BSP/UART/vofa_justfloat.c
+        - file: ../LibSE/BSP/UART/vofa_justfloat.h
+        - file: ../LibSE/BSP/UART/vofa_uart.c
+        - file: ../LibSE/BSP/UART/vofa_uart.h
     - group: Application/USB_Device
       misc:
         - C-CPP:
@@ -583,14 +587,12 @@ project:
         - file: ../LibSE/minimal_state/gimbal_ammo_state.h
     - group: App/Task
       files:
-        - file: ../App/Src/task_init.c
         - file: ../App/Src/task_gimbal.c
         - file: ../App/Src/task_ins.c
         - file: ../App/Src/task_receive.c
         - file: ../App/Src/task_transmit.c
         - file: ../App/Src/task_monitor.c
         - file: ../App/Src/task_state.c
-        - file: ../App/Inc/task_init.h
         - file: ../App/Inc/task_gimbal.h
         - file: ../App/Inc/task_ins.h
         - file: ../App/Inc/task_monitor.h
@@ -610,7 +612,17 @@ project:
         - file: ../Core/Inc/FreeRTOSConfig.h
     - group: App/System
       files:
+        - file: ../App/task_init.c
+        - file: ../App/base_init.c
+        - file: ../App/ipc_init.c
+        - file: ../App/comm_init.c
+        - file: ../App/module_init.c
         - file: ../App/task_system.c
+        - file: ../App/task_init.h
+        - file: ../App/base_init.h
+        - file: ../App/ipc_init.h
+        - file: ../App/comm_init.h
+        - file: ../App/module_init.h
         - file: ../App/task_define.h
         - file: ../App/task_system.h
   components:

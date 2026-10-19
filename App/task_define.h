@@ -14,7 +14,7 @@
 #define TASK_STATE_PERIOD_MS          10U
 
 #define TASK_MONITOR_STACK_SIZE       512U
-#define TASK_INIT_STACK_SIZE          384U
+#define TASK_INIT_STACK_SIZE          512U
 #define TASK_RECEIVE_STACK_SIZE       512U
 #define TASK_TRANSMIT_STACK_SIZE      512U
 #define TASK_INS_STACK_SIZE           512U
