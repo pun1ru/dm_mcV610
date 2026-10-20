@@ -40,6 +40,9 @@
 #define TASK_GIMBAL_CMD_TIMEOUT_MS    50U
 /* 遥控器超过这个时间没收到数据按离线处理 */
 #define TASK_REMOTE_TIMEOUT_MS        100U
+/* 调试开关：1 时云台电机收到的指令强制为 0（电机照常使能，只是零力矩/零电流），双环 PID 照常计算
+ * 用来在不让电机出力的情况下观察 PID 输出，置 0 恢复正常输出 */
+#define SYSTEM_GIMBAL_FORCE_ZERO_OUTPUT   0U
 /* 云台启动后等 INS 完成初始化、电机上电回传反馈再进入控制循环 */
 #define TASK_GIMBAL_STARTUP_DELAY_MS  400U
 

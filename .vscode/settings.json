@@ -3,5 +3,6 @@
     "debug.showInStatusBar": "never",
     "clangd.arguments": [
         "--compile-commands-dir=e:\\Embedded\\STM32project\\dm_mcV610\\MDK-ARM\\out\\dm_mcV610\\dm_mcV610"
-    ]
+    ],
+    "emberprobe.sampleFrequencyHz": 50
 }
