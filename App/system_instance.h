@@ -1,35 +1,32 @@
-#ifndef TASK_SYSTEM_H
-#define TASK_SYSTEM_H
+#ifndef SYSTEM_INSTANCE_H
+#define SYSTEM_INSTANCE_H
 
 #include "CAN_driver.h"
-#include "uart_driver.h"
+#include "DMMotor.h"
+#include "LKMotor.h"
+#include "event_groups.h"
+#include "gimbal.h"
+#include "gimbal_ammo_state.h"
+#include "ins.h"
+#include "monitor.h"
+#include "queue.h"
 #include "referee.h"
 #include "remote_control.h"
 #include "task.h"
-#include "ins.h"
-#include "Motor.h"
-#include "DMMotor.h"
-#include "LKMotor.h"
-#include "gimbal.h"
-#include "gimbal_ammo_state.h"
-#include "queue.h"
+#include "uart_driver.h"
 
+/* 实例按层分段，从底到顶：通信 -> ipc -> 电机 -> 模块 -> task
+ * 各层的创建与绑定在同目录的 comm_init、ipc_init、motor_init、module_init、task_init */
+
+/*--------------------------------------通信实例--------------------------------------*/
 #define TASK_CAN_INSTANCE_COUNT       3U
-#define TASK_CAN1_MOTOR_BINDING_COUNT  1U
-#define TASK_CAN2_MOTOR_BINDING_COUNT  1U
-#define TASK_CAN3_MOTOR_BINDING_COUNT  1U
 #define TASK_UART_INSTANCE_COUNT      6U
 
-typedef struct {
-    uint16_t feedback_id;
-    Motor_t *motor;
-} TaskMotorBinding_t;
-
-/* 带发布时刻的云台命令，接收方据此判断状态任务是否失联 */
-typedef struct {
-    GimbalAmmoCmd_t cmd;
-    TickType_t publish_tick;
-} TaskGimbalCmdMail_t;
+enum {
+    SYSTEM_CAN1_INDEX = 0U,
+    SYSTEM_CAN2_INDEX,
+    SYSTEM_CAN3_INDEX
+};
 
 enum {
     TASK_UART_HUART5_INDEX = 0U,
@@ -58,8 +55,36 @@ extern QueueSetHandle_t receive_can_queues;
 extern QueueSetHandle_t transmit_can_queues;
 extern UartInstance_t uart_instances[TASK_UART_INSTANCE_COUNT];
 extern EventGroupHandle_t UartEventGroup;
+/* 协议解析器挂在 UART 口上，属于通信层 */
 extern Referee_t referee_receiver;
 extern RC_Remote_t rc_receiver;
+
+/*--------------------------------------ipc 实例--------------------------------------*/
+extern QueueHandle_t gimbalCmdQueue;    /* 状态机 -> 云台，元素 GimbalCmdMail_t */
+extern QueueHandle_t insMsgQueue;       /* INS -> 云台，元素 INSMsg_t */
+
+/*--------------------------------------电机实例--------------------------------------*/
+extern DMMotor_t gimbalYawMotor;
+extern LKMotor_t gimbalPitchMotor;
+
+/*--------------------------------------模块实例--------------------------------------*/
+extern Monitor_t systemMonitor;
+extern INS_t board_ins;
+extern Gimbal_t gimbalInstance;
+extern GimbalAmmoState_t gimbalAmmoState;
+
+/*--------------------------------------task 实例--------------------------------------*/
+/* 参与心跳监控的任务，值即 Monitor_Beat 的任务号，也是 systemTaskPeriodMs 的下标 */
+typedef enum {
+    SYSTEM_TASK_RECEIVE = 0U,
+    SYSTEM_TASK_TRANSMIT,
+    SYSTEM_TASK_INS,
+    SYSTEM_TASK_GIMBAL,
+    SYSTEM_TASK_STATE,
+    SYSTEM_TASK_COUNT
+} SystemTaskId_t;
+
+extern const uint16_t systemTaskPeriodMs[SYSTEM_TASK_COUNT];
 
 extern TaskHandle_t MonitorTaskHandle;
 extern TaskHandle_t ReceiveTaskHandle;
@@ -67,16 +92,5 @@ extern TaskHandle_t TransmitTaskHandle;
 extern TaskHandle_t INSTaskHandle;
 extern TaskHandle_t GimbalTaskHandle;
 extern TaskHandle_t StateTaskHandle;
-/* 状态任务写、云台任务读的单槽邮箱，元素为 TaskGimbalCmdMail_t */
-extern QueueHandle_t gimbalCmdQueue;
-
-extern INS_t board_ins;
-extern Gimbal_t gimbalInstance;
-extern GimbalAmmoState_t gimbalAmmoState;
-extern DMMotor_t gimbalYawMotor;
-extern LKMotor_t gimbalPitchMotor;
-extern TaskMotorBinding_t can1MotorBindings[TASK_CAN1_MOTOR_BINDING_COUNT];
-extern TaskMotorBinding_t can2MotorBindings[TASK_CAN2_MOTOR_BINDING_COUNT];
-extern TaskMotorBinding_t can3MotorBindings[TASK_CAN3_MOTOR_BINDING_COUNT];
 
 #endif

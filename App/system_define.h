@@ -1,5 +1,5 @@
-#ifndef TASK_DEFINE_H
-#define TASK_DEFINE_H
+#ifndef SYSTEM_DEFINE_H
+#define SYSTEM_DEFINE_H
 
 #include <stdint.h>
 
@@ -33,10 +33,15 @@
 #define TRANSMIT_TASK_STACK_SIZE      TASK_TRANSMIT_STACK_SIZE
 #define RECEIVE_TASK_STACK_SIZE       TASK_RECEIVE_STACK_SIZE
 
-/* 状态任务 -> 云台任务的单槽邮箱，xQueueOverwrite 要求长度为 1 */
+/* 模块间传数据的单槽邮箱，xQueueOverwrite 要求长度为 1 */
 #define TASK_GIMBAL_CMD_QUEUE_LENGTH  1U
+#define TASK_INS_MSG_QUEUE_LENGTH     1U
 /* 云台任务收到的命令超过这个时间未更新就视为状态任务失联，进入保护 */
 #define TASK_GIMBAL_CMD_TIMEOUT_MS    50U
+/* 遥控器超过这个时间没收到数据按离线处理 */
+#define TASK_REMOTE_TIMEOUT_MS        100U
+/* 云台启动后等 INS 完成初始化、电机上电回传反馈再进入控制循环 */
+#define TASK_GIMBAL_STARTUP_DELAY_MS  400U
 
 #endif
 

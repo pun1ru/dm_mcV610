@@ -6,22 +6,19 @@
 #include "comm_init.h"
 #include "ipc_init.h"
 #include "module_init.h"
+#include "motor_init.h"
+#include "system_define.h"
+#include "system_instance.h"
+#include "system_task.h"
 #include "task.h"
-#include "task_define.h"
-#include "task_gimbal.h"
-#include "task_ins.h"
-#include "task_monitor.h"
-#include "task_receive.h"
-#include "task_state.h"
-#include "task_system.h"
-#include "task_transmit.h"
 
 /* 初始化分层，顺序不能换：
- * 基础 -> 任务间队列 -> 登记通信口（只登记不启动）-> 模块创建并绑定 -> 创建任务 -> 最后启动通信
- * 回调和绑定表在 CAN 中断、UART 接收打开之前就位，不会有帧落进空回调
- * 各层的实现在同目录的 base_init、ipc_init、comm_init、module_init */
+ * 基础 -> 任务间队列 -> 登记通信口（只登记不启动）-> 电机 -> 模块（绑定电机反馈）-> 创建任务 -> 最后启动通信
+ * 回调和绑定在 CAN 中断、UART 接收打开之前就位，不会有帧落进空回调
+ * 各层的实现在同目录的 base_init、ipc_init、comm_init、motor_init、module_init */
 
 /*--------------------------------------任务--------------------------------------*/
+/* 监控任务第一个创建，其余任务发心跳时它的句柄已经有值 */
 static void Board_TaskCreate(void)
 {
     xTaskCreate(MonitorTask, "MonitorTask", TASK_MONITOR_STACK_SIZE, NULL,
@@ -44,8 +41,10 @@ void Board_Init(void)
     Base_Init();
     Ipc_Init();
     Comm_Register();
+    Motor_Init();
     Module_Init();
     Board_TaskCreate();
+    Comm_BindReceiveTask();
     Comm_Start();
 }
 

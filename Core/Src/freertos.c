@@ -26,7 +26,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "task_init.h"
-#include "task_define.h"
+#include "system_define.h"
 
 /* USER CODE END Includes */
 

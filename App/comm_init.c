@@ -4,14 +4,36 @@
 #include "FreeRTOS.h"
 #include "event_groups.h"
 #include "fdcan.h"
-#include "task_define.h"
-#include "task_receive.h"
-#include "task_system.h"
+#include "referee.h"
+#include "remote_control.h"
+#include "system_define.h"
+#include "system_instance.h"
 #include "usart.h"
 
 #include <string.h>
 
-/*--------------------------------------CAN--------------------------------------*/
+/*--------------------------------------UART 回调--------------------------------------*/
+static void Comm_RCInput(const uint8_t *data, uint16_t size)
+{
+    RC_Remote_Input(&rc_receiver, data, size);
+}
+
+static void Comm_RCError(void)
+{
+    RC_Remote_OnError(&rc_receiver);
+}
+
+static void Comm_RefereeInput(const uint8_t *data, uint16_t size)
+{
+    Referee_Input(&referee_receiver, data, size);
+}
+
+static void Comm_RefereeError(void)
+{
+    Referee_Reset(&referee_receiver);
+}
+
+/*--------------------------------------登记--------------------------------------*/
 static void CANQueueSetsInit(void)
 {
     receive_can_queues = xQueueCreateSet((UBaseType_t)TASK_CAN_INSTANCE_COUNT * (UBaseType_t)CAN_RX_QUEUE_LENGTH);
@@ -27,17 +49,14 @@ static void Comm_CanRegister(void)
 {
     memset(can_instances, 0, sizeof(can_instances));
 
-    can_instances[0].can = &hfdcan1;
-    can_instances[0].rx_fifo = FDCAN_RX_FIFO0;
-    can_instances[0].on_receive = TaskReceive_CAN1Callback;
+    can_instances[SYSTEM_CAN1_INDEX].can = &hfdcan1;
+    can_instances[SYSTEM_CAN1_INDEX].rx_fifo = FDCAN_RX_FIFO0;
 
-    can_instances[1].can = &hfdcan2;
-    can_instances[1].rx_fifo = FDCAN_RX_FIFO1;
-    can_instances[1].on_receive = TaskReceive_CAN2Callback;
+    can_instances[SYSTEM_CAN2_INDEX].can = &hfdcan2;
+    can_instances[SYSTEM_CAN2_INDEX].rx_fifo = FDCAN_RX_FIFO1;
 
-    can_instances[2].can = &hfdcan3;
-    can_instances[2].rx_fifo = FDCAN_RX_FIFO1;
-    can_instances[2].on_receive = TaskReceive_CAN3Callback;
+    can_instances[SYSTEM_CAN3_INDEX].can = &hfdcan3;
+    can_instances[SYSTEM_CAN3_INDEX].rx_fifo = FDCAN_RX_FIFO1;
 
     CAN_RegisterInstances(can_instances, TASK_CAN_INSTANCE_COUNT);
     CANTransmit_QueueInit();
@@ -45,7 +64,6 @@ static void Comm_CanRegister(void)
     CANQueueSetsInit();
 }
 
-/*--------------------------------------UART--------------------------------------*/
 static void UARTRegister(UartInstance_t *uart, UART_HandleTypeDef *huart,
                          EventBits_t rx_bit, EventBits_t error_bit)
 {
@@ -73,18 +91,26 @@ static void Comm_UartRegister(void)
     UARTRegister(&uart_instances[TASK_UART_HUART10_INDEX], &huart10,
                  TASK_UART_EVENT_HUART10_RX, TASK_UART_EVENT_HUART10_ERROR);
 
-    /* 没配回调的口走驱动里的默认处理 */
-    uart_instances[TASK_UART_HUART5_INDEX].on_packet = TaskReceive_RCInput;
-    uart_instances[TASK_UART_HUART5_INDEX].on_error = TaskReceive_RCError;
-    uart_instances[TASK_UART_HUART1_INDEX].on_packet = TaskReceive_RefereeInput;
-    uart_instances[TASK_UART_HUART1_INDEX].on_error = TaskReceive_RefereeError;
+    /* 协议解析器挂在 UART 口上，没配回调的口收到的包直接丢弃 */
+    Referee_Init(&referee_receiver);
+    RC_Init(&rc_receiver);
+    uart_instances[TASK_UART_HUART5_INDEX].on_packet = Comm_RCInput;
+    uart_instances[TASK_UART_HUART5_INDEX].on_error = Comm_RCError;
+    uart_instances[TASK_UART_HUART1_INDEX].on_packet = Comm_RefereeInput;
+    uart_instances[TASK_UART_HUART1_INDEX].on_error = Comm_RefereeError;
 }
 
-/*--------------------------------------入口--------------------------------------*/
 void Comm_Register(void)
 {
     Comm_CanRegister();
     Comm_UartRegister();
+}
+
+void Comm_BindReceiveTask(void)
+{
+    for (uint8_t i = 0U; i < TASK_UART_INSTANCE_COUNT; ++i) {
+        (void)UART_SetNotifyTask(&uart_instances[i], ReceiveTaskHandle);
+    }
 }
 
 void Comm_Start(void)
@@ -92,5 +118,68 @@ void Comm_Start(void)
     can_bsp_init();
     for (uint8_t i = 0U; i < TASK_UART_INSTANCE_COUNT; ++i) {
         UART_StartReceiveEx(&uart_instances[i]);
+    }
+}
+
+/*--------------------------------------数据处理--------------------------------------*/
+/* CAN 中断读完 FIFO 转发到各自的 rx 队列，这里按队列找到实例，把帧分发给绑定的回调 */
+void Comm_ProcessCan(void)
+{
+    CanRxFrame_t frame;
+    QueueSetMemberHandle_t ready;
+
+    while ((ready = xQueueSelectFromSet(receive_can_queues, 0U)) != NULL) {
+        if (xQueueReceive(ready, &frame, 0U) != pdPASS) {
+            continue;
+        }
+        for (uint8_t i = 0U; i < TASK_CAN_INSTANCE_COUNT; ++i) {
+            if (ready == can_instances[i].rx_queue) {
+                CAN_DispatchRx(&can_instances[i], &frame);
+                break;
+            }
+        }
+    }
+}
+
+static void Comm_ProcessUartInstance(UartInstance_t *uart)
+{
+    uint8_t packet[UART_DMA_BUFFER_SIZE];
+    uint16_t packet_size;
+
+    while (UART_RxPop(uart, packet, sizeof(packet), &packet_size) == pdTRUE) {
+        if (uart->on_packet != NULL) {
+            uart->on_packet(packet, packet_size);
+        }
+    }
+}
+
+void Comm_ProcessUart(void)
+{
+    for (uint8_t i = 0U; i < TASK_UART_INSTANCE_COUNT; ++i) {
+        UartInstance_t *uart = &uart_instances[i];
+        EventBits_t events = UART_GetEvents(uart, pdTRUE);
+
+        if ((events & UART_EVENT_RX_READY) != 0U || UART_RxAvailable(uart) != 0U) {
+            Comm_ProcessUartInstance(uart);
+        }
+        if ((events & (UART_EVENT_RX_ERROR | UART_EVENT_RX_OVERFLOW)) != 0U &&
+            uart->on_error != NULL) {
+            uart->on_error();
+        }
+    }
+}
+
+/* 各模块把 CAN 帧放进发送队列，这里取出来发出去；发送失败由 CAN 驱动自己计数 */
+void Comm_ProcessTransmit(void)
+{
+    CanTxFrame_t frame;
+    QueueSetMemberHandle_t ready = xQueueSelectFromSet(
+        transmit_can_queues, pdMS_TO_TICKS(TASK_TRANSMIT_PERIOD_MS));
+
+    while (ready != NULL) {
+        if (xQueueReceive(ready, &frame, 0U) == pdPASS) {
+            (void)fdcanx_send_data(frame.can, frame.id, frame.data, frame.length);
+        }
+        ready = xQueueSelectFromSet(transmit_can_queues, 0U);
     }
 }

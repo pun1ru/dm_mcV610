@@ -38,7 +38,6 @@ project:
         - ../LibSE/Module/Monitor
         - ../LibSE/minimal_state
         - ../App
-        - ../App/Inc
         - ../Drivers/STM32H7xx_HAL_Driver/Inc
         - ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy
         - ../Drivers/CMSIS/Device/ST/STM32H7xx/Include
@@ -97,51 +96,39 @@ project:
   linker:
     - script: dm_mcV610_dm_mcV610.sct
   groups:
-    - group: LibSE/Algorithm/Control/ADRC
+    - group: LibSE/Algorithm
       files:
         - file: ../LibSE/Algorithm/Control/ADRC/adrc.c
         - file: ../LibSE/Algorithm/Control/ADRC/adrc.h
-    - group: LibSE/Algorithm/Control/PID
-      files:
         - file: ../LibSE/Algorithm/Control/PID/pid.c
         - file: ../LibSE/Algorithm/Control/PID/pid.h
-    - group: LibSE/Algorithm/INS/Madgwick
-      files:
         - file: ../LibSE/Algorithm/INS/Madgwick/Madgwick.c
         - file: ../LibSE/Algorithm/INS/Madgwick/Madgwick.h
-    - group: LibSE/Algorithm/Math
-      files:
         - file: ../LibSE/Algorithm/Math/algorism.c
         - file: ../LibSE/Algorithm/Math/algorism.h
         - file: ../LibSE/Algorithm/Math/arm_matrix.h
         - file: ../LibSE/Algorithm/Math/position_tran.h
-    - group: LibSE/Algorithm/Kinematics
-      files:
         - file: ../LibSE/Algorithm/Kinematics/dh.c
         - file: ../LibSE/Algorithm/Kinematics/dh.h
-    - group: LibSE/Algorithm/Process/ekf
-      files:
         - file: ../LibSE/Algorithm/Process/ekf/ekf_quaternion.c
         - file: ../LibSE/Algorithm/Process/ekf/ekf_quaternion.h
-    - group: LibSE/Algorithm/Process/kalman_filter
-      files:
         - file: ../LibSE/Algorithm/Process/kalman_filter/kalman_filter.c
         - file: ../LibSE/Algorithm/Process/kalman_filter/kalman_filter.h
-    - group: LibSE/BSP/CAN
+    - group: LibSE/BSP
       files:
         - file: ../LibSE/BSP/CAN/CAN_driver.c
         - file: ../LibSE/BSP/CAN/CAN_driver.h
-    - group: LibSE/BSP/DWT
-      files:
         - file: ../LibSE/BSP/DWT/bsp_dwt.c
         - file: ../LibSE/BSP/DWT/bsp_dwt.h
-    - group: LibSE/BSP/PWM
-      files:
         - file: ../LibSE/BSP/PWM/bsp_pwm.c
         - file: ../LibSE/BSP/PWM/bsp_pwm.h
-    - group: LibSE/BSP/SPI
-      files:
         - file: ../LibSE/BSP/SPI/bsp_spi.h
+        - file: ../LibSE/BSP/UART/uart_driver.c
+        - file: ../LibSE/BSP/UART/uart_driver.h
+        - file: ../LibSE/BSP/UART/vofa_justfloat.c
+        - file: ../LibSE/BSP/UART/vofa_justfloat.h
+        - file: ../LibSE/BSP/UART/vofa_uart.c
+        - file: ../LibSE/BSP/UART/vofa_uart.h
     - group: Application/Core
       files:
         - file: ../Core/Src/gpio.c
@@ -187,14 +174,8 @@ project:
         - file: ../Core/Inc/stm32h7xx_it.h
         - file: ../Core/Inc/tim.h
         - file: ../Core/Inc/usart.h
-    - group: LibSE/BSP/UART
-      files:
-        - file: ../LibSE/BSP/UART/uart_driver.c
-        - file: ../LibSE/BSP/UART/uart_driver.h
-        - file: ../LibSE/BSP/UART/vofa_justfloat.c
-        - file: ../LibSE/BSP/UART/vofa_justfloat.h
-        - file: ../LibSE/BSP/UART/vofa_uart.c
-        - file: ../LibSE/BSP/UART/vofa_uart.h
+        - file: ../Core/Src/main.c
+        - file: ../Core/Inc/main.h
     - group: Application/USB_Device
       misc:
         - C-CPP:
@@ -232,15 +213,11 @@ project:
           misc:
             - CPP:
                 - -xc++
-    - group: Application/USB_Device/Headers
-      files:
         - file: ../USB_DEVICE/App/usb_device.h
         - file: ../USB_DEVICE/App/usbd_cdc_if.h
         - file: ../USB_DEVICE/App/usbd_desc.h
-    - group: Application/USB_Device/Target
-      files:
         - file: ../USB_DEVICE/Target/usbd_conf.h
-    - group: LibSE/Drivers/Bmi088
+    - group: LibSE/Drivers
       files:
         - file: ../LibSE/Drivers/Bmi088/bmi088_driver.c
         - file: ../LibSE/Drivers/Bmi088/bmi088_middleware.c
@@ -248,14 +225,34 @@ project:
         - file: ../LibSE/Drivers/Bmi088/bmi088_driver.h
         - file: ../LibSE/Drivers/Bmi088/bmi088_middleware.h
         - file: ../LibSE/Drivers/Bmi088/bmi088_reg.h
-    - group: LibSE/Drivers/Buzzer
-      files:
         - file: ../LibSE/Drivers/Buzzer/bsp_buzzer.c
         - file: ../LibSE/Drivers/Buzzer/bsp_buzzer.h
+        - file: ../LibSE/Drivers/Motor/Motor.c
+        - file: ../LibSE/Drivers/Motor/Motor.h
+        - file: ../LibSE/Drivers/Motor/DMMotor/DMMotor.c
+        - file: ../LibSE/Drivers/Motor/DMMotor/DMMotor.h
+        - file: ../LibSE/Drivers/Motor/LKMotor/LKMotor.c
+        - file: ../LibSE/Drivers/Motor/LKMotor/LKMotor.h
+        - file: ../LibSE/Drivers/Motor/RMMotor/RMMotor.c
+        - file: ../LibSE/Drivers/Motor/RMMotor/RMMotor.h
+        - file: ../LibSE/Drivers/RC/DT7/dt7_remote_driver.c
+        - file: ../LibSE/Drivers/RC/DT7/remote_control.c
+        - file: ../LibSE/Drivers/RC/DT7/dt7_remote_driver.h
+        - file: ../LibSE/Drivers/RC/DT7/remote_control.h
+        - file: ../LibSE/Drivers/RC/VT13/CRC.c
+        - file: ../LibSE/Drivers/RC/VT13/VT13_rc_ctrl.c
+        - file: ../LibSE/Drivers/RC/VT13/VT13_rc_ctrl.h
+        - file: ../LibSE/Drivers/Referee/judge_receive.c
+        - file: ../LibSE/Drivers/Referee/referee.c
+        - file: ../LibSE/Drivers/Referee/judge_receive.h
+        - file: ../LibSE/Drivers/Referee/referee.h
+        - file: ../LibSE/Drivers/UI/UI_driver.h
+        - file: ../LibSE/Drivers/WS2812/ws2812_board.c
+        - file: ../LibSE/Drivers/WS2812/WS2812.h
     - group: Application/System
       files:
         - file: ../Core/Src/system_stm32h7xx.c
-    - group: ThirdParty/CMSIS/Core
+    - group: ThirdParty/CMSIS
       files:
         - file: ../Drivers/CMSIS/Include/cmsis_armcc.h
         - file: ../Drivers/CMSIS/Include/cmsis_armclang.h
@@ -281,15 +278,11 @@ project:
         - file: ../Drivers/CMSIS/Include/mpu_armv7.h
         - file: ../Drivers/CMSIS/Include/mpu_armv8.h
         - file: ../Drivers/CMSIS/Include/tz_context.h
-    - group: ThirdParty/CMSIS/Device
-      files:
         - file: ../Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h723xx.h
         - file: ../Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h7xx.h
         - file: ../Drivers/CMSIS/Device/ST/STM32H7xx/Include/system_stm32h7xx.h
-    - group: ThirdParty/CMSIS/Startup
-      files:
         - file: startup_stm32h723xx.s
-    - group: ThirdParty/FreeRTOS/Source
+    - group: ThirdParty/FreeRTOS
       misc:
         - C-CPP:
             - -Wno-packed
@@ -350,11 +343,7 @@ project:
           misc:
             - CPP:
                 - -xc++
-    - group: ThirdParty/FreeRTOS/CMSIS_RTOS
-      files:
         - file: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
-    - group: ThirdParty/FreeRTOS/Include
-      files:
         - file: ../Middlewares/Third_Party/FreeRTOS/Source/include/atomic.h
         - file: ../Middlewares/Third_Party/FreeRTOS/Source/include/croutine.h
         - file: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
@@ -373,40 +362,7 @@ project:
         - file: ../Middlewares/Third_Party/FreeRTOS/Source/include/stream_buffer.h
         - file: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
         - file: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
-    - group: LibSE/Drivers/Motor
-      files:
-        - file: ../LibSE/Drivers/Motor/Motor.c
-        - file: ../LibSE/Drivers/Motor/Motor.h
-    - group: LibSE/Drivers/Motor/DMMotor
-      files:
-        - file: ../LibSE/Drivers/Motor/DMMotor/DMMotor.c
-        - file: ../LibSE/Drivers/Motor/DMMotor/DMMotor.h
-    - group: LibSE/Drivers/Motor/LKMotor
-      files:
-        - file: ../LibSE/Drivers/Motor/LKMotor/LKMotor.c
-        - file: ../LibSE/Drivers/Motor/LKMotor/LKMotor.h
-    - group: LibSE/Drivers/Motor/RMMotor
-      files:
-        - file: ../LibSE/Drivers/Motor/RMMotor/RMMotor.c
-        - file: ../LibSE/Drivers/Motor/RMMotor/RMMotor.h
-    - group: LibSE/Drivers/RC/DT7
-      files:
-        - file: ../LibSE/Drivers/RC/DT7/dt7_remote_driver.c
-        - file: ../LibSE/Drivers/RC/DT7/remote_control.c
-        - file: ../LibSE/Drivers/RC/DT7/dt7_remote_driver.h
-        - file: ../LibSE/Drivers/RC/DT7/remote_control.h
-    - group: LibSE/Drivers/RC/VT13
-      files:
-        - file: ../LibSE/Drivers/RC/VT13/CRC.c
-        - file: ../LibSE/Drivers/RC/VT13/VT13_rc_ctrl.c
-        - file: ../LibSE/Drivers/RC/VT13/VT13_rc_ctrl.h
-    - group: LibSE/Drivers/Referee
-      files:
-        - file: ../LibSE/Drivers/Referee/judge_receive.c
-        - file: ../LibSE/Drivers/Referee/referee.c
-        - file: ../LibSE/Drivers/Referee/judge_receive.h
-        - file: ../LibSE/Drivers/Referee/referee.h
-    - group: ThirdParty/STM32H7xx_HAL_Driver/Source
+    - group: ThirdParty/STM32H7xx_HAL_Driver
       files:
         - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_pcd.c
           misc:
@@ -466,8 +422,6 @@ project:
           misc:
             - CPP:
                 - -xc++
-    - group: ThirdParty/STM32H7xx_HAL_Driver/Include
-      files:
         - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
         - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal.h
         - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_adc.h
@@ -516,10 +470,7 @@ project:
         - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_usart.h
         - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_usb.h
         - file: ../Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_utils.h
-    - group: LibSE/Drivers/UI
-      files:
-        - file: ../LibSE/Drivers/UI/UI_driver.h
-    - group: ThirdParty/USB_Device_Library/Source
+    - group: ThirdParty/USB_Device_Library
       misc:
         - C-CPP:
             - -Wno-packed
@@ -556,53 +507,42 @@ project:
           misc:
             - CPP:
                 - -xc++
-    - group: ThirdParty/USB_Device_Library/CDC
-      files:
         - file: ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc/usbd_cdc.h
-    - group: ThirdParty/USB_Device_Library/Core
-      files:
         - file: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h
         - file: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h
         - file: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h
         - file: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h
-    - group: LibSE/Drivers/WS2812
-      files:
-        - file: ../LibSE/Drivers/WS2812/ws2812_board.c
-        - file: ../LibSE/Drivers/WS2812/WS2812.h
-    - group: LibSE/Module/INS
+    - group: LibSE/Module
       files:
         - file: ../LibSE/Module/INS/ins.c
         - file: ../LibSE/Module/INS/ins.h
-    - group: LibSE/Module/Gimbal
-      files:
         - file: ../LibSE/Module/Gimbal/gimbal.c
         - file: ../LibSE/Module/Gimbal/gimbal.h
-    - group: LibSE/Module/Monitor
-      files:
         - file: ../LibSE/Module/Monitor/monitor.c
         - file: ../LibSE/Module/Monitor/monitor.h
     - group: LibSE/minimal_state
       files:
         - file: ../LibSE/minimal_state/gimbal_ammo_state.c
         - file: ../LibSE/minimal_state/gimbal_ammo_state.h
-    - group: App/Task
+    - group: App/System
       files:
-        - file: ../App/Src/task_gimbal.c
-        - file: ../App/Src/task_ins.c
-        - file: ../App/Src/task_receive.c
-        - file: ../App/Src/task_transmit.c
-        - file: ../App/Src/task_monitor.c
-        - file: ../App/Src/task_state.c
-        - file: ../App/Inc/task_gimbal.h
-        - file: ../App/Inc/task_ins.h
-        - file: ../App/Inc/task_monitor.h
-        - file: ../App/Inc/task_receive.h
-        - file: ../App/Inc/task_transmit.h
-        - file: ../App/Inc/task_state.h
-    - group: Application/Core/Startup
-      files:
-        - file: ../Core/Src/main.c
-        - file: ../Core/Inc/main.h
+        - file: ../App/system_define.h
+        - file: ../App/system_instance.h
+        - file: ../App/system_instance.c
+        - file: ../App/system_task.h
+        - file: ../App/system_task.c
+        - file: ../App/task_init.h
+        - file: ../App/task_init.c
+        - file: ../App/base_init.h
+        - file: ../App/base_init.c
+        - file: ../App/ipc_init.h
+        - file: ../App/ipc_init.c
+        - file: ../App/comm_init.h
+        - file: ../App/comm_init.c
+        - file: ../App/motor_init.h
+        - file: ../App/motor_init.c
+        - file: ../App/module_init.h
+        - file: ../App/module_init.c
     - group: Application/FreeRTOS
       files:
         - file: ../Core/Src/freertos.c
@@ -610,21 +550,6 @@ project:
             - CPP:
                 - -xc++
         - file: ../Core/Inc/FreeRTOSConfig.h
-    - group: App/System
-      files:
-        - file: ../App/task_init.c
-        - file: ../App/base_init.c
-        - file: ../App/ipc_init.c
-        - file: ../App/comm_init.c
-        - file: ../App/module_init.c
-        - file: ../App/task_system.c
-        - file: ../App/task_init.h
-        - file: ../App/base_init.h
-        - file: ../App/ipc_init.h
-        - file: ../App/comm_init.h
-        - file: ../App/module_init.h
-        - file: ../App/task_define.h
-        - file: ../App/task_system.h
   components:
     - component: ARM::CMSIS:CORE
     - component: ARM::CMSIS:DSP&Source
