@@ -23,8 +23,6 @@ static void Board_TaskCreate(void)
 {
     xTaskCreate(MonitorTask, "MonitorTask", TASK_MONITOR_STACK_SIZE, NULL,
                 TASK_MONITOR_PRIORITY, &MonitorTaskHandle);
-    xTaskCreate(CanReceiveTask, "CanReceiveTask", TASK_CAN_RECEIVE_STACK_SIZE, NULL,
-                TASK_CAN_RECEIVE_PRIORITY, &CanReceiveTaskHandle);
     xTaskCreate(UartReceiveTask, "UartReceiveTask", TASK_UART_RECEIVE_STACK_SIZE, NULL,
                 TASK_UART_RECEIVE_PRIORITY, &UartReceiveTaskHandle);
     xTaskCreate(TransmitTask, "TransmitTask", TASK_TRANSMIT_STACK_SIZE, NULL,
@@ -33,6 +31,8 @@ static void Board_TaskCreate(void)
                 TASK_INS_PRIORITY, &INSTaskHandle);
     xTaskCreate(GimbalTask, "GimbalTask", TASK_GIMBAL_STACK_SIZE, NULL,
                 TASK_GIMBAL_PRIORITY, &GimbalTaskHandle);
+    xTaskCreate(ShooterTask, "ShooterTask", TASK_SHOOTER_STACK_SIZE, NULL,
+                TASK_SHOOTER_PRIORITY, &ShooterTaskHandle);
     xTaskCreate(StateTask, "StateTask", TASK_STATE_STACK_SIZE, NULL,
                 TASK_STATE_PRIORITY, &StateTaskHandle);
 }

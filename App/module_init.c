@@ -158,6 +158,66 @@ static void Module_GimbalInit(void)
     Gimbal_Init(&gimbalInstance, &config);
 }
 
+/*--------------------------------------摩擦轮--------------------------------------*/
+/* 转速参照 hero_up 的 ShootInputUpdate：常规 default_fric_speed 3110 rpm，非保护未开时 200 rpm 反转待机
+ * 吊射的前后级 4300 / 4320 是两级摩擦轮用的，现在只有一组，不区分 */
+#define SHOOTER_FRIC_RPM              3110.0f
+#define SHOOTER_STANDBY_RPM           (-200.0f)
+/* 反馈连续 50 ms 没更新按失联 */
+#define SHOOTER_FEEDBACK_TIMEOUT_CYCLES   (50U / TASK_SHOOTER_PERIOD_MS)
+
+/* 速度环参照 hero_up：kp 17.5、kd 12.5、无积分，限幅 TEMP_SHOOT_3508_CURRENT_MAX 8000
+ * hero_up 的控制周期跟 IMU 走（约 3 ms），这里 2 ms，kd 按每周期误差增量算，周期变了可能要重调 */
+static void Module_ShooterInit(void)
+{
+    const ShooterConfig_t config =
+    {
+        /*--------------------------------------外设层--------------------------------------*/
+        .periph =
+        {
+            .can =
+            {
+                [SHOOTER_FRIC_LEFT] = &can_instances[SYSTEM_CAN2_INDEX],
+                [SHOOTER_FRIC_RIGHT] = &can_instances[SYSTEM_CAN2_INDEX],
+                [SHOOTER_FRIC_UP] = &can_instances[SYSTEM_CAN2_INDEX],
+            },
+        },
+        /*--------------------------------------通信层--------------------------------------*/
+        .comm = {.cmd_queue = shooterCmdQueue},
+        /*--------------------------------------电机层--------------------------------------*/
+        .motor =
+        {
+            .wheel =
+            {
+                [SHOOTER_FRIC_LEFT] = &shooterFricMotor[SHOOTER_FRIC_LEFT].base,
+                [SHOOTER_FRIC_RIGHT] = &shooterFricMotor[SHOOTER_FRIC_RIGHT].base,
+                [SHOOTER_FRIC_UP] = &shooterFricMotor[SHOOTER_FRIC_UP].base,
+            },
+            .wheel_count = SHOOTER_FRIC_COUNT,
+        },
+        /*--------------------------------------状态层--------------------------------------*/
+        .state = {.init_state = SHOOTER_PROTECTED},
+        /*--------------------------------------参数层--------------------------------------*/
+        .param =
+        {
+            .speed =
+            {
+                .kp = 17.5f,
+                .ki = 0.0f,
+                .kd = 12.5f,
+                .d_alpha = 0.0f,
+                .sum_error_max = 0.0f,
+                .output_max = 8000.0f,
+            },
+            .fric_rpm = SHOOTER_FRIC_RPM,
+            .standby_rpm = SHOOTER_STANDBY_RPM,
+            .cmd_timeout_ms = TASK_SHOOTER_CMD_TIMEOUT_MS,
+            .feedback_timeout_cycles = SHOOTER_FEEDBACK_TIMEOUT_CYCLES,
+        },
+    };
+    Shooter_Init(&shooterInstance, &config);
+}
+
 /*--------------------------------------状态机--------------------------------------*/
 /* 摇杆映射参照 hero_down 的 GimbalInputUpdate（10ms 周期）：
  * 正常 yaw 每周期 ch2 * 1.0 deg、pitch 每周期 ch3 * 1.0 deg，换算成打满约 100 deg/s
@@ -174,7 +234,11 @@ static void Module_StateInit(void)
         /*--------------------------------------外设层--------------------------------------*/
         .periph = {.remote = &rc_receiver},
         /*--------------------------------------通信层--------------------------------------*/
-        .comm = {.cmd_queue = gimbalCmdQueue},
+        .comm =
+        {
+            .cmd_queue = gimbalCmdQueue,
+            .shooter_queue = shooterCmdQueue,
+        },
         /*--------------------------------------状态层--------------------------------------*/
         .state = {.init_state = GIMBAL_PROTECTED},
         /*--------------------------------------参数层--------------------------------------*/
@@ -194,5 +258,6 @@ void Module_Init(void)
     Module_MonitorInit();
     Module_InsInit();
     Module_GimbalInit();
+    Module_ShooterInit();
     Module_StateInit();
 }

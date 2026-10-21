@@ -10,9 +10,9 @@ void Comm_Register(void);
 void Comm_BindUartTask(void);
 void Comm_Start(void);
 
-/* 以下三个由任务循环调用，不含循环和心跳
- * Comm_ProcessCan、Comm_ProcessTransmit 自己阻塞等中断来的数据；Comm_ProcessUart 不阻塞，等待在任务里做 */
-void Comm_ProcessCan(void);
+/* 以下两个由任务循环调用，不含循环和心跳
+ * Comm_ProcessTransmit 自己阻塞等发送队列；Comm_ProcessUart 不阻塞，等待在任务里做
+ * CAN 接收不经任务，在中断里直接分发给绑定的回调 */
 void Comm_ProcessUart(void);
 void Comm_ProcessTransmit(void);
 

@@ -9,4 +9,5 @@ void Ipc_Init(void)
 {
     gimbalCmdQueue = xQueueCreate(TASK_GIMBAL_CMD_QUEUE_LENGTH, sizeof(GimbalCmdMail_t));
     insMsgQueue = xQueueCreate(TASK_INS_MSG_QUEUE_LENGTH, sizeof(INSMsg_t));
+    shooterCmdQueue = xQueueCreate(TASK_SHOOTER_CMD_QUEUE_LENGTH, sizeof(ShooterCmdMail_t));
 }

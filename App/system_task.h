@@ -6,13 +6,13 @@
 
 /* 基础任务 */
 void MonitorTask(void *argument);
-void CanReceiveTask(void *argument);
 void UartReceiveTask(void *argument);
 void TransmitTask(void *argument);
 
 /* 模块任务 */
 void INS_Task(void *argument);
 void GimbalTask(void *argument);
+void ShooterTask(void *argument);
 void StateTask(void *argument);
 
 #endif

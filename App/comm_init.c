@@ -34,13 +34,12 @@ static void Comm_RefereeError(void)
 }
 
 /*--------------------------------------登记--------------------------------------*/
+/* 只有发送走队列集；接收在 CAN 中断里直接分发，没有接收队列 */
 static void CANQueueSetsInit(void)
 {
-    receive_can_queues = xQueueCreateSet((UBaseType_t)TASK_CAN_INSTANCE_COUNT * (UBaseType_t)CAN_RX_QUEUE_LENGTH);
     transmit_can_queues = xQueueCreateSet((UBaseType_t)TASK_CAN_INSTANCE_COUNT * (UBaseType_t)CAN_TX_QUEUE_LENGTH);
 
     for (uint8_t i = 0U; i < TASK_CAN_INSTANCE_COUNT; ++i) {
-        xQueueAddToSet(can_instances[i].rx_queue, receive_can_queues);
         xQueueAddToSet(can_instances[i].tx_queue, transmit_can_queues);
     }
 }
@@ -60,7 +59,6 @@ static void Comm_CanRegister(void)
 
     CAN_RegisterInstances(can_instances, TASK_CAN_INSTANCE_COUNT);
     CANTransmit_QueueInit();
-    CANReceive_QueueInit();
     CANQueueSetsInit();
 }
 
@@ -122,27 +120,7 @@ void Comm_Start(void)
 }
 
 /*--------------------------------------数据处理--------------------------------------*/
-/* CAN 中断读完 FIFO 转发到各自的 rx 队列并唤醒阻塞在队列集上的任务
- * 这里先阻塞等第一帧，超时则返回让任务发心跳；之后读空队列集，按队列找到实例，把帧分发给绑定的回调 */
-void Comm_ProcessCan(void)
-{
-    CanRxFrame_t frame;
-    QueueSetMemberHandle_t ready = xQueueSelectFromSet(
-        receive_can_queues, pdMS_TO_TICKS(TASK_CAN_RECEIVE_PERIOD_MS));
-
-    while (ready != NULL) {
-        if (xQueueReceive(ready, &frame, 0U) == pdPASS) {
-            for (uint8_t i = 0U; i < TASK_CAN_INSTANCE_COUNT; ++i) {
-                if (ready == can_instances[i].rx_queue) {
-                    CAN_DispatchRx(&can_instances[i], &frame);
-                    break;
-                }
-            }
-        }
-        ready = xQueueSelectFromSet(receive_can_queues, 0U);
-    }
-}
-
+/* CAN 接收没有数据处理函数：中断（CAN_driver.c 的 CANReceive_FromIsr）读空 FIFO 后直接调绑定的回调 */
 static void Comm_ProcessUartInstance(UartInstance_t *uart)
 {
     uint8_t packet[UART_DMA_BUFFER_SIZE];
