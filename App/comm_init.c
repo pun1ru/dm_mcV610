@@ -106,10 +106,10 @@ void Comm_Register(void)
     Comm_UartRegister();
 }
 
-void Comm_BindReceiveTask(void)
+void Comm_BindUartTask(void)
 {
     for (uint8_t i = 0U; i < TASK_UART_INSTANCE_COUNT; ++i) {
-        (void)UART_SetNotifyTask(&uart_instances[i], ReceiveTaskHandle);
+        (void)UART_SetNotifyTask(&uart_instances[i], UartReceiveTaskHandle);
     }
 }
 
@@ -122,22 +122,24 @@ void Comm_Start(void)
 }
 
 /*--------------------------------------数据处理--------------------------------------*/
-/* CAN 中断读完 FIFO 转发到各自的 rx 队列，这里按队列找到实例，把帧分发给绑定的回调 */
+/* CAN 中断读完 FIFO 转发到各自的 rx 队列并唤醒阻塞在队列集上的任务
+ * 这里先阻塞等第一帧，超时则返回让任务发心跳；之后读空队列集，按队列找到实例，把帧分发给绑定的回调 */
 void Comm_ProcessCan(void)
 {
     CanRxFrame_t frame;
-    QueueSetMemberHandle_t ready;
+    QueueSetMemberHandle_t ready = xQueueSelectFromSet(
+        receive_can_queues, pdMS_TO_TICKS(TASK_CAN_RECEIVE_PERIOD_MS));
 
-    while ((ready = xQueueSelectFromSet(receive_can_queues, 0U)) != NULL) {
-        if (xQueueReceive(ready, &frame, 0U) != pdPASS) {
-            continue;
-        }
-        for (uint8_t i = 0U; i < TASK_CAN_INSTANCE_COUNT; ++i) {
-            if (ready == can_instances[i].rx_queue) {
-                CAN_DispatchRx(&can_instances[i], &frame);
-                break;
+    while (ready != NULL) {
+        if (xQueueReceive(ready, &frame, 0U) == pdPASS) {
+            for (uint8_t i = 0U; i < TASK_CAN_INSTANCE_COUNT; ++i) {
+                if (ready == can_instances[i].rx_queue) {
+                    CAN_DispatchRx(&can_instances[i], &frame);
+                    break;
+                }
             }
         }
+        ready = xQueueSelectFromSet(receive_can_queues, 0U);
     }
 }
 

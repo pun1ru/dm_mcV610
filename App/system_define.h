@@ -7,7 +7,9 @@
 #define TASK_MONITOR_PERIOD_MS        100U
 #define TASK_MOTOR_SEND_PERIOD_MS     2U
 #define TASK_CAN_MONITOR_PERIOD_MS    6U
-#define TASK_RECEIVE_PERIOD_MS        2U
+/* 接收任务的周期只是等待超时，用来在没有数据时也按时发心跳；有中断事件时任务会被立刻唤醒 */
+#define TASK_CAN_RECEIVE_PERIOD_MS    10U
+#define TASK_UART_RECEIVE_PERIOD_MS   10U
 #define TASK_TRANSMIT_PERIOD_MS       1U
 #define TASK_INS_PERIOD_MS            2U
 #define TASK_GIMBAL_PERIOD_MS         2U
@@ -15,7 +17,8 @@
 
 #define TASK_MONITOR_STACK_SIZE       512U
 #define TASK_INIT_STACK_SIZE          512U
-#define TASK_RECEIVE_STACK_SIZE       512U
+#define TASK_CAN_RECEIVE_STACK_SIZE   384U
+#define TASK_UART_RECEIVE_STACK_SIZE  512U
 #define TASK_TRANSMIT_STACK_SIZE      512U
 #define TASK_INS_STACK_SIZE           512U
 #define TASK_GIMBAL_STACK_SIZE        384U
@@ -27,11 +30,12 @@
 #define TASK_STATE_PRIORITY           3U
 #define TASK_INS_PRIORITY             4U
 #define TASK_TRANSMIT_PRIORITY        5U
-#define TASK_RECEIVE_PRIORITY         6U
+#define TASK_CAN_RECEIVE_PRIORITY     6U
+/* 串口数据在驱动的环形缓冲里能攒几个包，消费者最快 10 ms 读一次，优先级放低，不挤占控制任务 */
+#define TASK_UART_RECEIVE_PRIORITY    2U
 
 #define MONITOR_TASK_STACK_SIZE       TASK_MONITOR_STACK_SIZE
 #define TRANSMIT_TASK_STACK_SIZE      TASK_TRANSMIT_STACK_SIZE
-#define RECEIVE_TASK_STACK_SIZE       TASK_RECEIVE_STACK_SIZE
 
 /* 模块间传数据的单槽邮箱，xQueueOverwrite 要求长度为 1 */
 #define TASK_GIMBAL_CMD_QUEUE_LENGTH  1U

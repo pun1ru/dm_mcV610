@@ -76,7 +76,8 @@ extern GimbalAmmoState_t gimbalAmmoState;
 /*--------------------------------------task 实例--------------------------------------*/
 /* 参与心跳监控的任务，值即 Monitor_Beat 的任务号，也是 systemTaskPeriodMs 的下标 */
 typedef enum {
-    SYSTEM_TASK_RECEIVE = 0U,
+    SYSTEM_TASK_CAN_RECEIVE = 0U,
+    SYSTEM_TASK_UART_RECEIVE,
     SYSTEM_TASK_TRANSMIT,
     SYSTEM_TASK_INS,
     SYSTEM_TASK_GIMBAL,
@@ -87,7 +88,8 @@ typedef enum {
 extern const uint16_t systemTaskPeriodMs[SYSTEM_TASK_COUNT];
 
 extern TaskHandle_t MonitorTaskHandle;
-extern TaskHandle_t ReceiveTaskHandle;
+extern TaskHandle_t CanReceiveTaskHandle;
+extern TaskHandle_t UartReceiveTaskHandle;
 extern TaskHandle_t TransmitTaskHandle;
 extern TaskHandle_t INSTaskHandle;
 extern TaskHandle_t GimbalTaskHandle;

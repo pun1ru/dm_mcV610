@@ -30,7 +30,8 @@ GimbalAmmoState_t gimbalAmmoState;
 /*--------------------------------------task 实例--------------------------------------*/
 /* 顺序与 SystemTaskId_t 一致 */
 const uint16_t systemTaskPeriodMs[SYSTEM_TASK_COUNT] = {
-    TASK_RECEIVE_PERIOD_MS,
+    TASK_CAN_RECEIVE_PERIOD_MS,
+    TASK_UART_RECEIVE_PERIOD_MS,
     TASK_TRANSMIT_PERIOD_MS,
     TASK_INS_PERIOD_MS,
     TASK_GIMBAL_PERIOD_MS,
@@ -38,7 +39,8 @@ const uint16_t systemTaskPeriodMs[SYSTEM_TASK_COUNT] = {
 };
 
 TaskHandle_t MonitorTaskHandle;
-TaskHandle_t ReceiveTaskHandle;
+TaskHandle_t CanReceiveTaskHandle;
+TaskHandle_t UartReceiveTaskHandle;
 TaskHandle_t TransmitTaskHandle;
 TaskHandle_t INSTaskHandle;
 TaskHandle_t GimbalTaskHandle;

@@ -2,18 +2,15 @@
 
 #include "system_instance.h"
 
-/* 电机型号、CAN、ID、零点参照 hero_up：yaw 为 CAN3 上的 DM6006，pitch 为 CAN1 上的 LK */
 #define GIMBAL_YAW_CAN_INDEX          SYSTEM_CAN3_INDEX
 #define GIMBAL_YAW_MOTOR_TYPE         DM_6006
 #define GIMBAL_YAW_MOTOR_ID           0x07U
 #define GIMBAL_YAW_FEEDBACK_ID        0x017U
-/* hero_up 正前方为 pos_d = -2.54 rad 且 pos_d 取了反，换回原始编码 (2.54 + 3.14) / 6.28 * 65535 */
 #define GIMBAL_YAW_ZERO_POINT         59274U
 #define GIMBAL_PITCH_CAN_INDEX        SYSTEM_CAN1_INDEX
 #define GIMBAL_PITCH_MOTOR_MODEL      LK_MG6012E_I8
 #define GIMBAL_PITCH_MOTOR_ID         0x01U
 #define GIMBAL_PITCH_FEEDBACK_ID      0x141U
-/* hero_up 的 PITCH_OFFSET_MACHENICAL_ANGLE，枪管水平时的编码器值 */
 #define GIMBAL_PITCH_ZERO_POINT       56183U
 
 /* 电机方向在电机初始化配置里给：驱动取反指令，云台估计层把反馈折算到关节方向 */

@@ -67,7 +67,19 @@ void MonitorTask(void *argument)
     }
 }
 
-void ReceiveTask(void *argument)
+/* CAN 与 UART 各用一个任务：中断后各自唤醒各自的任务，处理互不干扰 */
+void CanReceiveTask(void *argument)
+{
+    (void)argument;
+
+    for (;;)
+    {
+        Comm_ProcessCan();
+        Task_Beat(SYSTEM_TASK_CAN_RECEIVE);
+    }
+}
+
+void UartReceiveTask(void *argument)
 {
     uint32_t notification_value;
 
@@ -75,13 +87,12 @@ void ReceiveTask(void *argument)
 
     for (;;)
     {
-        Comm_ProcessCan();
         Comm_ProcessUart();
+        Task_Beat(SYSTEM_TASK_UART_RECEIVE);
 
-        Task_Beat(SYSTEM_TASK_RECEIVE);
         notification_value = 0U;
         (void)xTaskNotifyWait(0U, (uint32_t)UART_EVENT_ALL, &notification_value,
-                              pdMS_TO_TICKS(TASK_RECEIVE_PERIOD_MS));
+                              pdMS_TO_TICKS(TASK_UART_RECEIVE_PERIOD_MS));
     }
 }
 

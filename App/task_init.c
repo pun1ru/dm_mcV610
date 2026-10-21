@@ -23,8 +23,10 @@ static void Board_TaskCreate(void)
 {
     xTaskCreate(MonitorTask, "MonitorTask", TASK_MONITOR_STACK_SIZE, NULL,
                 TASK_MONITOR_PRIORITY, &MonitorTaskHandle);
-    xTaskCreate(ReceiveTask, "ReceiveTask", TASK_RECEIVE_STACK_SIZE, NULL,
-                TASK_RECEIVE_PRIORITY, &ReceiveTaskHandle);
+    xTaskCreate(CanReceiveTask, "CanReceiveTask", TASK_CAN_RECEIVE_STACK_SIZE, NULL,
+                TASK_CAN_RECEIVE_PRIORITY, &CanReceiveTaskHandle);
+    xTaskCreate(UartReceiveTask, "UartReceiveTask", TASK_UART_RECEIVE_STACK_SIZE, NULL,
+                TASK_UART_RECEIVE_PRIORITY, &UartReceiveTaskHandle);
     xTaskCreate(TransmitTask, "TransmitTask", TASK_TRANSMIT_STACK_SIZE, NULL,
                 TASK_TRANSMIT_PRIORITY, &TransmitTaskHandle);
     xTaskCreate(INS_Task, "INSTask", TASK_INS_STACK_SIZE, NULL,
@@ -44,7 +46,7 @@ void Board_Init(void)
     Motor_Init();
     Module_Init();
     Board_TaskCreate();
-    Comm_BindReceiveTask();
+    Comm_BindUartTask();
     Comm_Start();
 }
 
