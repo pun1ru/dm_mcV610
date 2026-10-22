@@ -15,9 +15,9 @@
 /* 只有发送走队列集；接收在 CAN 中断里直接分发，没有接收队列 */
 static void CANQueueSetsInit(void)
 {
-    transmit_can_queues = xQueueCreateSet((UBaseType_t)TASK_CAN_INSTANCE_COUNT * (UBaseType_t)CAN_TX_QUEUE_LENGTH);
+    transmit_can_queues = xQueueCreateSet((UBaseType_t)SYSTEM_CAN_INSTANCE_COUNT * (UBaseType_t)CAN_TX_QUEUE_LENGTH);
 
-    for (uint8_t i = 0U; i < TASK_CAN_INSTANCE_COUNT; ++i) {
+    for (uint8_t i = 0U; i < SYSTEM_CAN_INSTANCE_COUNT; ++i) {
         xQueueAddToSet(can_instances[i].tx_queue, transmit_can_queues);
     }
 }
@@ -35,7 +35,7 @@ static void Comm_CanRegister(void)
     can_instances[SYSTEM_CAN3_INDEX].can = &hfdcan3;
     can_instances[SYSTEM_CAN3_INDEX].rx_fifo = FDCAN_RX_FIFO1;
 
-    CAN_RegisterInstances(can_instances, TASK_CAN_INSTANCE_COUNT);
+    CAN_RegisterInstances(can_instances, SYSTEM_CAN_INSTANCE_COUNT);
     CANTransmit_QueueInit();
     CANQueueSetsInit();
 }
@@ -49,18 +49,28 @@ static void UARTRegister(UartInstance_t *uart, UART_HandleTypeDef *huart)
 
 static void Comm_UartRegister(void)
 {
-    UARTRegister(&uart_instances[TASK_UART_HUART5_INDEX], &huart5);
-    UARTRegister(&uart_instances[TASK_UART_HUART7_INDEX], &huart7);
-    UARTRegister(&uart_instances[TASK_UART_HUART1_INDEX], &huart1);
-    UARTRegister(&uart_instances[TASK_UART_HUART2_INDEX], &huart2);
-    UARTRegister(&uart_instances[TASK_UART_HUART3_INDEX], &huart3);
-    UARTRegister(&uart_instances[TASK_UART_HUART10_INDEX], &huart10);
+    UARTRegister(&uart_instances[SYSTEM_UART5_INDEX], &huart5);
+    UARTRegister(&uart_instances[SYSTEM_UART7_INDEX], &huart7);
+    UARTRegister(&uart_instances[SYSTEM_UART1_INDEX], &huart1);
+    UARTRegister(&uart_instances[SYSTEM_UART2_INDEX], &huart2);
+    UARTRegister(&uart_instances[SYSTEM_UART3_INDEX], &huart3);
+    UARTRegister(&uart_instances[SYSTEM_UART10_INDEX], &huart10);
 
     /* 协议解析器挂在 UART 口上，接收在串口中断里直接解析；没绑解析器的口收到的包直接丢弃 */
     Referee_Init(&referee_receiver);
     RC_Init(&rc_receiver);
-    (void)RC_Remote_BindUart(&rc_receiver, &uart_instances[TASK_UART_HUART5_INDEX]);
-    (void)Referee_BindUart(&referee_receiver, &uart_instances[TASK_UART_HUART1_INDEX]);
+    //这种全局用的数据直接在这里绑定，各自模块用的自己绑定，类似can电机回调
+    (void)RC_Remote_BindUart(&rc_receiver, &uart_instances[SYSTEM_UART5_INDEX]);
+    (void)Referee_BindUart(&referee_receiver, &uart_instances[SYSTEM_UART1_INDEX]);
+
+    /* 调试输出挂在 UART 口的发送侧，由 UART 发送任务按周期触发；暂定 HUART10 */
+    const DebugConfig_t debug_config =
+    {
+        .comm = {.msg_queue = debugMsgQueue},
+        .param = {.channel_count = DEBUG_CHANNEL_COUNT},
+    };
+    Debug_Init(&debug_sender, &debug_config);
+    (void)Debug_BindUart(&debug_sender, &uart_instances[SYSTEM_UART10_INDEX]);
 }
 
 void Comm_Register(void)
@@ -72,7 +82,7 @@ void Comm_Register(void)
 void Comm_Start(void)
 {
     can_bsp_init();
-    for (uint8_t i = 0U; i < TASK_UART_INSTANCE_COUNT; ++i) {
+    for (uint8_t i = 0U; i < SYSTEM_UART_INSTANCE_COUNT; ++i) {
         UART_StartReceiveEx(&uart_instances[i]);
     }
 }
@@ -80,6 +90,14 @@ void Comm_Start(void)
 /*--------------------------------------数据处理--------------------------------------*/
 /* CAN、UART 接收都没有数据处理函数：CAN 中断（CAN_driver.c 的 CANReceive_FromIsr）读空 FIFO 后、
  * UART 中断（uart_driver.c 的 HAL_UARTEx_RxEventCallback）切换缓冲后，直接调绑定的回调 */
+
+/* UART 发送：每个口绑定的发送回调在任务里整理数据并发出，没绑的口跳过 */
+void Comm_ProcessUartTransmit(void)
+{
+    for (uint8_t i = 0U; i < SYSTEM_UART_INSTANCE_COUNT; ++i) {
+        UART_DispatchTx(&uart_instances[i]);
+    }
+}
 
 /* 各模块把 CAN 帧放进发送队列，这里取出来发出去；发送失败由 CAN 驱动自己计数 */
 void Comm_ProcessTransmit(void)

@@ -79,6 +79,22 @@ void TransmitTask(void *argument)
     }
 }
 
+/* UART 发送和 CAN 发送分开：CAN 是队列里有帧就发，UART 发的是调试数据，按固定周期整理一帧发一次 */
+void UartTransmitTask(void *argument)
+{
+    TickType_t last_wake;
+
+    (void)argument;
+    last_wake = xTaskGetTickCount();
+
+    for (;;)
+    {
+        Comm_ProcessUartTransmit();
+        Task_Beat(SYSTEM_TASK_UART_TRANSMIT);
+        vTaskDelayUntil(&last_wake, pdMS_TO_TICKS(TASK_UART_TRANSMIT_PERIOD_MS));
+    }
+}
+
 /*--------------------------------------模块任务--------------------------------------*/
 void INS_Task(void *argument)
 {

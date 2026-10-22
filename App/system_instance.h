@@ -3,6 +3,7 @@
 
 #include "CAN_driver.h"
 #include "DMMotor.h"
+#include "debug.h"
 #include "LKMotor.h"
 #include "RMMotor.h"
 #include "gimbal.h"
@@ -20,8 +21,8 @@
  * 各层的创建与绑定在同目录的 comm_init、ipc_init、motor_init、module_init、task_init */
 
 /*--------------------------------------通信实例--------------------------------------*/
-#define TASK_CAN_INSTANCE_COUNT       3U
-#define TASK_UART_INSTANCE_COUNT      6U
+#define SYSTEM_CAN_INSTANCE_COUNT     3U
+#define SYSTEM_UART_INSTANCE_COUNT    6U
 
 enum {
     SYSTEM_CAN1_INDEX = 0U,
@@ -30,25 +31,27 @@ enum {
 };
 
 enum {
-    TASK_UART_HUART5_INDEX = 0U,
-    TASK_UART_HUART7_INDEX,
-    TASK_UART_HUART1_INDEX,
-    TASK_UART_HUART2_INDEX,
-    TASK_UART_HUART3_INDEX,
-    TASK_UART_HUART10_INDEX
+    SYSTEM_UART5_INDEX = 0U,
+    SYSTEM_UART7_INDEX,
+    SYSTEM_UART1_INDEX,
+    SYSTEM_UART2_INDEX,
+    SYSTEM_UART3_INDEX,
+    SYSTEM_UART10_INDEX
 };
 
-extern CanInstance_t can_instances[TASK_CAN_INSTANCE_COUNT];
+extern CanInstance_t can_instances[SYSTEM_CAN_INSTANCE_COUNT];
 extern QueueSetHandle_t transmit_can_queues;
-extern UartInstance_t uart_instances[TASK_UART_INSTANCE_COUNT];
-/* 协议解析器挂在 UART 口上，属于通信层 */
+extern UartInstance_t uart_instances[SYSTEM_UART_INSTANCE_COUNT];
+/* 协议解析器和调试输出挂在 UART 口上，属于通信层 */
 extern Referee_t referee_receiver;
 extern RC_Remote_t rc_receiver;
+extern Debug_t debug_sender;
 
 /*--------------------------------------ipc 实例--------------------------------------*/
 extern QueueHandle_t gimbalCmdQueue;    /* 状态机 -> 云台，元素 GimbalCmdMail_t */
 extern QueueHandle_t insMsgQueue;       /* INS -> 云台，元素 INSMsg_t */
 extern QueueHandle_t shooterCmdQueue;   /* 状态机 -> 摩擦轮，元素 ShooterCmdMail_t */
+extern QueueHandle_t debugMsgQueue;     /* 各模块 -> UART 发送任务，元素 DebugMsg_t */
 
 /*--------------------------------------电机实例--------------------------------------*/
 extern DMMotor_t gimbalYawMotor;
@@ -76,6 +79,7 @@ extern GimbalAmmoState_t gimbalAmmoState;
 /* 参与心跳监控的任务，值即 Monitor_Beat 的任务号，也是 systemTaskPeriodMs 的下标 */
 typedef enum {
     SYSTEM_TASK_TRANSMIT = 0U,
+    SYSTEM_TASK_UART_TRANSMIT,
     SYSTEM_TASK_INS,
     SYSTEM_TASK_GIMBAL,
     SYSTEM_TASK_STATE,
@@ -87,6 +91,7 @@ extern const uint16_t systemTaskPeriodMs[SYSTEM_TASK_COUNT];
 
 extern TaskHandle_t MonitorTaskHandle;
 extern TaskHandle_t TransmitTaskHandle;
+extern TaskHandle_t UartTransmitTaskHandle;
 extern TaskHandle_t INSTaskHandle;
 extern TaskHandle_t GimbalTaskHandle;
 extern TaskHandle_t StateTaskHandle;

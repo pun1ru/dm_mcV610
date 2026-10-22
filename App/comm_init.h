@@ -12,5 +12,7 @@ void Comm_Start(void);
  * Comm_ProcessTransmit 自己阻塞等发送队列
  * CAN、UART 接收不经任务，在中断里直接分发给绑定的回调 */
 void Comm_ProcessTransmit(void);
+/* UART 发送：遍历各串口，调它们绑定的发送回调；周期由 UART 发送任务决定 */
+void Comm_ProcessUartTransmit(void);
 
 #endif

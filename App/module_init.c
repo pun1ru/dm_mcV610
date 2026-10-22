@@ -124,7 +124,7 @@ static void Module_GimbalInit(void)
             .speed_loop_div = GIMBAL_SPEED_LOOP_DIV,
             .yaw_speed_use_gyro = GIMBAL_YAW_SPEED_USE_GYRO,
             .period_s = (float)TASK_GIMBAL_PERIOD_MS / GIMBAL_MS_PER_S,
-            .cmd_timeout_ms = TASK_GIMBAL_CMD_TIMEOUT_MS,
+            .cmd_timeout_ms = GIMBAL_CMD_TIMEOUT_MS,
             .force_zero_output = SYSTEM_GIMBAL_FORCE_ZERO_OUTPUT,
         },
     };
@@ -151,7 +151,11 @@ static void Module_ShooterInit(void)
                 [SHOOTER_FRIC_UP] = &can_instances[SYSTEM_CAN2_INDEX],
             },
         },
-        .comm = {.cmd_queue = shooterCmdQueue},
+        .comm =
+        {
+            .cmd_queue = shooterCmdQueue,
+            .debug_queue = debugMsgQueue,
+        },
         .motor =
         {
             .wheel =
@@ -176,8 +180,9 @@ static void Module_ShooterInit(void)
             },
             .fric_rpm = SHOOTER_FRIC_RPM,
             .standby_rpm = SHOOTER_STANDBY_RPM,
-            .cmd_timeout_ms = TASK_SHOOTER_CMD_TIMEOUT_MS,
+            .cmd_timeout_ms = SHOOTER_CMD_TIMEOUT_MS,
             .feedback_timeout_cycles = SHOOTER_FEEDBACK_TIMEOUT_CYCLES,
+            .debug_channel = DEBUG_CHANNEL_SHOOTER_SPEED,
         },
     };
     Shooter_Init(&shooterInstance, &config);
@@ -207,7 +212,7 @@ static void Module_StateInit(void)
         {
             .normal = {STATE_NORMAL_YAW_RATE_DPS, STATE_NORMAL_PITCH_RATE_DPS},
             .sniper = {STATE_SNIPER_YAW_RATE_DPS, STATE_SNIPER_PITCH_RATE_DPS},
-            .remote_timeout_ms = TASK_REMOTE_TIMEOUT_MS,
+            .remote_timeout_ms = REMOTE_TIMEOUT_MS,
         },
     };
     GimbalAmmoState_Init(&gimbalAmmoState, &config);

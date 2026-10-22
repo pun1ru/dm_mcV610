@@ -7,6 +7,6 @@
 
 void Base_Init(void)
 {
-    DWT_Init(TASK_CPU_FREQUENCY_MHZ);
+    DWT_Init(SYSTEM_CPU_FREQUENCY_MHZ);
     WS2812_SPI_Init(&hspi6);
 }

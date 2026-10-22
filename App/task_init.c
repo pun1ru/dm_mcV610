@@ -25,6 +25,8 @@ static void Board_TaskCreate(void)
                 TASK_MONITOR_PRIORITY, &MonitorTaskHandle);
     xTaskCreate(TransmitTask, "TransmitTask", TASK_TRANSMIT_STACK_SIZE, NULL,
                 TASK_TRANSMIT_PRIORITY, &TransmitTaskHandle);
+    xTaskCreate(UartTransmitTask, "UartTransmitTask", TASK_UART_TRANSMIT_STACK_SIZE, NULL,
+                TASK_UART_TRANSMIT_PRIORITY, &UartTransmitTaskHandle);
     xTaskCreate(INS_Task, "INSTask", TASK_INS_STACK_SIZE, NULL,
                 TASK_INS_PRIORITY, &INSTaskHandle);
     xTaskCreate(GimbalTask, "GimbalTask", TASK_GIMBAL_STACK_SIZE, NULL,
