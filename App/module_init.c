@@ -4,19 +4,16 @@
 #include "system_define.h"
 #include "system_instance.h"
 
-/* 每个模块的配置按外设、通信、电机、状态、参数五层写，没有的层省略，层间用分隔线隔开 */
-
+//每个模块的配置按外设、通信、电机、状态、参数五层写,没有就不写
 /*--------------------------------------监控--------------------------------------*/
 static void Module_MonitorInit(void)
 {
     const MonitorConfig_t config =
     {
-        /*--------------------------------------通信层--------------------------------------*/
         .comm = {.monitor_task = &MonitorTaskHandle},
-        /*--------------------------------------参数层--------------------------------------*/
         .param =
         {
-            .sample_period_ms = TASK_MOTOR_SEND_PERIOD_MS,
+            .sample_period_ms = TASK_MONITOR_LOOP_PERIOD_MS,
             .task_count = SYSTEM_TASK_COUNT,
             .task_period_ms = systemTaskPeriodMs,
         },
@@ -31,15 +28,10 @@ static void Module_InsInit(void)
 {
     const INSConfig_t config =
     {
-        /*--------------------------------------通信层--------------------------------------*/
         .comm = {.msg_queue = insMsgQueue},
-        /*--------------------------------------参数层--------------------------------------*/
         .param =
         {
             .beta = INS_MADGWICK_BETA,
-            /* 传感器系 -> 云台 IMU 系（x 前、y 右、z 下），v_gimbal = R * v_sensor
-             * R = Rx(180°) * Rz(顺时针 90°)：先绕 z 轴顺时针（从上往下看）转 90°，再绕 x 轴转 180°
-             * 即云台 x = 传感器 -y，云台 y = 传感器 -x，云台 z = 传感器 -z；装机验证后方向反了再改这里 */
             .mount =
             {
                 { 0.0f, -1.0f,  0.0f},
@@ -52,31 +44,22 @@ static void Module_InsInit(void)
 }
 
 /*--------------------------------------云台--------------------------------------*/
+//pitch限幅（关节角不是imu）
 #define GIMBAL_PITCH_MIN_DEG          (-15.0f)
 #define GIMBAL_PITCH_MAX_DEG          36.0f
+//速度环角度环分频
 #define GIMBAL_ANGLE_LOOP_DIV         5U
-/* 速度环分频，1 即每个控制周期都跑；外环（角度环）慢、内环（速度环）快
- * 离散速度环的稳定条件看 kp * 周期 / 转动惯量，改分频要同步按比例调速度环 kp */
 #define GIMBAL_SPEED_LOOP_DIV         1U
-/* 关节角速度来源：0 用电机回传速度；N>0 用关节角差分，窗口 N 个控制周期，期间保持
- * 窗口取速度环周期的一半以内，并与速度环分频互质；速度环每周期都跑时只能取 1，每周期都差分一次
- * yaw 关节角量化约 0.0055 deg，2 ms 窗口约 2.7 dps，乘速度环 kp 才零点几 N*m */
-#define GIMBAL_YAW_SPEED_DIFF_DIV     1U
-#define GIMBAL_PITCH_SPEED_DIFF_DIV   0U
-/* yaw 速度环反馈：1 用 IMU 陀螺转到 yaw 关节系的 z 分量（参照 hero_up），0 用关节角速度（上面的差分或电机回传）
- * 陀螺含底盘自身转动；pitch 暂不支持陀螺反馈，仍用关节角速度 */
+//用imu旋转到yaw系的角速度做闭环，pitch还没调，暂时留着吧啊
 #define GIMBAL_YAW_SPEED_USE_GYRO     1U
 #define GIMBAL_MS_PER_S               1000.0f
 
-/* 连杆长度只影响动力学前馈，指向控制只用旋转部分，待测量 */
+//连杆长度未测定没有使用用来动力学前馈的，dh参数表
 #define GIMBAL_LINK_YAW_PITCH_M       0.0f
 #define GIMBAL_LINK_PITCH_END_M       0.0f
 #define GIMBAL_DH_ALPHA_PITCH_DEG     90.0f
 #define GIMBAL_DH_ALPHA_END_DEG       90.0f
-
-/* yaw 参照 hero_up 的 YAW_DUAL_PID（角度环 6.0 / 0.004 / 0，限幅 400；速度环 0.08，限幅 5）
- * 角度环每 GIMBAL_ANGLE_LOOP_DIV 个控制周期才跑一次，积分按次累加，所以 ki 乘分频数、积分限幅除以分频数
- * pitch 未整定，全 0 时输出恒为 0，pitch 不会动，整定后再填 */
+//PID参数，只有yaw
 static const GimbalGainSet_t gimbalGain =
 {
     .axis[GIMBAL_YAW] =
@@ -106,27 +89,22 @@ static void Module_GimbalInit(void)
 {
     const GimbalConfig_t config =
     {
-        /*--------------------------------------外设层--------------------------------------*/
         .periph =
         {
             .yaw_can = &can_instances[SYSTEM_CAN3_INDEX],
             .pitch_can = &can_instances[SYSTEM_CAN1_INDEX],
         },
-        /*--------------------------------------通信层--------------------------------------*/
         .comm =
         {
             .cmd_queue = gimbalCmdQueue,
             .ins_queue = insMsgQueue,
         },
-        /*--------------------------------------电机层--------------------------------------*/
         .motor =
         {
             .yaw = &gimbalYawMotor.base,
             .pitch = &gimbalPitchMotor.base,
         },
-        /*--------------------------------------状态层--------------------------------------*/
         .state = {.init_state = GIMBAL_PROTECTED},
-        /*--------------------------------------参数层--------------------------------------*/
         .param =
         {
             .model =
@@ -145,11 +123,6 @@ static void Module_GimbalInit(void)
             .angle_loop_div = GIMBAL_ANGLE_LOOP_DIV,
             .speed_loop_div = GIMBAL_SPEED_LOOP_DIV,
             .yaw_speed_use_gyro = GIMBAL_YAW_SPEED_USE_GYRO,
-            .speed_diff_div =
-            {
-                [GIMBAL_YAW] = GIMBAL_YAW_SPEED_DIFF_DIV,
-                [GIMBAL_PITCH] = GIMBAL_PITCH_SPEED_DIFF_DIV,
-            },
             .period_s = (float)TASK_GIMBAL_PERIOD_MS / GIMBAL_MS_PER_S,
             .cmd_timeout_ms = TASK_GIMBAL_CMD_TIMEOUT_MS,
             .force_zero_output = SYSTEM_GIMBAL_FORCE_ZERO_OUTPUT,
@@ -159,20 +132,16 @@ static void Module_GimbalInit(void)
 }
 
 /*--------------------------------------摩擦轮--------------------------------------*/
-/* 转速参照 hero_up 的 ShootInputUpdate：常规 default_fric_speed 3110 rpm，非保护未开时 200 rpm 反转待机
- * 吊射的前后级 4300 / 4320 是两级摩擦轮用的，现在只有一组，不区分 */
+//转速
 #define SHOOTER_FRIC_RPM              3110.0f
 #define SHOOTER_STANDBY_RPM           (-200.0f)
 /* 反馈连续 50 ms 没更新按失联 */
 #define SHOOTER_FEEDBACK_TIMEOUT_CYCLES   (50U / TASK_SHOOTER_PERIOD_MS)
 
-/* 速度环参照 hero_up：kp 17.5、kd 12.5、无积分，限幅 TEMP_SHOOT_3508_CURRENT_MAX 8000
- * hero_up 的控制周期跟 IMU 走（约 3 ms），这里 2 ms，kd 按每周期误差增量算，周期变了可能要重调 */
 static void Module_ShooterInit(void)
 {
     const ShooterConfig_t config =
     {
-        /*--------------------------------------外设层--------------------------------------*/
         .periph =
         {
             .can =
@@ -182,9 +151,7 @@ static void Module_ShooterInit(void)
                 [SHOOTER_FRIC_UP] = &can_instances[SYSTEM_CAN2_INDEX],
             },
         },
-        /*--------------------------------------通信层--------------------------------------*/
         .comm = {.cmd_queue = shooterCmdQueue},
-        /*--------------------------------------电机层--------------------------------------*/
         .motor =
         {
             .wheel =
@@ -195,9 +162,7 @@ static void Module_ShooterInit(void)
             },
             .wheel_count = SHOOTER_FRIC_COUNT,
         },
-        /*--------------------------------------状态层--------------------------------------*/
         .state = {.init_state = SHOOTER_PROTECTED},
-        /*--------------------------------------参数层--------------------------------------*/
         .param =
         {
             .speed =
@@ -219,9 +184,9 @@ static void Module_ShooterInit(void)
 }
 
 /*--------------------------------------状态机--------------------------------------*/
-/* 摇杆映射参照 hero_down 的 GimbalInputUpdate（10ms 周期）：
- * 正常 yaw 每周期 ch2 * 1.0 deg、pitch 每周期 ch3 * 1.0 deg，换算成打满约 100 deg/s
- * 吊射 yaw 每周期 ch2 * 0.1 deg、pitch 每周期 ch3 * 0.06 deg，换算成打满约 10 / 6 deg/s */
+//暂时用来测云台的最小状态机
+//正常 yaw 每周期 ch2 * 1.0 deg、pitch 每周期 ch3 * 1.0 deg，换算成打满约 100 deg/s
+//吊射 yaw 每周期 ch2 * 0.1 deg、pitch 每周期 ch3 * 0.06 deg，换算成打满约 10 / 6 deg/s 
 #define STATE_NORMAL_YAW_RATE_DPS     100.0f
 #define STATE_NORMAL_PITCH_RATE_DPS   100.0f
 #define STATE_SNIPER_YAW_RATE_DPS     10.0f
@@ -231,17 +196,13 @@ static void Module_StateInit(void)
 {
     const GimbalAmmoStateConfig_t config =
     {
-        /*--------------------------------------外设层--------------------------------------*/
         .periph = {.remote = &rc_receiver},
-        /*--------------------------------------通信层--------------------------------------*/
         .comm =
         {
             .cmd_queue = gimbalCmdQueue,
             .shooter_queue = shooterCmdQueue,
         },
-        /*--------------------------------------状态层--------------------------------------*/
         .state = {.init_state = GIMBAL_PROTECTED},
-        /*--------------------------------------参数层--------------------------------------*/
         .param =
         {
             .normal = {STATE_NORMAL_YAW_RATE_DPS, STATE_NORMAL_PITCH_RATE_DPS},

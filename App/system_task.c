@@ -9,8 +9,8 @@
 #include "system_instance.h"
 #include "task.h"
 
-#define TASK_MONITOR_EVALUATE_DIVIDER   (TASK_MONITOR_PERIOD_MS / TASK_MOTOR_SEND_PERIOD_MS)
-#define TASK_CAN_MONITOR_DIVIDER        (TASK_CAN_MONITOR_PERIOD_MS / TASK_MOTOR_SEND_PERIOD_MS)
+#define TASK_MONITOR_EVALUATE_DIVIDER   (TASK_MONITOR_PERIOD_MS / TASK_MONITOR_LOOP_PERIOD_MS)
+#define TASK_CAN_MONITOR_DIVIDER        (TASK_CAN_MONITOR_PERIOD_MS / TASK_MONITOR_LOOP_PERIOD_MS)
 #define TASK_MONITOR_ALERT_PITCH        69U
 #define TASK_MONITOR_BREATHE_PERIOD_MS  2000U
 #define TASK_MONITOR_BREATHE_GREEN      255U
@@ -25,7 +25,7 @@ static void Task_Beat(SystemTaskId_t task)
 void MonitorTask(void *argument)
 {
     TickType_t last_wake;
-    TickType_t loop_period = pdMS_TO_TICKS(TASK_MOTOR_SEND_PERIOD_MS);
+    TickType_t loop_period = pdMS_TO_TICKS(TASK_MONITOR_LOOP_PERIOD_MS);
     uint8_t evaluate_divider = 0U;
     uint8_t can_monitor_divider = 0U;
     uint8_t buzzer_active = 0U;
@@ -67,24 +67,7 @@ void MonitorTask(void *argument)
     }
 }
 
-/* CAN 接收在中断里直接分发，没有接收任务；UART 中断通知本任务处理 */
-void UartReceiveTask(void *argument)
-{
-    uint32_t notification_value;
-
-    (void)argument;
-
-    for (;;)
-    {
-        Comm_ProcessUart();
-        Task_Beat(SYSTEM_TASK_UART_RECEIVE);
-
-        notification_value = 0U;
-        (void)xTaskNotifyWait(0U, (uint32_t)UART_EVENT_ALL, &notification_value,
-                              pdMS_TO_TICKS(TASK_UART_RECEIVE_PERIOD_MS));
-    }
-}
-
+/* CAN、UART 接收在中断里直接分发，没有接收任务 */
 void TransmitTask(void *argument)
 {
     (void)argument;

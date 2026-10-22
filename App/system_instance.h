@@ -5,7 +5,6 @@
 #include "DMMotor.h"
 #include "LKMotor.h"
 #include "RMMotor.h"
-#include "event_groups.h"
 #include "gimbal.h"
 #include "gimbal_ammo_state.h"
 #include "ins.h"
@@ -39,23 +38,9 @@ enum {
     TASK_UART_HUART10_INDEX
 };
 
-#define TASK_UART_EVENT_HUART5_RX     ((EventBits_t)(1UL << 0U))
-#define TASK_UART_EVENT_HUART5_ERROR  ((EventBits_t)(1UL << 1U))
-#define TASK_UART_EVENT_HUART7_RX     ((EventBits_t)(1UL << 2U))
-#define TASK_UART_EVENT_HUART7_ERROR  ((EventBits_t)(1UL << 3U))
-#define TASK_UART_EVENT_HUART1_RX     ((EventBits_t)(1UL << 4U))
-#define TASK_UART_EVENT_HUART1_ERROR  ((EventBits_t)(1UL << 5U))
-#define TASK_UART_EVENT_HUART2_RX     ((EventBits_t)(1UL << 6U))
-#define TASK_UART_EVENT_HUART2_ERROR  ((EventBits_t)(1UL << 7U))
-#define TASK_UART_EVENT_HUART3_RX     ((EventBits_t)(1UL << 8U))
-#define TASK_UART_EVENT_HUART3_ERROR  ((EventBits_t)(1UL << 9U))
-#define TASK_UART_EVENT_HUART10_RX    ((EventBits_t)(1UL << 10U))
-#define TASK_UART_EVENT_HUART10_ERROR ((EventBits_t)(1UL << 11U))
-
 extern CanInstance_t can_instances[TASK_CAN_INSTANCE_COUNT];
 extern QueueSetHandle_t transmit_can_queues;
 extern UartInstance_t uart_instances[TASK_UART_INSTANCE_COUNT];
-extern EventGroupHandle_t UartEventGroup;
 /* 协议解析器挂在 UART 口上，属于通信层 */
 extern Referee_t referee_receiver;
 extern RC_Remote_t rc_receiver;
@@ -90,8 +75,7 @@ extern GimbalAmmoState_t gimbalAmmoState;
 /*--------------------------------------task 实例--------------------------------------*/
 /* 参与心跳监控的任务，值即 Monitor_Beat 的任务号，也是 systemTaskPeriodMs 的下标 */
 typedef enum {
-    SYSTEM_TASK_UART_RECEIVE = 0U,
-    SYSTEM_TASK_TRANSMIT,
+    SYSTEM_TASK_TRANSMIT = 0U,
     SYSTEM_TASK_INS,
     SYSTEM_TASK_GIMBAL,
     SYSTEM_TASK_STATE,
@@ -102,7 +86,6 @@ typedef enum {
 extern const uint16_t systemTaskPeriodMs[SYSTEM_TASK_COUNT];
 
 extern TaskHandle_t MonitorTaskHandle;
-extern TaskHandle_t UartReceiveTaskHandle;
 extern TaskHandle_t TransmitTaskHandle;
 extern TaskHandle_t INSTaskHandle;
 extern TaskHandle_t GimbalTaskHandle;
