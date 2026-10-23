@@ -1,5 +1,6 @@
 #include "motor_init.h"
 
+#include "Motor.h"
 #include "system_instance.h"
 //宏定义，电机绑定的can总线，电机型号，电机ID，电机反馈ID，电机零点，电机方向，控制模式
 //注意这里的inverse只翻了力矩方向，就是你定义的正力矩对应的正确方向，观测方向由模块自己决定是不是使用
@@ -17,8 +18,8 @@
 #define GIMBAL_PITCH_MOTOR_ID         0x01U
 #define GIMBAL_PITCH_FEEDBACK_ID      0x141U
 #define GIMBAL_PITCH_ZERO_POINT       56183U
-#define GIMBAL_PITCH_INVERSE          true
-#define GIMBAL_PITCH_CONTROL_MODE     MODE_CURRENT
+#define GIMBAL_PITCH_INVERSE          false
+#define GIMBAL_PITCH_CONTROL_MODE     MODE_TORQUE
 //shooter 摩擦轮，3个C620共用0x200一帧
 #define SHOOTER_FRIC_CAN_INDEX        SYSTEM_CAN2_INDEX
 #define SHOOTER_FRIC_TX_ID            0x200U

@@ -50,8 +50,9 @@ static void Module_InsInit(void)
 //速度环角度环分频
 #define GIMBAL_ANGLE_LOOP_DIV         5U
 #define GIMBAL_SPEED_LOOP_DIV         1U
-//用imu旋转到yaw系的角速度做闭环，pitch还没调，暂时留着吧啊
+//用imu旋转到yaw系的角速度做闭环，yaw取z分量，pitch取y分量
 #define GIMBAL_YAW_SPEED_USE_GYRO     1U
+#define GIMBAL_PITCH_SPEED_USE_GYRO   1U
 #define GIMBAL_MS_PER_S               1000.0f
 
 //连杆长度未测定没有使用用来动力学前馈的，dh参数表
@@ -81,6 +82,27 @@ static const GimbalGainSet_t gimbalGain =
             .d_alpha = 0.4f,
             .sum_error_max = 0.0f,
             .output_max = 2.0f,
+        },
+    },
+    .axis[GIMBAL_PITCH] =
+    {
+        .angle =
+        {
+            .kp = 3.0f,
+            .ki = 0.002f * GIMBAL_ANGLE_LOOP_DIV,
+            .kd = 0.0f,
+            .d_alpha = 0.0f,
+            .sum_error_max = 5000.0f / GIMBAL_ANGLE_LOOP_DIV,
+            .output_max = 100.0f,
+        },
+        .speed =
+        {
+            .kp = 0.02f,
+            .ki = 0.0f,
+            .kd = 0.0f,
+            .d_alpha = 0.4f,
+            .sum_error_max = 0.0f,
+            .output_max = 3.0f,
         },
     },
 };
@@ -123,6 +145,7 @@ static void Module_GimbalInit(void)
             .angle_loop_div = GIMBAL_ANGLE_LOOP_DIV,
             .speed_loop_div = GIMBAL_SPEED_LOOP_DIV,
             .yaw_speed_use_gyro = GIMBAL_YAW_SPEED_USE_GYRO,
+            .pitch_speed_use_gyro = GIMBAL_PITCH_SPEED_USE_GYRO,
             .period_s = (float)TASK_GIMBAL_PERIOD_MS / GIMBAL_MS_PER_S,
             .cmd_timeout_ms = GIMBAL_CMD_TIMEOUT_MS,
             .force_zero_output = SYSTEM_GIMBAL_FORCE_ZERO_OUTPUT,
