@@ -27,14 +27,7 @@ static void Board_TaskCreate(void)
                 TASK_TRANSMIT_PRIORITY, &TransmitTaskHandle);
     xTaskCreate(UartTransmitTask, "UartTransmitTask", TASK_UART_TRANSMIT_STACK_SIZE, NULL,
                 TASK_UART_TRANSMIT_PRIORITY, &UartTransmitTaskHandle);
-    xTaskCreate(INS_Task, "INSTask", TASK_INS_STACK_SIZE, NULL,
-                TASK_INS_PRIORITY, &INSTaskHandle);
-    xTaskCreate(GimbalTask, "GimbalTask", TASK_GIMBAL_STACK_SIZE, NULL,
-                TASK_GIMBAL_PRIORITY, &GimbalTaskHandle);
-    xTaskCreate(ShooterTask, "ShooterTask", TASK_SHOOTER_STACK_SIZE, NULL,
-                TASK_SHOOTER_PRIORITY, &ShooterTaskHandle);
-    xTaskCreate(StateTask, "StateTask", TASK_STATE_STACK_SIZE, NULL,
-                TASK_STATE_PRIORITY, &StateTaskHandle);
+    /* 模块任务往这里加 */
 }
 
 /*--------------------------------------入口--------------------------------------*/

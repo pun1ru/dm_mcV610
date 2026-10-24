@@ -62,15 +62,6 @@ static void Comm_UartRegister(void)
     //这种全局用的数据直接在这里绑定，各自模块用的自己绑定，类似can电机回调
     (void)RC_Remote_BindUart(&rc_receiver, &uart_instances[SYSTEM_UART5_INDEX]);
     (void)Referee_BindUart(&referee_receiver, &uart_instances[SYSTEM_UART1_INDEX]);
-
-    /* 调试输出挂在 UART 口的发送侧，由 UART 发送任务按周期触发；暂定 HUART10 */
-    const DebugConfig_t debug_config =
-    {
-        .comm = {.msg_queue = debugMsgQueue},
-        .param = {.channel_count = DEBUG_CHANNEL_COUNT},
-    };
-    Debug_Init(&debug_sender, &debug_config);
-    (void)Debug_BindUart(&debug_sender, &uart_instances[SYSTEM_UART10_INDEX]);
 }
 
 void Comm_Register(void)

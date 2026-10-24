@@ -10,9 +10,5 @@ void TransmitTask(void *argument);
 void UartTransmitTask(void *argument);
 
 /* 模块任务 */
-void INS_Task(void *argument);
-void GimbalTask(void *argument);
-void ShooterTask(void *argument);
-void StateTask(void *argument);
 
 #endif
