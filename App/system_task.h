@@ -10,5 +10,6 @@ void TransmitTask(void *argument);
 void UartTransmitTask(void *argument);
 
 /* 模块任务 */
+void ArmTask(void *argument);
 
 #endif

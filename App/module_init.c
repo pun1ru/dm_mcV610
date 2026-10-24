@@ -20,8 +20,49 @@ static void Module_MonitorInit(void)
     Monitor_Init(&systemMonitor, &config);
 }
 
+/*--------------------------------------七轴臂--------------------------------------*/
+//J0~J3 在 CAN1，J4~J6 在 CAN2，反馈在 Arm_Init 里绑到对应 CAN
+static void Module_ArmInit(void)
+{
+    CanInstance_t *can1 = &can_instances[SYSTEM_CAN1_INDEX];
+    CanInstance_t *can2 = &can_instances[SYSTEM_CAN2_INDEX];
+
+    const ArmConfig_t config =
+    {
+        .periph =
+        {
+            .can =
+            {
+                [ARM_J0] = can1,
+                [ARM_J1] = can1,
+                [ARM_J2] = can1,
+                [ARM_J3] = can1,
+                [ARM_J4] = can2,
+                [ARM_J5] = can2,
+                [ARM_J6] = can2,
+            },
+        },
+        .motor =
+        {
+            .joint =
+            {
+                [ARM_J0] = &armJ0Motor.base,
+                [ARM_J1] = &armJ1Motor.base,
+                [ARM_J2] = &armJ2Motor.base,
+                [ARM_J3] = &armJ3Motor.base,
+                [ARM_J4] = &armJ4Motor.base,
+                [ARM_J5] = &armJ5Motor.base,
+                [ARM_J6] = &armJ6Motor.base,
+            },
+        },
+        .state = {.init_state = ARM_PROTECTED},
+    };
+    Arm_Init(&armInstance, &config);
+}
+
 /*--------------------------------------入口--------------------------------------*/
 void Module_Init(void)
 {
     Module_MonitorInit();
+    Module_ArmInit();
 }

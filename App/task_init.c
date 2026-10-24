@@ -28,6 +28,8 @@ static void Board_TaskCreate(void)
     xTaskCreate(UartTransmitTask, "UartTransmitTask", TASK_UART_TRANSMIT_STACK_SIZE, NULL,
                 TASK_UART_TRANSMIT_PRIORITY, &UartTransmitTaskHandle);
     /* 模块任务往这里加 */
+    xTaskCreate(ArmTask, "ArmTask", TASK_ARM_STACK_SIZE, NULL,
+                TASK_ARM_PRIORITY, &ArmTaskHandle);
 }
 
 /*--------------------------------------入口--------------------------------------*/

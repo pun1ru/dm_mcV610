@@ -97,3 +97,17 @@ void UartTransmitTask(void *argument)
 
 /*--------------------------------------模块任务--------------------------------------*/
 /* 模块任务往这里加：循环里调用模块运行函数，末尾 Task_Beat，再 vTaskDelayUntil */
+void ArmTask(void *argument)
+{
+    TickType_t last_wake;
+
+    (void)argument;
+    last_wake = xTaskGetTickCount();
+
+    for (;;)
+    {
+        Arm_Run(&armInstance);
+        Task_Beat(SYSTEM_TASK_ARM);
+        vTaskDelayUntil(&last_wake, pdMS_TO_TICKS(TASK_ARM_PERIOD_MS));
+    }
+}
