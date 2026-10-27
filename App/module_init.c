@@ -21,6 +21,28 @@ static void Module_MonitorInit(void)
 }
 
 /*--------------------------------------七轴臂--------------------------------------*/
+//角色在这里定下，初始化后不再改：本板是自定义控制器，做主机
+#define ARM_ROLE                      ARM_ROLE_MASTER
+//DH 表由 Simulation 里的 robot.urdf 反推（改进 DH），只对应这台自定义控制器，已和 URDF 连乘核对，J0 坐标系取在 J0 轴原点
+//每行：alpha_deg, a_m, d_m, theta_offset_deg
+#define ARM_DH_J0                     {0.0f, 0.0f, 0.0f, 0.0f}
+#define ARM_DH_J1                     {90.0f, 0.0f, -0.004f, -60.0f}
+#define ARM_DH_J2                     {90.0f, 0.0f, -0.148f, 2.3352f}
+#define ARM_DH_J3                     {90.0f, 0.0f, -0.0025f, -60.4357f}
+#define ARM_DH_J4                     {90.0f, 0.0f, 0.1f, -4.4451f}
+#define ARM_DH_J5                     {90.0f, 0.0f, -0.001f, 88.588f}
+#define ARM_DH_J6                     {-90.0f, 0.0f, 0.0f, 0.0f}
+//各关节机械零位对应的原始编码器值，暂定值，上板用 Arm_CalibrateZero 标定后抄回这里
+//DM 的零点是 MIT 位置映射下的原始值，32768 约对应 0 rad
+#define ARM_ZERO_DM_DEFAULT           32768U
+#define ARM_ZERO_J0                   0U
+#define ARM_ZERO_J1                   ARM_ZERO_DM_DEFAULT
+#define ARM_ZERO_J2                   0U
+#define ARM_ZERO_J3                   ARM_ZERO_DM_DEFAULT
+#define ARM_ZERO_J4                   0U
+#define ARM_ZERO_J5                   0U
+#define ARM_ZERO_J6                   0U
+
 //J0~J3 在 CAN1，J4~J6 在 CAN2，反馈在 Arm_Init 里绑到对应 CAN
 static void Module_ArmInit(void)
 {
@@ -55,7 +77,30 @@ static void Module_ArmInit(void)
                 [ARM_J6] = &armJ6Motor.base,
             },
         },
-        .state = {.init_state = ARM_PROTECTED},
+        .state = {.role = ARM_ROLE, .init_state = ARM_PROTECTED},
+        .param =
+        {
+            .dh =
+            {
+                [ARM_J0] = ARM_DH_J0,
+                [ARM_J1] = ARM_DH_J1,
+                [ARM_J2] = ARM_DH_J2,
+                [ARM_J3] = ARM_DH_J3,
+                [ARM_J4] = ARM_DH_J4,
+                [ARM_J5] = ARM_DH_J5,
+                [ARM_J6] = ARM_DH_J6,
+            },
+            .zero_point =
+            {
+                [ARM_J0] = ARM_ZERO_J0,
+                [ARM_J1] = ARM_ZERO_J1,
+                [ARM_J2] = ARM_ZERO_J2,
+                [ARM_J3] = ARM_ZERO_J3,
+                [ARM_J4] = ARM_ZERO_J4,
+                [ARM_J5] = ARM_ZERO_J5,
+                [ARM_J6] = ARM_ZERO_J6,
+            },
+        },
     };
     Arm_Init(&armInstance, &config);
 }

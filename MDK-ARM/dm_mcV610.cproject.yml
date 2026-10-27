@@ -176,6 +176,10 @@ project:
         - file: ../LibSE/Module/Gimbal/gimbal.h
         - file: ../LibSE/Module/Arm/arm.c
         - file: ../LibSE/Module/Arm/arm.h
+        - file: ../LibSE/Module/Arm/arm_jointctrl.c
+        - file: ../LibSE/Module/Arm/arm_jointctrl.h
+        - file: ../LibSE/Module/Arm/arm_kinematics.c
+        - file: ../LibSE/Module/Arm/arm_kinematics.h
         - file: ../LibSE/Module/Shooter/shooter.c
         - file: ../LibSE/Module/Shooter/shooter.h
         - file: ../LibSE/Module/Stir/stir.c

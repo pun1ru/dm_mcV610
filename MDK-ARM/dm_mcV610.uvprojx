@@ -723,6 +723,26 @@
               <FilePath>../LibSE/Module/Arm/arm.h</FilePath>
             </File>
             <File>
+              <FileName>arm_jointctrl.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../LibSE/Module/Arm/arm_jointctrl.c</FilePath>
+            </File>
+            <File>
+              <FileName>arm_jointctrl.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../LibSE/Module/Arm/arm_jointctrl.h</FilePath>
+            </File>
+            <File>
+              <FileName>arm_kinematics.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../LibSE/Module/Arm/arm_kinematics.c</FilePath>
+            </File>
+            <File>
+              <FileName>arm_kinematics.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../LibSE/Module/Arm/arm_kinematics.h</FilePath>
+            </File>
+            <File>
               <FileName>shooter.c</FileName>
               <FileType>1</FileType>
               <FilePath>../LibSE/Module/Shooter/shooter.c</FilePath>
