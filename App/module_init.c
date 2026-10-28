@@ -23,26 +23,35 @@ static void Module_MonitorInit(void)
 /*--------------------------------------七轴臂--------------------------------------*/
 //角色在这里定下，初始化后不再改：本板是自定义控制器，做主机
 #define ARM_ROLE                      ARM_ROLE_MASTER
-//DH 表由 Simulation 里的 robot.urdf 反推（改进 DH），只对应这台自定义控制器，已和 MuJoCo 加载的模型连乘核对，J0 坐标系取在 J0 轴原点
-//零位是 x 轴对齐的竖直伸直姿态，各行 theta_offset 均为 0，q=0 即该姿态
-//每行：alpha_deg, a_m, d_m, theta_offset_deg
-#define ARM_DH_J0                     {0.0f, 0.0f, 0.0f, 0.0f}
-#define ARM_DH_J1                     {90.0f, 0.0f, -0.004f, 0.0f}
+//DH 表取 Simulation/mujoco/dh_params.md 第 7.1 节的「理想版」改进 DH：
+//原表第 2/4/6 行的 4.000 / 2.500 / 1.000 mm 小偏置按 0 处理，只剩 62.6 / -148.0 / +100.0 mm 三段轴向长度
+//每行：alpha_deg, a_m, d_m, theta_offset_deg；θ 偏置全为 0，q = 0 即全伸直位形
+//基座系取 O_0（J0 轴原点下方 62.6 mm），与 robot.xml 世界系一致，所以 J0 行带 d = 0.0626
+#define ARM_DH_J0                     {0.0f, 0.0f, 0.0626f, 0.0f}
+#define ARM_DH_J1                     {90.0f, 0.0f, 0.0f, 0.0f}
 #define ARM_DH_J2                     {90.0f, 0.0f, -0.148f, 0.0f}
-#define ARM_DH_J3                     {90.0f, 0.0f, -0.0025f, 0.0f}
+#define ARM_DH_J3                     {90.0f, 0.0f, 0.0f, 0.0f}
 #define ARM_DH_J4                     {90.0f, 0.0f, 0.1f, 0.0f}
-#define ARM_DH_J5                     {90.0f, 0.0f, -0.001f, 0.0f}
+#define ARM_DH_J5                     {90.0f, 0.0f, 0.0f, 0.0f}
 #define ARM_DH_J6                     {90.0f, 0.0f, 0.0f, 0.0f}
-//各关节机械零位对应的原始编码器值，暂定值，上板用 Arm_CalibrateZero 标定后抄回这里
-//DM 的零点是 MIT 位置映射下的原始值，32768 约对应 0 rad
-#define ARM_ZERO_DM_DEFAULT           32768U
-#define ARM_ZERO_J0                   0U
-#define ARM_ZERO_J1                   ARM_ZERO_DM_DEFAULT
-#define ARM_ZERO_J2                   0U
-#define ARM_ZERO_J3                   ARM_ZERO_DM_DEFAULT
-#define ARM_ZERO_J4                   0U
-#define ARM_ZERO_J5                   0U
-#define ARM_ZERO_J6                   0U
+//各关节机械零位对应的原始编码器值，2026-10-28 上板实测；Arm_Init 用它覆盖电机初始化里的零点
+//DM 的零点是 MIT 位置映射下的原始值，GM6020 是 0~8191，LK 是 0~65535
+#define ARM_ZERO_J0                   4108U
+#define ARM_ZERO_J1                   19268U
+#define ARM_ZERO_J2                   6740U
+#define ARM_ZERO_J3                   21635U
+#define ARM_ZERO_J4                   26560U
+#define ARM_ZERO_J5                   32676U
+#define ARM_ZERO_J6                   65112U
+//关节 +q 方向相对编码器计数方向的符号：+1 正向转编码器增大，-1 正向转编码器减小（2026-10-28 实测）
+//只影响观测角的正负，不影响力矩指令方向
+#define ARM_DIRECTION_J0              1
+#define ARM_DIRECTION_J1              (-1)
+#define ARM_DIRECTION_J2              (-1)
+#define ARM_DIRECTION_J3              1
+#define ARM_DIRECTION_J4              1
+#define ARM_DIRECTION_J5              1
+#define ARM_DIRECTION_J6              (-1)
 
 //J0~J3 在 CAN1，J4~J6 在 CAN2，反馈在 Arm_Init 里绑到对应 CAN
 static void Module_ArmInit(void)
@@ -100,6 +109,16 @@ static void Module_ArmInit(void)
                 [ARM_J4] = ARM_ZERO_J4,
                 [ARM_J5] = ARM_ZERO_J5,
                 [ARM_J6] = ARM_ZERO_J6,
+            },
+            .direction =
+            {
+                [ARM_J0] = ARM_DIRECTION_J0,
+                [ARM_J1] = ARM_DIRECTION_J1,
+                [ARM_J2] = ARM_DIRECTION_J2,
+                [ARM_J3] = ARM_DIRECTION_J3,
+                [ARM_J4] = ARM_DIRECTION_J4,
+                [ARM_J5] = ARM_DIRECTION_J5,
+                [ARM_J6] = ARM_DIRECTION_J6,
             },
         },
     };

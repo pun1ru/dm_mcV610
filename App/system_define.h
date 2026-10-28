@@ -11,7 +11,7 @@
 //任务周期
 #define TASK_TRANSMIT_PERIOD_MS       1U
 #define TASK_UART_TRANSMIT_PERIOD_MS  2U
-#define TASK_ARM_PERIOD_MS            1U
+#define TASK_ARM_PERIOD_MS            2U
 //任务的栈空间
 #define TASK_MONITOR_STACK_SIZE       512U
 #define TASK_INIT_STACK_SIZE          512U

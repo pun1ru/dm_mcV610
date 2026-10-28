@@ -86,11 +86,35 @@ return 0;
 /* USER CODE END 1 */
 
 /* USER CODE BEGIN 4 */
+/* 临时调试：任务栈溢出时记录是哪个任务，然后停住，别再带病往下跑。
+ * 调试器读 g_stack_overflow_task / g_stack_overflow_count 即可。排查完恢复空实现。 */
+volatile uint32_t g_stack_overflow_count;
+volatile char     g_stack_overflow_task[24];
+
 __weak void vApplicationStackOverflowHook(xTaskHandle xTask, signed char *pcTaskName)
 {
    /* Run time stack overflow checking is performed if
    configCHECK_FOR_STACK_OVERFLOW is defined to 1 or 2. This hook function is
    called if a stack overflow is detected. */
+   (void)xTask;
+
+   if (g_stack_overflow_count == 0U)
+   {
+      for (uint32_t i = 0U; i < (sizeof(g_stack_overflow_task) - 1U); ++i)
+      {
+         if (pcTaskName == NULL || pcTaskName[i] == '\0')
+         {
+            break;
+         }
+         g_stack_overflow_task[i] = (char)pcTaskName[i];
+      }
+   }
+   g_stack_overflow_count++;
+
+   taskDISABLE_INTERRUPTS();
+   for (;;)
+   {
+   }
 }
 /* USER CODE END 4 */
 
@@ -148,7 +172,8 @@ void MX_FREERTOS_Init(void) {
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
+  /* 原来只有 128 words = 512 字节，却要跑 MX_USB_DEVICE_Init 整条调用链，加大到 2 KB */
+  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 512);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
@@ -167,9 +192,22 @@ void MX_FREERTOS_Init(void) {
 /* USER CODE END Header_StartDefaultTask */
 void StartDefaultTask(void const * argument)
 {
-  /* init code for USB_DEVICE */
-  MX_USB_DEVICE_Init();
   /* USER CODE BEGIN StartDefaultTask */
+  /* 暂时不初始化 USB_DEVICE。
+   *
+   * 实测：本板 USB_OTG_HS 的核软复位完不成——USB_CoreReset 里写 GRSTCTL.CSRST
+   * 之后硬件永远不清这个位（读回来一直是 0x80000001），HAL 只能空转
+   * HAL_USB_TIMEOUT(0xF000000) 次后返回 HAL_TIMEOUT，整整卡 9.5 秒；
+   * 接着 HAL_PCD_Init 返回 HAL_ERROR，旧代码走到 Error_Handler()，
+   * 而 Error_Handler() 是 __disable_irq() + while(1)，于是开机约 9.6 秒后
+   * TIM4 时基、FreeRTOS 调度、全部 CAN 收发一起停死，表现就是「所有帧同时没了」。
+   *
+   * 已经确认不是配置问题：HSI48 已开且就绪、D2CCIP2R.USBSEL=HSI48、
+   * AHB1ENR.USB1OTGHSEN=1、PWR_CR3.USB33DEN/USB33RDY=1、GUSBCFG.PHYSEL=1，
+   * 唯独 CSRST 不返回，属于 USB 核本身的问题。
+   *
+   * 本项目没有用到 USB，先不初始化；以后要启用 USB 必须先查清核复位为何不完成。 */
+  /* MX_USB_DEVICE_Init(); */
   /* Infinite loop */
   for(;;)
   {

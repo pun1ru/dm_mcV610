@@ -35,6 +35,11 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
+/* USB 初始化失败时不再进 Error_Handler（那会 __disable_irq 把整个系统停死，
+ * 连 CAN 一起），只记录原因后让 USB 起不来。0 = 正常，1 = HAL_PCD_Init 失败。 */
+volatile uint32_t g_usb_init_fail;
+volatile uint32_t g_usb_init_grstctl;   /* 失败时的 GRSTCTL，CSRST 卡住时为 0x80000001 */
+volatile uint32_t g_usb_init_pcd_state; /* 失败时的 hpcd State，2 = HAL_PCD_STATE_ERROR */
 
 /* USER CODE END PV */
 
@@ -337,7 +342,15 @@ USBD_StatusTypeDef USBD_LL_Init(USBD_HandleTypeDef *pdev)
   hpcd_USB_OTG_HS.Init.use_external_vbus = DISABLE;
   if (HAL_PCD_Init(&hpcd_USB_OTG_HS) != HAL_OK)
   {
-    Error_Handler( );
+    /* 本板的 USB_OTG_HS 核软复位永远不完成（GRSTCTL.CSRST 一直为 1），
+     * HAL 要在 USB_CoreReset 里空转 HAL_USB_TIMEOUT 次才放弃，约 9.5 秒。
+     * 以前这里直接 Error_Handler()，等于整机（含全部 CAN）在开机 9.6 秒后
+     * 被 __disable_irq() 一次性打死。USB 起不来不该影响电机和 CAN，
+     * 所以这里只记录失败原因并向上返回失败。 */
+    g_usb_init_grstctl  = USB_OTG_HS->GRSTCTL;
+    g_usb_init_pcd_state = hpcd_USB_OTG_HS.State;
+    g_usb_init_fail     = 1U;
+    return USBD_FAIL;
   }
 
 #if (USE_HAL_PCD_REGISTER_CALLBACKS == 1U)

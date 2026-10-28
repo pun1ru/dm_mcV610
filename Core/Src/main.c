@@ -30,12 +30,26 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "task.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+/* 临时黑匣子：Error_Handler 一旦被执行，就把当时的现场留在 g_crash 里，
+ * 调试器直接读这个结构体就能知道「谁、从哪、什么时候」把系统带死的。
+ * 排查完删掉即可。 */
+typedef struct
+{
+  uint32_t magic;      /* 0x43524153('CRAS') 表示记录有效 */
+  uint32_t hits;       /* 进入 Error_Handler 的次数 */
+  uint32_t lr;         /* 调用者返回地址 */
+  uint32_t psp;        /* 任务栈指针 */
+  uint32_t msp;        /* 中断栈指针 */
+  uint32_t ipsr;       /* 0=线程模式(任务里)，非0=中断里 */
+  uint32_t tick;       /* HAL 时基，单位 ms */
+  uint32_t tcb;        /* 当时的 pxCurrentTCB */
+  char     task[16];   /* 当时的任务名 */
+} CrashRecord_t;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -51,7 +65,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+volatile CrashRecord_t g_crash;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -59,7 +73,8 @@ void SystemClock_Config(void);
 static void MPU_Config(void);
 void MX_FREERTOS_Init(void);
 /* USER CODE BEGIN PFP */
-
+/* FreeRTOS 当前任务控制块，定义在 tasks.c，用来在黑匣子里记录当时的任务 */
+extern void * volatile pxCurrentTCB;
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -263,6 +278,34 @@ void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
+  /* 只记第一次，之后保持不动，方便调试器随时读 */
+  if (g_crash.magic != 0x43524153UL)
+  {
+    const char *name = NULL;
+
+    g_crash.magic = 0x43524153UL;
+    g_crash.lr    = (uint32_t)__builtin_return_address(0);
+    g_crash.msp   = __get_MSP();
+    g_crash.psp   = __get_PSP();
+    g_crash.ipsr  = __get_IPSR();
+    g_crash.tick  = HAL_GetTick();
+    g_crash.tcb   = (uint32_t)(uintptr_t)pxCurrentTCB;
+
+    if (pxCurrentTCB != NULL)
+    {
+      name = pcTaskGetName(NULL);
+    }
+    for (uint32_t i = 0U; i < (sizeof(g_crash.task) - 1U); ++i)
+    {
+      if (name == NULL || name[i] == '\0')
+      {
+        break;
+      }
+      g_crash.task[i] = name[i];
+    }
+  }
+  g_crash.hits++;
+
   __disable_irq();
   while (1)
   {

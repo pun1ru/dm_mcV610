@@ -72,7 +72,12 @@ void MX_FDCAN1_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN FDCAN1_Init 2 */
-
+  /* 打开自动重发（CCCR.DAR=0）。
+   * CubeMX 默认 AutoRetransmission=DISABLE，丢了仲裁或出错的帧会被静默丢弃，
+   * 而 LK 电机的指令 ID 和回包 ID 是同一个（0x140+ID）：总线上 ID 小的回包
+   * （如 J4 的 0x142）会一直压掉 ID 大的指令（如 J6 的 0x146），指令帧就永远发不出去。
+   * 在 .ioc 里把 Auto Retransmission 勾上也能达到同样效果。 */
+  CLEAR_BIT(FDCAN1->CCCR, FDCAN_CCCR_DAR);
   /* USER CODE END FDCAN1_Init 2 */
 
 }
@@ -120,7 +125,8 @@ void MX_FDCAN2_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN FDCAN2_Init 2 */
-
+  /* 打开自动重发（CCCR.DAR=0），原因见 FDCAN1_Init 2 的注释 */
+  CLEAR_BIT(FDCAN2->CCCR, FDCAN_CCCR_DAR);
   /* USER CODE END FDCAN2_Init 2 */
 
 }
@@ -168,7 +174,8 @@ void MX_FDCAN3_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN FDCAN3_Init 2 */
-
+  /* 打开自动重发（CCCR.DAR=0），原因见 FDCAN1_Init 2 的注释 */
+  CLEAR_BIT(FDCAN3->CCCR, FDCAN_CCCR_DAR);
   /* USER CODE END FDCAN3_Init 2 */
 
 }

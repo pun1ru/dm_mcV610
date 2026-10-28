@@ -68,21 +68,24 @@ void MX_USB_DEVICE_Init(void)
   /* USER CODE END USB_DEVICE_Init_PreTreatment */
 
   /* Init Device Library, add supported class and start the library. */
+  /* 注意：CubeMX 生成的版本这四个分支都调用 Error_Handler()，而 Error_Handler()
+   * 是 __disable_irq() + while(1)，一旦 USB 起不来整机就停死。这里统一改成
+   * 直接返回，USB 不可用不影响电机和 CAN。CubeMX 重新生成时会被覆盖。 */
   if (USBD_Init(&hUsbDeviceHS, &HS_Desc, DEVICE_HS) != USBD_OK)
   {
-    Error_Handler();
+    return;
   }
   if (USBD_RegisterClass(&hUsbDeviceHS, &USBD_CDC) != USBD_OK)
   {
-    Error_Handler();
+    return;
   }
   if (USBD_CDC_RegisterInterface(&hUsbDeviceHS, &USBD_Interface_fops_HS) != USBD_OK)
   {
-    Error_Handler();
+    return;
   }
   if (USBD_Start(&hUsbDeviceHS) != USBD_OK)
   {
-    Error_Handler();
+    return;
   }
 
   /* USER CODE BEGIN USB_DEVICE_Init_PostTreatment */
