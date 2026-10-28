@@ -23,15 +23,16 @@ static void Module_MonitorInit(void)
 /*--------------------------------------七轴臂--------------------------------------*/
 //角色在这里定下，初始化后不再改：本板是自定义控制器，做主机
 #define ARM_ROLE                      ARM_ROLE_MASTER
-//DH 表由 Simulation 里的 robot.urdf 反推（改进 DH），只对应这台自定义控制器，已和 URDF 连乘核对，J0 坐标系取在 J0 轴原点
+//DH 表由 Simulation 里的 robot.urdf 反推（改进 DH），只对应这台自定义控制器，已和 MuJoCo 加载的模型连乘核对，J0 坐标系取在 J0 轴原点
+//零位是 x 轴对齐的竖直伸直姿态，各行 theta_offset 均为 0，q=0 即该姿态
 //每行：alpha_deg, a_m, d_m, theta_offset_deg
 #define ARM_DH_J0                     {0.0f, 0.0f, 0.0f, 0.0f}
-#define ARM_DH_J1                     {90.0f, 0.0f, -0.004f, -60.0f}
-#define ARM_DH_J2                     {90.0f, 0.0f, -0.148f, 2.3352f}
-#define ARM_DH_J3                     {90.0f, 0.0f, -0.0025f, -60.4357f}
-#define ARM_DH_J4                     {90.0f, 0.0f, 0.1f, -4.4451f}
-#define ARM_DH_J5                     {90.0f, 0.0f, -0.001f, 88.588f}
-#define ARM_DH_J6                     {-90.0f, 0.0f, 0.0f, 0.0f}
+#define ARM_DH_J1                     {90.0f, 0.0f, -0.004f, 0.0f}
+#define ARM_DH_J2                     {90.0f, 0.0f, -0.148f, 0.0f}
+#define ARM_DH_J3                     {90.0f, 0.0f, -0.0025f, 0.0f}
+#define ARM_DH_J4                     {90.0f, 0.0f, 0.1f, 0.0f}
+#define ARM_DH_J5                     {90.0f, 0.0f, -0.001f, 0.0f}
+#define ARM_DH_J6                     {90.0f, 0.0f, 0.0f, 0.0f}
 //各关节机械零位对应的原始编码器值，暂定值，上板用 Arm_CalibrateZero 标定后抄回这里
 //DM 的零点是 MIT 位置映射下的原始值，32768 约对应 0 rad
 #define ARM_ZERO_DM_DEFAULT           32768U
