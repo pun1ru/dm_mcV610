@@ -3,13 +3,16 @@
 #include "Motor.h"
 #include "system_instance.h"
 //宏定义，电机绑定的can总线，电机型号，电机ID，电机反馈ID，电机零点，电机方向，控制模式
-//inverse 只影响力矩/电流指令方向（各驱动内部取反），本轮零位标定不动它，全部保持 false
+//inverse 只影响力矩/电流指令方向（各驱动内部取反），不改变反馈，也不影响观测角
+//目前只有 J2 和 J6 置 true：测力矩方向时它们的 +指令方向与实际关节 +q 相反
 //关节观测角的正负由 module_init.c 里 ArmConfig.param.direction 决定，见 arm_kinematics 的 Arm_UpdateJointAngle
 //零点按 2026-10-28 上板标定的机械零位填写；注意 Arm_Init 会用 ArmConfig.param.zero_point 覆盖这里，两处必须一致
 //J0~J3 在 CAN1，J4~J6 在 CAN2
 #define ARM_CAN1_INDEX                SYSTEM_CAN1_INDEX
 #define ARM_CAN2_INDEX                SYSTEM_CAN2_INDEX
 //GM6020 电流环力矩控制：ID 1~4 发 0x1FE，ID 5~7 发 0x2FE，反馈 ID 都是 0x204 + ID
+//注意：0x1FE/0x2FE 只有在电机的"电流环"开关打开后才生效（调参软件里设，固件 >= 1.0.11.2），
+//开关关着时电机只认电压帧 0x1FF/0x2FF，电流帧会被直接忽略
 #define ARM_RM_TX_ID_LOW              0x1FEU
 #define ARM_RM_TX_ID_HIGH             0x2FEU
 #define ARM_RM_MOTOR_TYPE             RM_GM6020
@@ -33,7 +36,7 @@
 //J2 GM6020，拨码 ID 7，发送 0x2FE，反馈 0x20B
 #define ARM_J2_MOTOR_ID               7U
 #define ARM_J2_ZERO_POINT             6740U     // 实测机械零位，编码器 0~8191
-#define ARM_J2_INVERSE                false
+#define ARM_J2_INVERSE                true
 //J3 DM-J4310，反馈 ID 是电机的 MST_ID
 #define ARM_J3_MOTOR_ID               0x02U
 #define ARM_J3_FEEDBACK_ID            0x12U
@@ -53,7 +56,7 @@
 #define ARM_J6_MOTOR_ID               6U
 #define ARM_J6_FEEDBACK_ID            (LK_CAN_COMMAND_ID_BASE + ARM_J6_MOTOR_ID)
 #define ARM_J6_ZERO_POINT             65112U    // 实测机械零位，编码器 0~65535
-#define ARM_J6_INVERSE                false
+#define ARM_J6_INVERSE                true
 
 static RMMotorConfig_t Motor_RmConfig(uint8_t motor_id, uint16_t zero_point, bool inverse)
 {
@@ -104,10 +107,12 @@ void Motor_Init(void)
     CanInstance_t *can1 = &can_instances[ARM_CAN1_INDEX];
     CanInstance_t *can2 = &can_instances[ARM_CAN2_INDEX];
 
-    const RMMotorConfig_t j0_config = Motor_RmConfig(ARM_J0_MOTOR_ID, ARM_J0_ZERO_POINT, ARM_J0_INVERSE);
+    const RMMotorConfig_t j0_config = Motor_RmConfig(ARM_J0_MOTOR_ID, ARM_J0_ZERO_POINT,
+                                                     ARM_J0_INVERSE);
     const DMMotorConfig_t j1_config = Motor_DmConfig(ARM_J1_MOTOR_ID, ARM_J1_FEEDBACK_ID,
                                                      ARM_J1_ZERO_POINT, ARM_J1_INVERSE);
-    const RMMotorConfig_t j2_config = Motor_RmConfig(ARM_J2_MOTOR_ID, ARM_J2_ZERO_POINT, ARM_J2_INVERSE);
+    const RMMotorConfig_t j2_config = Motor_RmConfig(ARM_J2_MOTOR_ID, ARM_J2_ZERO_POINT,
+                                                     ARM_J2_INVERSE);
     const DMMotorConfig_t j3_config = Motor_DmConfig(ARM_J3_MOTOR_ID, ARM_J3_FEEDBACK_ID,
                                                      ARM_J3_ZERO_POINT, ARM_J3_INVERSE);
     const LKMotorConfig_t j4_config = Motor_LkConfig(ARM_J4_MOTOR_MODEL, ARM_J4_MOTOR_ID,

@@ -1,9 +1,7 @@
 build-idx:
-  generated-by: csolution version 2.15.1+p3-gf46d68bf
-  target: dm_mcV610
+  generated-by: csolution version 2.12.0
   csolution: dm_mcV610.csolution.yml
-  cbuild-run: out/dm_mcV610+dm_mcV610.cbuild-run.yml
-  tmpdir: tmp/dm_mcV610/default
+  tmpdir: tmp
   cprojects:
     - cproject: dm_mcV610.cproject.yml
   cbuilds:
@@ -11,10 +9,10 @@ build-idx:
       project: dm_mcV610
       configuration: +dm_mcV610
       messages:
+        warnings:
+          - redefinition from 'AC6@6.22.0' into 'AC6@6.19.0'
         info:
           - dm_mcV610.cbuild-pack.yml - file is already up-to-date
-          - dm_mcV610+dm_mcV610.cbuild-run.yml - file generated successfully
-          - dm_mcV610+dm_mcV610.cbuild.yml - file generated successfully
+          - dm_mcV610+dm_mcV610.cbuild.yml - file is already up-to-date
       packs-unused:
         - pack: ARM::CMSIS-NN@4.0.0
-      rebuild: true

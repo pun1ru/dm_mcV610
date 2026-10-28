@@ -96,6 +96,28 @@ void UartTransmitTask(void *argument)
 }
 
 /*--------------------------------------模块任务--------------------------------------*/
+/* 遥控状态机：
+ * 双上拨（左右拨杆都在上挡）-> 保护，七个关节全部发零指令；
+ * 右拨杆中挡 -> 使能，关节角度环工作，目标默认对齐当前关节角，PID 参数全 0 时不出力；
+ * 其余拨杆组合、遥控掉线或没有有效帧 -> 保护。 */
+static void Arm_RcStateSync(Arm_t *arm)
+{
+    DT7RecData raw;
+    DT7CmdData command;
+    uint32_t now_ms = (uint32_t)(xTaskGetTickCount() * (TickType_t)portTICK_PERIOD_MS);
+
+    /* 没有有效帧、掉线，或者两个拨杆都在上挡，都按保护处理 */
+    if (RC_Remote_IsOnline(&rc_receiver, now_ms, RC_DBUS_ONLINE_TIMEOUT_MS) == 0U ||
+        RC_Remote_Read(&rc_receiver, &raw, &command) == 0U ||
+        (command.switch_left == DT7_RC_SW_UP && command.switch_right == DT7_RC_SW_UP))
+    {
+        (void)Arm_SetState(arm, ARM_PROTECTED);
+        return;
+    }
+
+    (void)Arm_SetState(arm, command.switch_right == DT7_RC_SW_MID ? ARM_ENABLE : ARM_PROTECTED);
+}
+
 /* 模块任务往这里加：循环里调用模块运行函数，末尾 Task_Beat，再 vTaskDelayUntil */
 void ArmTask(void *argument)
 {
@@ -106,6 +128,7 @@ void ArmTask(void *argument)
 
     for (;;)
     {
+        Arm_RcStateSync(&armInstance);
         Arm_Run(&armInstance);
         Task_Beat(SYSTEM_TASK_ARM);
         vTaskDelayUntil(&last_wake, pdMS_TO_TICKS(TASK_ARM_PERIOD_MS));

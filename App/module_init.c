@@ -46,12 +46,25 @@ static void Module_MonitorInit(void)
 //关节 +q 方向相对编码器计数方向的符号：+1 正向转编码器增大，-1 正向转编码器减小（2026-10-28 实测）
 //只影响观测角的正负，不影响力矩指令方向
 #define ARM_DIRECTION_J0              1
-#define ARM_DIRECTION_J1              (-1)
+#define ARM_DIRECTION_J1              1
 #define ARM_DIRECTION_J2              (-1)
 #define ARM_DIRECTION_J3              1
 #define ARM_DIRECTION_J4              1
 #define ARM_DIRECTION_J5              1
 #define ARM_DIRECTION_J6              (-1)
+//关节工作区间，观测角口径 deg（-180, 180]，min 必须小于 max
+//只在非保护模式生效：使能后目标超出区间就截断到边界，保护模式不读限位、一律发零
+//当前先给整圈占位，等逐关节实测机械行程后再收紧
+#define ARM_LIMIT_J0                  {(-180.0f), 180.0f}
+#define ARM_LIMIT_J1                  {(-180.0f), 180.0f}
+#define ARM_LIMIT_J2                  {(-180.0f), 180.0f}
+#define ARM_LIMIT_J3                  {(-180.0f), 180.0f}
+#define ARM_LIMIT_J4                  {(-180.0f), 180.0f}
+#define ARM_LIMIT_J5                  {(-180.0f), 180.0f}
+#define ARM_LIMIT_J6                  {(-180.0f), 180.0f}
+//角度环增益，一开始按 0 处理（不写 .gain 即全 0，PID 输出恒为 0，使能后电机不出力）
+//调参时按 [ARM_Jx] = {kp, ki, kd, d_alpha, sum_error_max, output_max} 填，单位 deg -> N*m
+//注意 output_max 是力矩限幅，忘了填就一直把输出截成 0
 
 //J0~J3 在 CAN1，J4~J6 在 CAN2，反馈在 Arm_Init 里绑到对应 CAN
 static void Module_ArmInit(void)
@@ -119,6 +132,16 @@ static void Module_ArmInit(void)
                 [ARM_J4] = ARM_DIRECTION_J4,
                 [ARM_J5] = ARM_DIRECTION_J5,
                 [ARM_J6] = ARM_DIRECTION_J6,
+            },
+            .limit =
+            {
+                [ARM_J0] = ARM_LIMIT_J0,
+                [ARM_J1] = ARM_LIMIT_J1,
+                [ARM_J2] = ARM_LIMIT_J2,
+                [ARM_J3] = ARM_LIMIT_J3,
+                [ARM_J4] = ARM_LIMIT_J4,
+                [ARM_J5] = ARM_LIMIT_J5,
+                [ARM_J6] = ARM_LIMIT_J6,
             },
         },
     };
