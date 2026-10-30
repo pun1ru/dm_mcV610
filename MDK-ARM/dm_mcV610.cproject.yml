@@ -37,6 +37,7 @@ project:
         - ../LibSE/Module/Gimbal
         - ../LibSE/Module/Arm
         - ../LibSE/Module/Debug
+        - ../LibSE/Module/Host
         - ../LibSE/Module/Shooter
         - ../LibSE/Module/Stir
         - ../LibSE/Module/Monitor
@@ -186,6 +187,8 @@ project:
         - file: ../LibSE/Module/Stir/stir.h
         - file: ../LibSE/Module/Debug/debug.c
         - file: ../LibSE/Module/Debug/debug.h
+        - file: ../LibSE/Module/Host/host.c
+        - file: ../LibSE/Module/Host/host.h
         - file: ../LibSE/Module/Monitor/monitor.c
         - file: ../LibSE/Module/Monitor/monitor.h
     - group: LibSE/minimal_state

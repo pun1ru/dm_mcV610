@@ -27,6 +27,7 @@ LKMotor_t armJ6Motor;
 /*--------------------------------------module实例--------------------------------------*/
 Monitor_t systemMonitor;
 Arm_t armInstance;
+Host_t hostInstance;
 
 /*--------------------------------------task 实例--------------------------------------*/
 /* 顺序与 SystemTaskId_t 一致 */

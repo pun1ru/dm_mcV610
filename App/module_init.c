@@ -165,9 +165,23 @@ static void Module_ArmInit(void)
     Arm_Init(&armInstance, &config);
 }
 
+/*--------------------------------------上位机--------------------------------------*/
+//只发不收：UART10 已是 921600，发送口绑在串口实例上，发送任务每个周期调 Host_Transmit，直接读 armInstance
+static void Module_HostInit(void)
+{
+    const HostConfig_t config =
+    {
+        .periph = {.uart = &uart_instances[SYSTEM_UART10_INDEX]},
+        .param = {.state_divider = HOST_STATE_DIVIDER},
+    };
+    Host_Init(&hostInstance, &config, &armInstance);
+    (void)Host_BindUart(&hostInstance);
+}
+
 /*--------------------------------------入口--------------------------------------*/
 void Module_Init(void)
 {
     Module_MonitorInit();
     Module_ArmInit();
+    Module_HostInit();
 }

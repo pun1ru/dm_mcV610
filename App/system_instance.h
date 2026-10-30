@@ -4,6 +4,7 @@
 #include "CAN_driver.h"
 #include "DMMotor.h"
 #include "arm.h"
+#include "host.h"
 #include "LKMotor.h"
 #include "RMMotor.h"
 #include "monitor.h"
@@ -59,6 +60,7 @@ extern LKMotor_t armJ6Motor;    /* MF4015 */
 /*--------------------------------------模块实例--------------------------------------*/
 extern Monitor_t systemMonitor;
 extern Arm_t armInstance;
+extern Host_t hostInstance;
 
 /*--------------------------------------task 实例--------------------------------------*/
 /* 参与心跳监控的任务，值即 Monitor_Beat 的任务号，也是 systemTaskPeriodMs 的下标

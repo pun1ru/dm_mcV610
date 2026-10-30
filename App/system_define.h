@@ -26,6 +26,9 @@
 /* UART 发送是调试输出，优先级放在控制任务之下，不挤占控制 */
 #define TASK_UART_TRANSMIT_PRIORITY   2U
 
+//上位机上报：UART 发送任务周期 2 ms，取 5 即每 10 ms 一帧 JOINT_STATE（100 Hz）
+#define HOST_STATE_DIVIDER            5U
+
 //任务间通信队列长度，新增队列往后加
 
 #endif
