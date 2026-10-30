@@ -55,23 +55,23 @@ static void Module_MonitorInit(void)
 //关节工作区间，观测角口径 deg（-180, 180]，min 必须小于 max
 //只在非保护模式生效：使能后目标超出区间就截断到边界，保护模式不读限位、一律发零
 //当前先给整圈占位，等逐关节实测机械行程后再收紧
-#define ARM_LIMIT_J0                  {(-180.0f), 180.0f}
-#define ARM_LIMIT_J1                  {(-180.0f), 180.0f}
+#define ARM_LIMIT_J0                  {(-90.0f), 90.0f}
+#define ARM_LIMIT_J1                  {(-95.0f), 100.0f}
 #define ARM_LIMIT_J2                  {(-180.0f), 180.0f}
-#define ARM_LIMIT_J3                  {(-180.0f), 180.0f}
+#define ARM_LIMIT_J3                  {(-120.0f), 0.0f}
 #define ARM_LIMIT_J4                  {(-180.0f), 180.0f}
-#define ARM_LIMIT_J5                  {(-180.0f), 180.0f}
+#define ARM_LIMIT_J5                  {(-60.0f), 90.0f}
 #define ARM_LIMIT_J6                  {(-180.0f), 180.0f}
 //角度环增益，暂时全填 0：PID 输出恒为 0，使能后电机不出力
 //每行：kp, ki, kd, d_alpha, sum_error_max, output_max，单位 deg -> N*m
 //注意 output_max 是力矩限幅，调参时忘了填就一直把输出截成 0
-#define ARM_GAIN_J0                   {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}
-#define ARM_GAIN_J1                   {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}
-#define ARM_GAIN_J2                   {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}
-#define ARM_GAIN_J3                   {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}
-#define ARM_GAIN_J4                   {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}
-#define ARM_GAIN_J5                   {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}
-#define ARM_GAIN_J6                   {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f}
+#define ARM_GAIN_J0                   {0.1f, 0.0f, 0.0f, 0.0f, 0.0f, 0.2f}
+#define ARM_GAIN_J1                   {0.1f, 0.0f, 0.0f, 0.0f, 0.0f, 0.2f}
+#define ARM_GAIN_J2                   {0.1f, 0.0f, 0.0f, 0.0f, 0.0f, 0.2f}
+#define ARM_GAIN_J3                   {0.1f, 0.0f, 0.0f, 0.0f, 0.0f, 0.2f}
+#define ARM_GAIN_J4                   {0.1f, 0.0f, 0.0f, 0.0f, 0.0f, 0.2f}
+#define ARM_GAIN_J5                   {0.05f, 0.0f, 0.0f, 0.0f, 0.0f, 0.1f}
+#define ARM_GAIN_J6                   {0.05f, 0.0f, 0.0f, 0.0f, 0.0f, 0.1f}
 
 //J0~J3 在 CAN1，J4~J6 在 CAN2，反馈在 Arm_Init 里绑到对应 CAN
 static void Module_ArmInit(void)
