@@ -726,6 +726,16 @@
               <FilePath>../LibSE/Module/Arm/arm.h</FilePath>
             </File>
             <File>
+              <FileName>arm_dynamics.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../LibSE/Module/Arm/arm_dynamics.c</FilePath>
+            </File>
+            <File>
+              <FileName>arm_dynamics.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../LibSE/Module/Arm/arm_dynamics.h</FilePath>
+            </File>
+            <File>
               <FileName>arm_jointctrl.c</FileName>
               <FileType>1</FileType>
               <FilePath>../LibSE/Module/Arm/arm_jointctrl.c</FilePath>
@@ -901,9 +911,6 @@
               <FilePath>../App/module_init.c</FilePath>
             </File>
           </Files>
-        </Group>
-        <Group>
-          <GroupName>::CMSIS</GroupName>
         </Group>
         <Group>
           <GroupName>Application/MDK-ARM</GroupName>
@@ -4736,6 +4743,9 @@
               </FileOption>
             </File>
           </Files>
+        </Group>
+        <Group>
+          <GroupName>::CMSIS</GroupName>
         </Group>
       </Groups>
     </Target>

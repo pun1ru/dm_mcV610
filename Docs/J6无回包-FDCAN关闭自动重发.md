@@ -290,3 +290,22 @@ CAN2 0x146 (J6) → 3/3    ✅
   ```
 - CMSIS-DAP 偶发 `transfer count mismatch`：重试一次即可；读内存时把 `adapter speed` 降到 500。
 - 判断 J6 是否正常，最快的办法是直接读 `armJ6Motor` 的 `feedback.timestamp`（`&armJ6Motor + 0`），它应该和 `armJ4Motor` 同步增长。
+
+---
+
+## 10. 2026-10-31 复发：CAN 自动恢复把 DAR 又打开了
+
+启动时 `USER CODE 2` 里的 `CLEAR_BIT(FDCANx->CCCR, FDCAN_CCCR_DAR)` 仍然有效，但运行中
+`CAN_MonitorPoll()` 检测到 bus-off / TX FIFO 卡死 / 控制器不在 BUSY 状态时会调用
+`CAN_Recover()`。该函数重新执行 `HAL_FDCAN_Init()`，而 `hfdcanx.Init.AutoRetransmission`
+仍为 `DISABLE`，于是 `CCCR.DAR` 被重新置 1，`0x142` 再次压掉 `0x146`，J6 无回包复发。
+
+修复需要同时覆盖三条路径，避免只在冷启动时正确：
+
+1. `dm_mcV610.ioc`：FDCAN1/2/3 的 `AutoRetransmission` 改为 `ENABLE`；
+2. `Core/Src/fdcan.c`：生成配置改为 `ENABLE`，并保留 USER CODE 区的清 DAR 作为防御；
+3. `LibSE/BSP/CAN/CAN_driver.c`：`CAN_Recover()` 在 `HAL_FDCAN_Init()` 前强制
+   `hcan->Init.AutoRetransmission = ENABLE`，保证运行中的自动恢复不会再关闭重发。
+
+验证时不能只看上电后的 `FDCAN2->CCCR`；还应人为制造一次恢复或读 `systemMonitor` 的
+`recover_success` / `err_reinit`，确认恢复后的 `CCCR.DAR` 仍为 0，J4 与 J6 的反馈计数继续同步增长。

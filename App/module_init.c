@@ -63,15 +63,62 @@ static void Module_MonitorInit(void)
 #define ARM_LIMIT_J5                  {(-60.0f), 90.0f}
 #define ARM_LIMIT_J6                  {(-180.0f), 180.0f}
 //角度环增益，暂时全填 0：PID 输出恒为 0，使能后电机不出力
-//每行：kp, ki, kd, d_alpha, sum_error_max, output_max，单位 deg -> N*m
-//注意 output_max 是力矩限幅，调参时忘了填就一直把输出截成 0
-#define ARM_GAIN_J0                   {0.1f, 0.0f, 0.0f, 0.0f, 0.0f, 0.2f}
-#define ARM_GAIN_J1                   {0.1f, 0.0f, 0.0f, 0.0f, 0.0f, 0.2f}
-#define ARM_GAIN_J2                   {0.1f, 0.0f, 0.0f, 0.0f, 0.0f, 0.2f}
-#define ARM_GAIN_J3                   {0.1f, 0.0f, 0.0f, 0.0f, 0.0f, 0.2f}
-#define ARM_GAIN_J4                   {0.1f, 0.0f, 0.0f, 0.0f, 0.0f, 0.2f}
-#define ARM_GAIN_J5                   {0.05f, 0.0f, 0.0f, 0.0f, 0.0f, 0.1f}
-#define ARM_GAIN_J6                   {0.05f, 0.0f, 0.0f, 0.0f, 0.0f, 0.1f}
+//每行：kp, ki, kd, d_alpha, sum_error_max, output_max, total_output_max，单位 deg -> N*m
+//output_max 只限制 PID；total_output_max 限制 PID + 重力前馈的最终和
+//总限幅先沿用原 output_max，保证上电出力上限不变；需要允许两部分叠加到更大时再按电机能力调大
+#define ARM_GAIN_J0                   {0.1f, 0.0f, 0.0f, 0.0f, 0.0f, 0.2f, 0.2f}
+#define ARM_GAIN_J1                   {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 2.5f, 2.5f}
+#define ARM_GAIN_J2                   {0.1f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.5f}
+#define ARM_GAIN_J3                   {0.1f, 0.0f, 0.0f, 0.0f, 0.0f, 0.6f, 0.6f}
+#define ARM_GAIN_J4                   {0.002f, 0.0f, 0.000f, 0.0f, 0.0f, 0.25f, 0.25f}
+#define ARM_GAIN_J5                   {0.003f, 0.0f, 0.000f, 0.0f, 0.0f, 0.2f, 0.2f}
+#define ARM_GAIN_J6                   {0.002f, 0.0f, 0.001f, 0.0f, 0.0f, 0.05f, 0.05f}
+
+//重力补偿（算法见 LibSE/Module/Arm/arm_dynamics.h，推导见仓库根目录「重力补偿推导.md」）
+//tau_g = Y(q) * pi，pi 每连杆 [hx, hy, hz, m]，h = m*c（kg*m），连杆下标 0..6 对应 J0..J6
+//替换参数的方式：直接改下面两张 const 表（在 Flash），或把 ARM_GRAVITY_PI / ARM_GRAVITY_BETA 的取值换成指向 RAM 表的指针
+//当前 ARM_GRAVITY_ENABLE = 1 只计算（结果在 armInstance.gravity.torque_model / torque_cmd），不会输出到电机：
+//输出由 arm.h 的编译开关 ARM_GRAVITY_OUTPUT 决定，默认 0；要上电试前馈，把它改成 1 重新编译
+#define ARM_GRAVITY_ENABLE            1U        //0：不计算，也不会有任何前馈
+#define ARM_GRAVITY_USE_BETA          1U        //1：用 12 维 beta（正式控制）；0：用 28 维 pi（核对用）
+//前馈符号相对 dU/dq：+1 同号；若实测悬停时关节往重力方向塌，把它改成 -1（只在 Arm_GravityUpdate 里乘一次）
+#define ARM_GRAVITY_SIGN              1
+#define ARM_GRAVITY_G                 9.81f     //必须与上位机 gravity_fit.py 拟合时的 g 一致，不要改成 9.80665
+//各轴单独开关：1 = 该轴叠加重力前馈，0 = 该轴不补偿（该轴前馈指令为 0，模型仍在计算，armInstance.gravity.torque_model 可看）
+//用来逐轴上电验证：先只开一个轴，确认方向和大小没问题再开下一个。J0 轴竖直，模型输出恒为 0，开不开都一样
+#define ARM_GRAVITY_EN_J0             0U
+#define ARM_GRAVITY_EN_J1             1U
+#define ARM_GRAVITY_EN_J2             1U
+#define ARM_GRAVITY_EN_J3             1U
+#define ARM_GRAVITY_EN_J4             1U
+#define ARM_GRAVITY_EN_J5             1U
+#define ARM_GRAVITY_EN_J6             1U
+#define ARM_GRAVITY_JOINT_MASK        ((ARM_GRAVITY_EN_J0 << 0) | (ARM_GRAVITY_EN_J1 << 1) | (ARM_GRAVITY_EN_J2 << 2) | \
+                                       (ARM_GRAVITY_EN_J3 << 3) | (ARM_GRAVITY_EN_J4 << 4) | (ARM_GRAVITY_EN_J5 << 5) | \
+                                       (ARM_GRAVITY_EN_J6 << 6))
+//28 维 pi：用户实测拟合值（Host 重力拟合 + 最小范数解），link0 与 link1 的质量项在 Y 里恒为 0
+static const float armGravityPi[ARM_GRAVITY_PI_DIM] =
+{
+    +0.00000f, +0.00000f, -0.00000f, +0.00000f,     //link0 (J0)
+    -0.00052f, +0.08218f, -0.00000f, +0.00000f,     //link1 (J1)
+    -0.00375f, +0.00012f, -0.08218f, +0.01216f,     //link2 (J2)
+    +0.00040f, -0.01262f, -0.00012f, +0.01216f,     //link3 (J3)
+    +0.00053f, +0.00012f, +0.01262f, +0.01342f,     //link4 (J4)
+    +0.00137f, +0.00458f, -0.00012f, +0.01342f,     //link5 (J5)
+    -0.00116f, +0.00064f, -0.00458f, +0.01342f,     //link6 (J6)
+};
+//12 维基参数 beta = [h2x h2y h3x h3y h4x h4y h5x h5y h6x h6y h7x h7y]，对应 pi 的列 4 5 8 9 12 13 16 17 20 21 24 25
+//由上面的 pi 投影得到：beta = lstsq(Y[:, SEL], Y @ pi)，400 个限位内随机位形，|B*beta - Y*pi| <= 4e-15 N*m
+//改了 pi 之后必须重算 beta（见 Host/tests/test_c_gravity.py 的 beta_from_pi），两张表要保持等价
+static const float armGravityBeta[ARM_GRAVITY_BETA_DIM] =
+{
+    -0.00052f, +0.1739178400f,      //h2x, h2y
+    -0.00375f, +0.00024f,           //h3x, h3y
+    +0.00040f, -0.029266f,          //h4x, h4y
+    +0.00053f, +0.00024f,           //h5x, h5y
+    +0.00137f, +0.00916f,           //h6x, h6y
+    -0.00116f, +0.00064f,           //h7x, h7y
+};
 
 //J0~J3 在 CAN1，J4~J6 在 CAN2，反馈在 Arm_Init 里绑到对应 CAN
 static void Module_ArmInit(void)
@@ -160,13 +207,24 @@ static void Module_ArmInit(void)
                 [ARM_J5] = ARM_GAIN_J5,
                 [ARM_J6] = ARM_GAIN_J6,
             },
+            .gravity =
+            {
+                .enable = ARM_GRAVITY_ENABLE,
+                .use_beta = ARM_GRAVITY_USE_BETA,
+                .sign = ARM_GRAVITY_SIGN,
+                .joint_mask = ARM_GRAVITY_JOINT_MASK,
+                .g = ARM_GRAVITY_G,
+                .pi = armGravityPi,
+                .beta = armGravityBeta,
+            },
         },
     };
     Arm_Init(&armInstance, &config);
 }
 
 /*--------------------------------------上位机--------------------------------------*/
-//只发不收：UART10 已是 921600，发送口绑在串口实例上，发送任务每个周期调 Host_Transmit，直接读 armInstance
+//收发共用 UART10（921600）：发送任务周期调 Host_Transmit，接收中断只校验并入队，
+//命令执行和应答都在任务上下文完成；Host 直接访问 armInstance 的上位机目标接口
 static void Module_HostInit(void)
 {
     const HostConfig_t config =

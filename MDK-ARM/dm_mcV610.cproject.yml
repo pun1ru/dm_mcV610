@@ -177,6 +177,8 @@ project:
         - file: ../LibSE/Module/Gimbal/gimbal.h
         - file: ../LibSE/Module/Arm/arm.c
         - file: ../LibSE/Module/Arm/arm.h
+        - file: ../LibSE/Module/Arm/arm_dynamics.c
+        - file: ../LibSE/Module/Arm/arm_dynamics.h
         - file: ../LibSE/Module/Arm/arm_jointctrl.c
         - file: ../LibSE/Module/Arm/arm_jointctrl.h
         - file: ../LibSE/Module/Arm/arm_kinematics.c

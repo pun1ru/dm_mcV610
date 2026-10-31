@@ -42,7 +42,7 @@ void MX_FDCAN1_Init(void)
   hfdcan1.Instance = FDCAN1;
   hfdcan1.Init.FrameFormat = FDCAN_FRAME_CLASSIC;
   hfdcan1.Init.Mode = FDCAN_MODE_NORMAL;
-  hfdcan1.Init.AutoRetransmission = DISABLE;
+  hfdcan1.Init.AutoRetransmission = ENABLE;
   hfdcan1.Init.TransmitPause = DISABLE;
   hfdcan1.Init.ProtocolException = DISABLE;
   hfdcan1.Init.NominalPrescaler = 3;
@@ -72,11 +72,9 @@ void MX_FDCAN1_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN FDCAN1_Init 2 */
-  /* 打开自动重发（CCCR.DAR=0）。
-   * CubeMX 默认 AutoRetransmission=DISABLE，丢了仲裁或出错的帧会被静默丢弃，
-   * 而 LK 电机的指令 ID 和回包 ID 是同一个（0x140+ID）：总线上 ID 小的回包
-   * （如 J4 的 0x142）会一直压掉 ID 大的指令（如 J6 的 0x146），指令帧就永远发不出去。
-   * 在 .ioc 里把 Auto Retransmission 勾上也能达到同样效果。 */
+  /* 保持自动重发（CCCR.DAR=0）。.ioc 已设为 ENABLE，这里再清一次作为防御。
+   * LK 电机的指令 ID 和回包 ID 是同一个（0x140+ID）：若 DAR=1，J4 的回包
+   * （0x142）压掉 J6 的指令（0x146）后，该指令会被静默丢弃，J6 永远不回包。 */
   CLEAR_BIT(FDCAN1->CCCR, FDCAN_CCCR_DAR);
   /* USER CODE END FDCAN1_Init 2 */
 
@@ -95,7 +93,7 @@ void MX_FDCAN2_Init(void)
   hfdcan2.Instance = FDCAN2;
   hfdcan2.Init.FrameFormat = FDCAN_FRAME_CLASSIC;
   hfdcan2.Init.Mode = FDCAN_MODE_NORMAL;
-  hfdcan2.Init.AutoRetransmission = DISABLE;
+  hfdcan2.Init.AutoRetransmission = ENABLE;
   hfdcan2.Init.TransmitPause = DISABLE;
   hfdcan2.Init.ProtocolException = DISABLE;
   hfdcan2.Init.NominalPrescaler = 3;
@@ -144,7 +142,7 @@ void MX_FDCAN3_Init(void)
   hfdcan3.Instance = FDCAN3;
   hfdcan3.Init.FrameFormat = FDCAN_FRAME_CLASSIC;
   hfdcan3.Init.Mode = FDCAN_MODE_NORMAL;
-  hfdcan3.Init.AutoRetransmission = DISABLE;
+  hfdcan3.Init.AutoRetransmission = ENABLE;
   hfdcan3.Init.TransmitPause = DISABLE;
   hfdcan3.Init.ProtocolException = DISABLE;
   hfdcan3.Init.NominalPrescaler = 3;

@@ -105,17 +105,26 @@ static void Arm_RcStateSync(Arm_t *arm)
     DT7RecData raw;
     DT7CmdData command;
     uint32_t now_ms = (uint32_t)(xTaskGetTickCount() * (TickType_t)portTICK_PERIOD_MS);
+    uint8_t rc_online = RC_Remote_IsOnline(&rc_receiver, now_ms, RC_DBUS_ONLINE_TIMEOUT_MS);
+
+    Arm_SetRcOnline(arm, rc_online != 0U);
 
     /* 没有有效帧、掉线，或者两个拨杆都在上挡，都按保护处理 */
-    if (RC_Remote_IsOnline(&rc_receiver, now_ms, RC_DBUS_ONLINE_TIMEOUT_MS) == 0U ||
-        RC_Remote_Read(&rc_receiver, &raw, &command) == 0U ||
+    if (rc_online == 0U || RC_Remote_Read(&rc_receiver, &raw, &command) == 0U ||
         (command.switch_left == DT7_RC_SW_UP && command.switch_right == DT7_RC_SW_UP))
     {
         (void)Arm_SetState(arm, ARM_PROTECTED);
         return;
     }
 
-    (void)Arm_SetState(arm, command.switch_right == DT7_RC_SW_MID ? ARM_ENABLE : ARM_PROTECTED);
+    if (command.switch_left == DT7_RC_SW_UP && command.switch_right == DT7_RC_SW_DOWN)
+    {
+        (void)Arm_SetState(arm, ARM_HOST);
+    }
+    else
+    {
+        (void)Arm_SetState(arm, command.switch_right == DT7_RC_SW_MID ? ARM_ENABLE : ARM_PROTECTED);
+    }
 }
 
 /* 模块任务往这里加：循环里调用模块运行函数，末尾 Task_Beat，再 vTaskDelayUntil */
