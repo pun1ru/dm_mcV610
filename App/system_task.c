@@ -68,14 +68,14 @@ void MonitorTask(void *argument)
 }
 
 /* CAN、UART 接收在中断里直接分发，没有接收任务 */
-void TransmitTask(void *argument)
+void CanTransmitTask(void *argument)
 {
     (void)argument;
 
     for (;;)
     {
-        Comm_ProcessTransmit();
-        Task_Beat(SYSTEM_TASK_TRANSMIT);
+        Comm_ProcessCanTransmit();
+        Task_Beat(SYSTEM_TASK_CAN_TRANSMIT);
     }
 }
 

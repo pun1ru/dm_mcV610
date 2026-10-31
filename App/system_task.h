@@ -6,7 +6,7 @@
 
 /* 基础任务 */
 void MonitorTask(void *argument);
-void TransmitTask(void *argument);
+void CanTransmitTask(void *argument);
 void UartTransmitTask(void *argument);
 
 /* 模块任务 */

@@ -9,9 +9,9 @@ void Comm_Register(void);
 void Comm_Start(void);
 
 /* 由任务循环调用，不含循环和心跳
- * Comm_ProcessTransmit 自己阻塞等发送队列
+ * Comm_ProcessCanTransmit 自己阻塞等 CAN 发送队列
  * CAN、UART 接收不经任务，在中断里直接分发给绑定的回调 */
-void Comm_ProcessTransmit(void);
+void Comm_ProcessCanTransmit(void);
 /* UART 发送：遍历各串口，调它们绑定的发送回调；周期由 UART 发送任务决定 */
 void Comm_ProcessUartTransmit(void);
 

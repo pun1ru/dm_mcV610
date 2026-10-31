@@ -91,16 +91,17 @@ void Comm_ProcessUartTransmit(void)
 }
 
 /* 各模块把 CAN 帧放进发送队列，这里取出来发出去；发送失败由 CAN 驱动自己计数 */
-void Comm_ProcessTransmit(void)
+void Comm_ProcessCanTransmit(void)
 {
     CanTxFrame_t frame;
+    //can队列有帧就返回，最多等1ms
     QueueSetMemberHandle_t ready = xQueueSelectFromSet(
-        transmit_can_queues, pdMS_TO_TICKS(TASK_TRANSMIT_PERIOD_MS));
+        transmit_can_queues, pdMS_TO_TICKS(TASK_CAN_TRANSMIT_PERIOD_MS));
 
     while (ready != NULL) {
         if (xQueueReceive(ready, &frame, 0U) == pdPASS) {
             (void)fdcanx_send_data(frame.can, frame.id, frame.data, frame.length);
         }
-        ready = xQueueSelectFromSet(transmit_can_queues, 0U);
+        ready = xQueueSelectFromSet(transmit_can_queues, 0U);//读空就退出
     }
 }

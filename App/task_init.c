@@ -23,8 +23,8 @@ static void Board_TaskCreate(void)
 {
     xTaskCreate(MonitorTask, "MonitorTask", TASK_MONITOR_STACK_SIZE, NULL,
                 TASK_MONITOR_PRIORITY, &MonitorTaskHandle);
-    xTaskCreate(TransmitTask, "TransmitTask", TASK_TRANSMIT_STACK_SIZE, NULL,
-                TASK_TRANSMIT_PRIORITY, &TransmitTaskHandle);
+    xTaskCreate(CanTransmitTask, "CanTransmitTask", TASK_CAN_TRANSMIT_STACK_SIZE, NULL,
+                TASK_CAN_TRANSMIT_PRIORITY, &CanTransmitTaskHandle);
     xTaskCreate(UartTransmitTask, "UartTransmitTask", TASK_UART_TRANSMIT_STACK_SIZE, NULL,
                 TASK_UART_TRANSMIT_PRIORITY, &UartTransmitTaskHandle);
     /* 模块任务往这里加 */

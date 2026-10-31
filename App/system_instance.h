@@ -66,7 +66,7 @@ extern Host_t hostInstance;
 /* 参与心跳监控的任务，值即 Monitor_Beat 的任务号，也是 systemTaskPeriodMs 的下标
  * 新增模块任务加在 SYSTEM_TASK_COUNT 之前，并同步 systemTaskPeriodMs */
 typedef enum {
-    SYSTEM_TASK_TRANSMIT = 0U,
+    SYSTEM_TASK_CAN_TRANSMIT = 0U,
     SYSTEM_TASK_UART_TRANSMIT,
     SYSTEM_TASK_ARM,
     SYSTEM_TASK_COUNT
@@ -75,7 +75,7 @@ typedef enum {
 extern const uint16_t systemTaskPeriodMs[SYSTEM_TASK_COUNT];
 
 extern TaskHandle_t MonitorTaskHandle;
-extern TaskHandle_t TransmitTaskHandle;
+extern TaskHandle_t CanTransmitTaskHandle;
 extern TaskHandle_t UartTransmitTaskHandle;
 extern TaskHandle_t ArmTaskHandle;
 
