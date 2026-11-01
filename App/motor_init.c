@@ -4,9 +4,9 @@
 #include "system_instance.h"
 //宏定义，电机绑定的can总线，电机型号，电机ID，电机反馈ID，电机零点，电机方向，控制模式
 //inverse 只影响力矩/电流指令方向（各驱动内部取反），不改变反馈，也不影响观测角
-//目前只有 J2 和 J6 置 true：测力矩方向时它们的 +指令方向与实际关节 +q 相反
+//J4/J6 motor positions were swapped on 2026-10-31. IDs/models below follow the new positions.
 //关节观测角的正负由 module_init.c 里 ArmConfig.param.direction 决定，见 arm_kinematics 的 Arm_UpdateJointAngle
-//零点按 2026-10-28 上板标定的机械零位填写；注意 Arm_Init 会用 ArmConfig.param.zero_point 覆盖这里，两处必须一致
+//Arm_Init overrides zero_point from ArmConfig.param.zero_point; keep both tables in sync.
 //J0~J3 在 CAN1，J4~J6 在 CAN2
 #define ARM_CAN1_INDEX                SYSTEM_CAN1_INDEX
 #define ARM_CAN2_INDEX                SYSTEM_CAN2_INDEX
@@ -23,7 +23,7 @@
 //LK 力矩模式，N*m 由驱动换成 iq
 #define ARM_LK_CONTROL_MODE           MODE_TORQUE
 //MF4005 有 25T 和 40T 两种绕组，扭矩常数不同，装的是哪种需要确认
-#define ARM_J4_MOTOR_MODEL            LK_MF4005_25T
+#define ARM_J4_MOTOR_MODEL            LK_MF4015
 //J0 GM6020，拨码 ID 3，发送 0x1FE，反馈 0x207
 #define ARM_J0_MOTOR_ID               3U
 #define ARM_J0_ZERO_POINT             4108U     // 实测机械零位，编码器 0~8191
@@ -42,21 +42,22 @@
 #define ARM_J3_FEEDBACK_ID            0x12U
 #define ARM_J3_ZERO_POINT             21635U    // 实测机械零位，MIT 位置原始值 0~65535
 #define ARM_J3_INVERSE                false
-//J4 MF4005，LK 指令 ID 为 0x140 + ID，反馈 ID 同值，这里是 0x142
-#define ARM_J4_MOTOR_ID               2U
+//J4: after the J4/J6 swap, J4 uses the former J6 motor (MF4015, 0x146).
+#define ARM_J4_MOTOR_ID               6U
 #define ARM_J4_FEEDBACK_ID            (LK_CAN_COMMAND_ID_BASE + ARM_J4_MOTOR_ID)
-#define ARM_J4_ZERO_POINT             26560U    // 实测机械零位，编码器 0~65535
-#define ARM_J4_INVERSE                false
+#define ARM_J4_ZERO_POINT             36500U    // J4/J6 对调后重新标定（2026-11-01），须与 module_init.c 的 ARM_ZERO_J4 一致
+#define ARM_J4_INVERSE                false     // 沿用原 J4 关节的力矩方向，实机未复核
 //J5 MF4015，0x141
 #define ARM_J5_MOTOR_ID               1U
 #define ARM_J5_FEEDBACK_ID            (LK_CAN_COMMAND_ID_BASE + ARM_J5_MOTOR_ID)
 #define ARM_J5_ZERO_POINT             32676U    // 实测机械零位，编码器 0~65535
 #define ARM_J5_INVERSE                false
-//J6 MF4015，0x146
-#define ARM_J6_MOTOR_ID               6U
+//J6: after the J4/J6 swap, J6 uses the former J4 motor (MF4005, 0x142).
+#define ARM_J6_MOTOR_MODEL            LK_MF4005_25T
+#define ARM_J6_MOTOR_ID               2U
 #define ARM_J6_FEEDBACK_ID            (LK_CAN_COMMAND_ID_BASE + ARM_J6_MOTOR_ID)
-#define ARM_J6_ZERO_POINT             65112U    // 实测机械零位，编码器 0~65535
-#define ARM_J6_INVERSE                true
+#define ARM_J6_ZERO_POINT             52365U    // J4/J6 对调后重新标定（2026-11-01），须与 module_init.c 的 ARM_ZERO_J6 一致
+#define ARM_J6_INVERSE                true      // 沿用原 J6 关节的力矩方向，实机未复核
 
 static RMMotorConfig_t Motor_RmConfig(uint8_t motor_id, uint16_t zero_point, bool inverse)
 {
@@ -119,7 +120,7 @@ void Motor_Init(void)
                                                      ARM_J4_FEEDBACK_ID, ARM_J4_ZERO_POINT, ARM_J4_INVERSE);
     const LKMotorConfig_t j5_config = Motor_LkConfig(LK_MF4015, ARM_J5_MOTOR_ID,
                                                      ARM_J5_FEEDBACK_ID, ARM_J5_ZERO_POINT, ARM_J5_INVERSE);
-    const LKMotorConfig_t j6_config = Motor_LkConfig(LK_MF4015, ARM_J6_MOTOR_ID,
+    const LKMotorConfig_t j6_config = Motor_LkConfig(ARM_J6_MOTOR_MODEL, ARM_J6_MOTOR_ID,
                                                      ARM_J6_FEEDBACK_ID, ARM_J6_ZERO_POINT, ARM_J6_INVERSE);
 
     //RM电机组声明，J0 和 J2 的 ID 不在同一段，各占一个发送帧

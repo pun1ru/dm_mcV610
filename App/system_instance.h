@@ -53,9 +53,9 @@ extern RMMotor_t armJ0Motor;    /* GM6020 */
 extern DMMotor_t armJ1Motor;    /* DM-J4310 */
 extern RMMotor_t armJ2Motor;    /* GM6020 */
 extern DMMotor_t armJ3Motor;    /* DM-J4310 */
-extern LKMotor_t armJ4Motor;    /* MF4005 */
+extern LKMotor_t armJ4Motor;    /* after swap: MF4015 */
 extern LKMotor_t armJ5Motor;    /* MF4015 */
-extern LKMotor_t armJ6Motor;    /* MF4015 */
+extern LKMotor_t armJ6Motor;    /* after swap: MF4005 */
 
 /*--------------------------------------模块实例--------------------------------------*/
 extern Monitor_t systemMonitor;

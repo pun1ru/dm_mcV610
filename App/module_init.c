@@ -36,18 +36,18 @@ static void Module_MonitorInit(void)
 #define ARM_ZERO_J1                   19268U
 #define ARM_ZERO_J2                   6740U
 #define ARM_ZERO_J3                   21635U
-#define ARM_ZERO_J4                   26560U
+#define ARM_ZERO_J4                   36500U    // J4/J6 对调后重新标定（2026-11-01）
 #define ARM_ZERO_J5                   32676U
-#define ARM_ZERO_J6                   65112U
+#define ARM_ZERO_J6                   52365U    // J4/J6 对调后重新标定（2026-11-01）
 //关节 +q 方向相对编码器计数方向的符号：+1 正向转编码器增大
 //只影响观测角的正负
 #define ARM_DIRECTION_J0              1
 #define ARM_DIRECTION_J1              1
 #define ARM_DIRECTION_J2              (-1)
 #define ARM_DIRECTION_J3              1
-#define ARM_DIRECTION_J4              1
+#define ARM_DIRECTION_J4              1         // 对调后沿用原 J4 关节的方向，实机未复核
 #define ARM_DIRECTION_J5              1
-#define ARM_DIRECTION_J6              (-1)
+#define ARM_DIRECTION_J6              (-1)      // 对调后沿用原 J6 关节的方向，实机未复核
 //关节工作区间
 #define ARM_LIMIT_J0                  {(-90.0f), 90.0f}
 #define ARM_LIMIT_J1                  {(-95.0f), 100.0f}
