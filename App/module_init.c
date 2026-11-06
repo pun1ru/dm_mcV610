@@ -50,12 +50,12 @@ static void Module_MonitorInit(void)
 #define ARM_DIRECTION_J6              (-1)      // 对调后沿用原 J6 关节的方向，实机未复核
 //关节工作区间
 #define ARM_LIMIT_J0                  {(-90.0f), 90.0f}
-#define ARM_LIMIT_J1                  {(-95.0f), 100.0f}
-#define ARM_LIMIT_J2                  {(-180.0f), 180.0f}
-#define ARM_LIMIT_J3                  {(-120.0f), 0.0f}
-#define ARM_LIMIT_J4                  {(-180.0f), 180.0f}
-#define ARM_LIMIT_J5                  {(-60.0f), 90.0f}
-#define ARM_LIMIT_J6                  {(-180.0f), 180.0f}
+#define ARM_LIMIT_J1                  {(-20.0f), 175.0f}
+#define ARM_LIMIT_J2                  {(-175.0f), 175.0f}
+#define ARM_LIMIT_J3                  {(-110.0f), 110.0f}
+#define ARM_LIMIT_J4                  {(-175.0f), 175.0f}
+#define ARM_LIMIT_J5                  {(-120.0f), 70.0f}
+#define ARM_LIMIT_J6                  {(-175.0f), 175.0f}
 //每行：kp, ki, kd, d_alpha, sum_error_max, output_max, total_output_max，单位 deg -> N*m
 #define ARM_GAIN_J0                   {0.1f, 0.0f, 0.0f, 0.0f, 0.0f, 0.2f, 0.2f}
 #define ARM_GAIN_J1                   {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 2.5f, 2.5f}
