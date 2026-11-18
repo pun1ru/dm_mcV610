@@ -426,6 +426,16 @@
               <FilePath>../LibSE/Algorithm/Kinematics/dh.h</FilePath>
             </File>
             <File>
+              <FileName>ik_numeric.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../LibSE/Algorithm/Kinematics/ik_numeric.c</FilePath>
+            </File>
+            <File>
+              <FileName>ik_numeric.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../LibSE/Algorithm/Kinematics/ik_numeric.h</FilePath>
+            </File>
+            <File>
               <FileName>algorism.c</FileName>
               <FileType>1</FileType>
               <FilePath>../LibSE/Algorithm/Math/algorism.c</FilePath>
@@ -754,6 +764,16 @@
               <FileName>arm_kinematics.h</FileName>
               <FileType>5</FileType>
               <FilePath>../LibSE/Module/Arm/arm_kinematics.h</FilePath>
+            </File>
+            <File>
+              <FileName>arm_ik.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../LibSE/Module/Arm/arm_ik.c</FilePath>
+            </File>
+            <File>
+              <FileName>arm_ik.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../LibSE/Module/Arm/arm_ik.h</FilePath>
             </File>
             <File>
               <FileName>shooter.c</FileName>

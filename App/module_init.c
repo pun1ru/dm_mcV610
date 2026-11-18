@@ -81,6 +81,20 @@ static void Module_MonitorInit(void)
 #define ARM_GRAVITY_JOINT_MASK        ((ARM_GRAVITY_EN_J0 << 0) | (ARM_GRAVITY_EN_J1 << 1) | (ARM_GRAVITY_EN_J2 << 2) | \
                                        (ARM_GRAVITY_EN_J3 << 3) | (ARM_GRAVITY_EN_J4 << 4) | (ARM_GRAVITY_EN_J5 << 5) | \
                                        (ARM_GRAVITY_EN_J6 << 6))
+//数值逆解（含义见 ik_numeric.h，与 Simulation/ArmSim 的 NumericIkParam 一一对应）
+//首次上板取保守值：步长和领先量都比仿真默认（0.2 / 5.0）小一半以上；跟踪正常后再逐步放大
+#define ARM_IK_DAMPING                0.03      //λ
+#define ARM_IK_ORIENTATION_LENGTH_M   0.1       //姿态误差折算成位置误差的等效长度
+#define ARM_IK_NULLSPACE_GAIN         0.02      //零空间向参考构型拉回的比例，0 = 关闭
+#define ARM_IK_MAX_STEP_DEG           0.1       //每关节每周期最大转角，2 ms 周期下约 50 °/s
+#define ARM_IK_MAX_POS_ERR_M          0.01
+#define ARM_IK_MAX_ROT_ERR_RAD        0.05
+#define ARM_IK_WEIGHT_FLOOR           1e-3
+#define ARM_IK_CONVERGED_POS_M        5e-4
+#define ARM_IK_CONVERGED_ROT_RAD      2e-3
+#define ARM_IK_MAX_LIMIT_PASSES       4
+#define ARM_IK_MAX_LEAD_DEG           2.0       //指令领先实测角的上限
+#define ARM_IK_WEIGHT                 {1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f}  //关节权重，越大越不愿动
 //28 维 pi：用户实测拟合值（Host 重力拟合 + 最小范数解），link0 与 link1 的质量项在 Y 里恒为 0
 static const float armGravityPi[ARM_GRAVITY_PI_DIM] =
 {
@@ -199,6 +213,24 @@ static void Module_ArmInit(void)
                 .g = ARM_GRAVITY_G,
                 .pi = armGravityPi,
                 .beta = armGravityBeta,
+            },
+            .ik =
+            {
+                .numeric =
+                {
+                    .damping = ARM_IK_DAMPING,
+                    .orientation_length_m = ARM_IK_ORIENTATION_LENGTH_M,
+                    .nullspace_gain = ARM_IK_NULLSPACE_GAIN,
+                    .max_step_deg = ARM_IK_MAX_STEP_DEG,
+                    .max_pos_err_m = ARM_IK_MAX_POS_ERR_M,
+                    .max_rot_err_rad = ARM_IK_MAX_ROT_ERR_RAD,
+                    .weight_floor = ARM_IK_WEIGHT_FLOOR,
+                    .converged_pos_m = ARM_IK_CONVERGED_POS_M,
+                    .converged_rot_rad = ARM_IK_CONVERGED_ROT_RAD,
+                    .max_limit_passes = ARM_IK_MAX_LIMIT_PASSES,
+                    .max_lead_deg = ARM_IK_MAX_LEAD_DEG,
+                },
+                .weight = ARM_IK_WEIGHT,
             },
         },
     };
