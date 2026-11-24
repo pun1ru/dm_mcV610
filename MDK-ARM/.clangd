@@ -1,5 +1,5 @@
 CompileFlags:
-  CompilationDatabase: e:\Embedded\STM32project\dm_mcV610\MDK-ARM\out\dm_mcV610\dm_mcV610
+  CompilationDatabase: e:\rm\7axisArm\Real\DIYcontroller\MDK-ARM\out\dm_mcV610\dm_mcV610
 
 ---
 If:
@@ -7,4 +7,4 @@ If:
 CompileFlags:
   Add:
     - -include
-    - e:\Embedded\STM32project\dm_mcV610\MDK-ARM\out\dm_mcV610\dm_mcV610\compile_macros_c.h
+    - e:\rm\7axisArm\Real\DIYcontroller\MDK-ARM\out\dm_mcV610\dm_mcV610\compile_macros_c.h

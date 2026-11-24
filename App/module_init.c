@@ -62,8 +62,8 @@ static void Module_MonitorInit(void)
 #define ARM_GAIN_J2                   {0.1f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.5f}
 #define ARM_GAIN_J3                   {0.1f, 0.0f, 0.0f, 0.0f, 0.0f, 0.6f, 0.6f}
 #define ARM_GAIN_J4                   {0.002f, 0.0f, 0.000f, 0.0f, 0.0f, 0.25f, 0.25f}
-#define ARM_GAIN_J5                   {0.003f, 0.0f, 0.000f, 0.0f, 0.0f, 0.2f, 0.2f}
-#define ARM_GAIN_J6                   {0.002f, 0.0f, 0.001f, 0.0f, 0.0f, 0.05f, 0.05f}
+#define ARM_GAIN_J5                   {0.00f, 0.0f, 0.00f, 0.0f, 0.0f, 0.2f, 0.2f}
+#define ARM_GAIN_J6                   {0.002f, 0.0f, 0.000f, 0.0f, 0.0f, 0.05f, 0.05f}
 
 #define ARM_GRAVITY_ENABLE            1U        //0：不计算，也不会有任何前馈
 #define ARM_GRAVITY_USE_BETA          1U        //1：用 12 维 beta（正式控制）；0：用 28 维 pi（核对用）
@@ -76,8 +76,8 @@ static void Module_MonitorInit(void)
 #define ARM_GRAVITY_EN_J2             1U
 #define ARM_GRAVITY_EN_J3             1U
 #define ARM_GRAVITY_EN_J4             1U
-#define ARM_GRAVITY_EN_J5             1U
-#define ARM_GRAVITY_EN_J6             1U
+#define ARM_GRAVITY_EN_J5             0U
+#define ARM_GRAVITY_EN_J6             0U
 #define ARM_GRAVITY_JOINT_MASK        ((ARM_GRAVITY_EN_J0 << 0) | (ARM_GRAVITY_EN_J1 << 1) | (ARM_GRAVITY_EN_J2 << 2) | \
                                        (ARM_GRAVITY_EN_J3 << 3) | (ARM_GRAVITY_EN_J4 << 4) | (ARM_GRAVITY_EN_J5 << 5) | \
                                        (ARM_GRAVITY_EN_J6 << 6))
@@ -107,14 +107,16 @@ static const float armGravityPi[ARM_GRAVITY_PI_DIM] =
     -0.00116f, +0.00064f, -0.00458f, +0.01342f,     //link6 (J6)
 };
 //12 维基参数 beta = [h2x h2y h3x h3y h4x h4y h5x h5y h6x h6y h7x h7y]，对应 pi 的列 4 5 8 9 12 13 16 17 20 21 24 25
+//拟合口径：Host 内置 gravity_fit，torque_cmd_nm、sign=+1、rcond=1e-3、max_vel=20 dps，仅用 J1~J4 方程；
+//数据：gravity_20261031_155813.csv + gravity_20261031_180013.csv + gravity_20261124_205756.csv
 static const float armGravityBeta[ARM_GRAVITY_BETA_DIM] =
 {
-    -0.00052f, +0.1739178400f,      //h2x, h2y
-    -0.00375f, +0.00024f,           //h3x, h3y
-    +0.00040f, -0.029266f,          //h4x, h4y
-    +0.00053f, +0.00024f,           //h5x, h5y
-    +0.00137f, +0.00916f,           //h6x, h6y
-    -0.00116f, +0.00064f,           //h7x, h7y
+    +0.00016161f, +0.17297906f,     //h2x, h2y
+    -0.00436530f, +0.00051086f,     //h3x, h3y
+    +0.00036617f, -0.02981606f,     //h4x, h4y
+    +0.00070752f, +0.00048763f,     //h5x, h5y
+    +0.00122868f, +0.00826247f,     //h6x, h6y
+    -0.00115391f, +0.00073239f,     //h7x, h7y
 };
 
 //J0~J3 在 CAN1，J4~J6 在 CAN2，反馈在 Arm_Init 里绑到对应 CAN
