@@ -6,7 +6,6 @@
 #include "comm_init.h"
 #include "ipc_init.h"
 #include "module_init.h"
-#include "motor_init.h"
 #include "system_define.h"
 #include "system_instance.h"
 #include "system_task.h"
@@ -27,9 +26,6 @@ static void Board_TaskCreate(void)
                 TASK_CAN_TRANSMIT_PRIORITY, &CanTransmitTaskHandle);
     xTaskCreate(UartTransmitTask, "UartTransmitTask", TASK_UART_TRANSMIT_STACK_SIZE, NULL,
                 TASK_UART_TRANSMIT_PRIORITY, &UartTransmitTaskHandle);
-    /* 模块任务往这里加 */
-    xTaskCreate(ArmTask, "ArmTask", TASK_ARM_STACK_SIZE, NULL,
-                TASK_ARM_PRIORITY, &ArmTaskHandle);
 }
 
 /*--------------------------------------入口--------------------------------------*/
@@ -38,7 +34,6 @@ void Board_Init(void)
     Base_Init();
     Ipc_Init();
     Comm_Register();
-    Motor_Init();
     Module_Init();
     Board_TaskCreate();
     Comm_Start();

@@ -911,16 +911,6 @@
               <FilePath>../App/comm_init.c</FilePath>
             </File>
             <File>
-              <FileName>motor_init.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>../App/motor_init.h</FilePath>
-            </File>
-            <File>
-              <FileName>motor_init.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../App/motor_init.c</FilePath>
-            </File>
-            <File>
               <FileName>module_init.h</FileName>
               <FileType>5</FileType>
               <FilePath>../App/module_init.h</FilePath>
