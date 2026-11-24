@@ -111,6 +111,8 @@ project:
         - file: ../LibSE/Algorithm/INS/Madgwick/Madgwick.h
         - file: ../LibSE/Algorithm/Kinematics/dh.c
         - file: ../LibSE/Algorithm/Kinematics/dh.h
+        - file: ../LibSE/Algorithm/Kinematics/ik_numeric.c
+        - file: ../LibSE/Algorithm/Kinematics/ik_numeric.h
         - file: ../LibSE/Algorithm/Math/algorism.c
         - file: ../LibSE/Algorithm/Math/algorism.h
         - file: ../LibSE/Algorithm/Math/arm_matrix.h
@@ -183,6 +185,8 @@ project:
         - file: ../LibSE/Module/Arm/arm_jointctrl.h
         - file: ../LibSE/Module/Arm/arm_kinematics.c
         - file: ../LibSE/Module/Arm/arm_kinematics.h
+        - file: ../LibSE/Module/Arm/arm_ik.c
+        - file: ../LibSE/Module/Arm/arm_ik.h
         - file: ../LibSE/Module/Shooter/shooter.c
         - file: ../LibSE/Module/Shooter/shooter.h
         - file: ../LibSE/Module/Stir/stir.c

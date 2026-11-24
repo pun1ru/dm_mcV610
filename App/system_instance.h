@@ -19,7 +19,7 @@
 
 /*--------------------------------------通信实例--------------------------------------*/
 #define SYSTEM_CAN_INSTANCE_COUNT     3U
-#define SYSTEM_UART_INSTANCE_COUNT    6U
+#define SYSTEM_UART_INSTANCE_COUNT    8U
 
 enum {
     SYSTEM_CAN1_INDEX = 0U,
@@ -33,7 +33,9 @@ enum {
     SYSTEM_UART1_INDEX,
     SYSTEM_UART2_INDEX,
     SYSTEM_UART3_INDEX,
-    SYSTEM_UART10_INDEX
+    SYSTEM_UART10_INDEX,
+    SYSTEM_UART8_INDEX,
+    SYSTEM_UART9_INDEX
 };
 
 extern CanInstance_t can_instances[SYSTEM_CAN_INSTANCE_COUNT];

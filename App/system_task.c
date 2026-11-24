@@ -89,6 +89,7 @@ void UartTransmitTask(void *argument)
 
     for (;;)
     {
+        UART_MonitorPoll();
         Comm_ProcessUartTransmit();
         Task_Beat(SYSTEM_TASK_UART_TRANSMIT);
         vTaskDelayUntil(&last_wake, pdMS_TO_TICKS(TASK_UART_TRANSMIT_PERIOD_MS));

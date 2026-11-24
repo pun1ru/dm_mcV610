@@ -55,6 +55,8 @@ static void Comm_UartRegister(void)
     UARTRegister(&uart_instances[SYSTEM_UART2_INDEX], &huart2);
     UARTRegister(&uart_instances[SYSTEM_UART3_INDEX], &huart3);
     UARTRegister(&uart_instances[SYSTEM_UART10_INDEX], &huart10);
+    UARTRegister(&uart_instances[SYSTEM_UART8_INDEX], &huart8);
+    UARTRegister(&uart_instances[SYSTEM_UART9_INDEX], &huart9);
 
     /* 协议解析器挂在 UART 口上，接收在串口中断里直接解析；没绑解析器的口收到的包直接丢弃 */
     Referee_Init(&referee_receiver);
