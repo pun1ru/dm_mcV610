@@ -2,7 +2,12 @@
     "debug.hideSlowPreLaunchWarning": true,
     "debug.showInStatusBar": "never",
     "clangd.arguments": [
-        "--compile-commands-dir=e:\\Embedded\\STM32project\\dm_mcV610\\MDK-ARM\\out\\dm_mcV610\\dm_mcV610"
+        "--compile-commands-dir=${workspaceFolder}/MDK-ARM/out/dm_mcV610/dm_mcV610"
     ],
+  "clangd.onConfigChanged": "restart",
+  "C_Cpp.intelliSenseEngine": "disabled",
+  "files.associations": {
+    "*.h": "c"
+  },
     "emberprobe.sampleFrequencyHz": 50
 }
