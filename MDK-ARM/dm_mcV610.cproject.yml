@@ -18,6 +18,7 @@ project:
         - ../LibSE/Drivers/Buzzer
         - ../LibSE/Drivers/WS2812
         - ../LibSE/Drivers/Bmi088
+        - ../LibSE/Drivers/DMIMU
         - ../LibSE/Drivers/Referee
         - ../LibSE/Drivers/RC/DT7
         - ../LibSE/Drivers/RC/VT13
@@ -29,6 +30,7 @@ project:
         - ../LibSE/Algorithm/Math
         - ../LibSE/Algorithm/Control/PID
         - ../LibSE/Algorithm/Control/ADRC
+        - ../LibSE/Algorithm/Dynamics
         - ../LibSE/Algorithm/Process/kalman_filter
         - ../LibSE/Algorithm/Process/ekf
         - ../LibSE/Algorithm/INS/Madgwick
@@ -109,6 +111,7 @@ project:
         - file: ../LibSE/BSP/DWT/bsp_dwt.h
         - file: ../LibSE/BSP/PWM/bsp_pwm.c
         - file: ../LibSE/BSP/PWM/bsp_pwm.h
+        - file: ../LibSE/BSP/SPI/bsp_spi.c
         - file: ../LibSE/BSP/SPI/bsp_spi.h
         - file: ../LibSE/BSP/UART/uart_driver.c
         - file: ../LibSE/BSP/UART/uart_driver.h
@@ -118,25 +121,98 @@ project:
         - file: ../LibSE/BSP/UART/vofa_uart.h
     - group: LibSE/Drivers
       files:
+        - file: ../LibSE/Drivers/Bmi088/bmi088_driver.c
+        - file: ../LibSE/Drivers/Bmi088/bmi088_driver.h
+        - file: ../LibSE/Drivers/Bmi088/bmi088_middleware.c
+        - file: ../LibSE/Drivers/Bmi088/bmi088_middleware.h
+        - file: ../LibSE/Drivers/Bmi088/bmi088_reg.h
+        - file: ../LibSE/Drivers/Bmi088/imu_temp_ctrl.c
         - file: ../LibSE/Drivers/Buzzer/bsp_buzzer.c
         - file: ../LibSE/Drivers/Buzzer/bsp_buzzer.h
+        - file: ../LibSE/Drivers/DMIMU/dmimu.c
+        - file: ../LibSE/Drivers/DMIMU/dmimu.h
+        - file: ../LibSE/Drivers/Motor/Motor.c
+        - file: ../LibSE/Drivers/Motor/Motor.h
+        - file: ../LibSE/Drivers/Motor/DMMotor/DMMotor.c
+        - file: ../LibSE/Drivers/Motor/DMMotor/DMMotor.h
+        - file: ../LibSE/Drivers/Motor/LKMotor/LKMotor.c
+        - file: ../LibSE/Drivers/Motor/LKMotor/LKMotor.h
+        - file: ../LibSE/Drivers/Motor/RMMotor/RMMotor.c
+        - file: ../LibSE/Drivers/Motor/RMMotor/RMMotor.h
         - file: ../LibSE/Drivers/RC/DT7/dt7_remote_driver.c
         - file: ../LibSE/Drivers/RC/DT7/remote_control.c
         - file: ../LibSE/Drivers/RC/DT7/dt7_remote_driver.h
         - file: ../LibSE/Drivers/RC/DT7/remote_control.h
+        - file: ../LibSE/Drivers/RC/VT13/CRC.c
+        - file: ../LibSE/Drivers/RC/VT13/VT13_rc_ctrl.c
+        - file: ../LibSE/Drivers/RC/VT13/VT13_rc_ctrl.h
         - file: ../LibSE/Drivers/Referee/judge_receive.c
         - file: ../LibSE/Drivers/Referee/referee.c
         - file: ../LibSE/Drivers/Referee/judge_receive.h
         - file: ../LibSE/Drivers/Referee/referee.h
+        - file: ../LibSE/Drivers/UI/UI_driver.c
+        - file: ../LibSE/Drivers/UI/UI_driver.h
         - file: ../LibSE/Drivers/WS2812/ws2812_board.c
         - file: ../LibSE/Drivers/WS2812/WS2812.h
+    - group: LibSE/Algorithm
+      files:
+        - file: ../LibSE/Algorithm/Control/ADRC/adrc.c
+        - file: ../LibSE/Algorithm/Control/ADRC/adrc.h
+        - file: ../LibSE/Algorithm/Control/PID/pid.c
+        - file: ../LibSE/Algorithm/Control/PID/pid.h
+        - file: ../LibSE/Algorithm/Dynamics/dynamics.c
+        - file: ../LibSE/Algorithm/Dynamics/dynamics.h
+        - file: ../LibSE/Algorithm/INS/Madgwick/Madgwick.c
+        - file: ../LibSE/Algorithm/INS/Madgwick/Madgwick.h
+        - file: ../LibSE/Algorithm/Kinematics/dh.c
+        - file: ../LibSE/Algorithm/Kinematics/dh.h
+        - file: ../LibSE/Algorithm/Kinematics/ik_numeric.c
+        - file: ../LibSE/Algorithm/Kinematics/ik_numeric.h
+        - file: ../LibSE/Algorithm/Kinematics/kinematics.c
+        - file: ../LibSE/Algorithm/Kinematics/kinematics.h
+        - file: ../LibSE/Algorithm/Math/algorism.c
+        - file: ../LibSE/Algorithm/Math/algorism.h
+        - file: ../LibSE/Algorithm/Math/arm_matrix.h
+        - file: ../LibSE/Algorithm/Math/position_tran.h
+        - file: ../LibSE/Algorithm/Process/ekf/ekf_quaternion.c
+        - file: ../LibSE/Algorithm/Process/ekf/ekf_quaternion.h
+        - file: ../LibSE/Algorithm/Process/kalman_filter/kalman_filter.c
+        - file: ../LibSE/Algorithm/Process/kalman_filter/kalman_filter.h
     - group: Application/MDK-ARM
       files:
         - file: startup_stm32h723xx.s
     - group: LibSE/Module
       files:
+        - file: ../LibSE/Module/Arm/arm.c
+        - file: ../LibSE/Module/Arm/arm.h
+        - file: ../LibSE/Module/Arm/arm_dynamics.c
+        - file: ../LibSE/Module/Arm/arm_dynamics.h
+        - file: ../LibSE/Module/Arm/arm_ik.c
+        - file: ../LibSE/Module/Arm/arm_ik.h
+        - file: ../LibSE/Module/Arm/arm_jointctrl.c
+        - file: ../LibSE/Module/Arm/arm_jointctrl.h
+        - file: ../LibSE/Module/Arm/arm_kinematics.c
+        - file: ../LibSE/Module/Arm/arm_kinematics.h
+        - file: ../LibSE/Module/Debug/debug.c
+        - file: ../LibSE/Module/Debug/debug.h
+        - file: ../LibSE/Module/DIY/diy.c
+        - file: ../LibSE/Module/DIY/diy.h
+        - file: ../LibSE/Module/Gimbal/gimbal.c
+        - file: ../LibSE/Module/Gimbal/gimbal.h
+        - file: ../LibSE/Module/Host/host.c
+        - file: ../LibSE/Module/Host/host.h
+        - file: ../LibSE/Module/INS/ins.c
+        - file: ../LibSE/Module/INS/ins.h
         - file: ../LibSE/Module/Monitor/monitor.c
         - file: ../LibSE/Module/Monitor/monitor.h
+        - file: ../LibSE/Module/Shooter/shooter.c
+        - file: ../LibSE/Module/Shooter/shooter.h
+        - file: ../LibSE/Module/Stir/stir.c
+        - file: ../LibSE/Module/Stir/stir.h
+    - group: LibSE/MinimalState
+      files:
+        - file: ../LibSE/minimal_state/gimbal_ammo_state.c
+        - file: ../LibSE/minimal_state/gimbal_ammo_state.h
     - group: App/System
       files:
         - file: ../App/system_define.h
@@ -154,6 +230,8 @@ project:
         - file: ../App/comm_init.c
         - file: ../App/module_init.h
         - file: ../App/module_init.c
+        - file: ../App/monitor_actions.h
+        - file: ../App/monitor_actions.c
     - group: Application/User/Core
       misc:
         - C-CPP:

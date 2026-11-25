@@ -36,14 +36,8 @@ extern Referee_t referee_receiver;
 extern RC_Remote_t rc_receiver;
 
 extern Monitor_t systemMonitor;
-
-typedef enum {
-    SYSTEM_TASK_CAN_TRANSMIT = 0U,
-    SYSTEM_TASK_UART_TRANSMIT,
-    SYSTEM_TASK_COUNT
-} SystemTaskId_t;
-
-extern const uint16_t systemTaskPeriodMs[SYSTEM_TASK_COUNT];
+extern MonitorHeartbeat_t can_tx_heartbeat;
+extern MonitorHeartbeat_t uart_tx_heartbeat;
 extern TaskHandle_t MonitorTaskHandle;
 extern TaskHandle_t CanTransmitTaskHandle;
 extern TaskHandle_t UartTransmitTaskHandle;

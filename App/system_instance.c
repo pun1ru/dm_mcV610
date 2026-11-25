@@ -14,10 +14,8 @@ RC_Remote_t rc_receiver;
 Monitor_t systemMonitor;
 
 /*--------------------------------------任务实例--------------------------------------*/
-const uint16_t systemTaskPeriodMs[SYSTEM_TASK_COUNT] = {
-    TASK_CAN_TRANSMIT_PERIOD_MS,
-    TASK_UART_TRANSMIT_PERIOD_MS
-};
+MonitorHeartbeat_t can_tx_heartbeat;
+MonitorHeartbeat_t uart_tx_heartbeat;
 
 TaskHandle_t MonitorTaskHandle;
 TaskHandle_t CanTransmitTaskHandle;

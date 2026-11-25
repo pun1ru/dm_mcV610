@@ -9,8 +9,10 @@
 #define TASK_MONITOR_PERIOD_MS        100U
 #define TASK_MONITOR_LOOP_PERIOD_MS   2U
 #define TASK_CAN_MONITOR_PERIOD_MS    6U
-#define TASK_CAN_TRANSMIT_PERIOD_MS   1U
+#define TASK_CAN_TRANSMIT_PERIOD_MS   1U//空闲时等待队列数据的超时时间，实际上是有数据入队列就发送
 #define TASK_UART_TRANSMIT_PERIOD_MS  2U
+#define MONITOR_CAN_TX_TIMEOUT_MS     20U
+#define MONITOR_UART_TX_TIMEOUT_MS    20U
 
 /* 任务栈按 StackType_t 计，数值乘以 4 为字节数 */
 #define TASK_MONITOR_STACK_SIZE       512U
