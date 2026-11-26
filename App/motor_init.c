@@ -20,8 +20,13 @@
 #define ARM_RM_CONTROL_MODE           MODE_TORQUE
 //DM 的 zero_point 是 MIT 位置映射下的原始值（0~65535 线性映射到 P_MIN~P_MAX），各关节不同，见下面 J1/J3
 #define ARM_DM_CONTROL_MODE           MODE_MIT
-//LK 力矩模式，N*m 由驱动换成 iq
+// 末三轴 LK 控制方式：1 = 多圈角度控制模式2/0xA4，0 = 原力矩模式/0xA1
+#define ARM_LK_USE_MULTI_ANGLE_MODE2  1U
+#if ARM_LK_USE_MULTI_ANGLE_MODE2
+#define ARM_LK_CONTROL_MODE           MODE_POSITION
+#else
 #define ARM_LK_CONTROL_MODE           MODE_TORQUE
+#endif
 //MF4005 有 25T 和 40T 两种绕组，扭矩常数不同，装的是哪种需要确认
 #define ARM_J4_MOTOR_MODEL            LK_MF4015
 //J0 GM6020，拨码 ID 3，发送 0x1FE，反馈 0x207

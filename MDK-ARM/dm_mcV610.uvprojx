@@ -426,6 +426,16 @@
               <FilePath>../LibSE/Algorithm/Kinematics/dh.h</FilePath>
             </File>
             <File>
+              <FileName>ik_analytic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../LibSE/Algorithm/Kinematics/ik_analytic.c</FilePath>
+            </File>
+            <File>
+              <FileName>ik_analytic.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>../LibSE/Algorithm/Kinematics/ik_analytic.h</FilePath>
+            </File>
+            <File>
               <FileName>ik_numeric.c</FileName>
               <FileType>1</FileType>
               <FilePath>../LibSE/Algorithm/Kinematics/ik_numeric.c</FilePath>

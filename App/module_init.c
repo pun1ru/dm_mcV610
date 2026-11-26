@@ -61,8 +61,8 @@ static void Module_MonitorInit(void)
 #define ARM_GAIN_J1                   {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 2.5f, 2.5f}
 #define ARM_GAIN_J2                   {0.1f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.5f}
 #define ARM_GAIN_J3                   {0.1f, 0.0f, 0.0f, 0.0f, 0.0f, 0.6f, 0.6f}
-#define ARM_GAIN_J4                   {0.002f, 0.0f, 0.000f, 0.0f, 0.0f, 0.25f, 0.25f}
-#define ARM_GAIN_J5                   {0.00f, 0.0f, 0.00f, 0.0f, 0.0f, 0.2f, 0.2f}
+#define ARM_GAIN_J4                   {0.0005f, 0.0001f, 0.011f, 0.0f, 0.0f, 0.25f, 0.25f}
+#define ARM_GAIN_J5                   {0.0005f, 0.0001f, 0.011f, 0.0f, 0.0f, 0.2f, 0.2f}
 #define ARM_GAIN_J6                   {0.002f, 0.0f, 0.000f, 0.0f, 0.0f, 0.05f, 0.05f}
 
 #define ARM_GRAVITY_ENABLE            1U        //0：不计算，也不会有任何前馈
@@ -75,7 +75,7 @@ static void Module_MonitorInit(void)
 #define ARM_GRAVITY_EN_J1             1U
 #define ARM_GRAVITY_EN_J2             1U
 #define ARM_GRAVITY_EN_J3             1U
-#define ARM_GRAVITY_EN_J4             1U
+#define ARM_GRAVITY_EN_J4             0U
 #define ARM_GRAVITY_EN_J5             0U
 #define ARM_GRAVITY_EN_J6             0U
 #define ARM_GRAVITY_JOINT_MASK        ((ARM_GRAVITY_EN_J0 << 0) | (ARM_GRAVITY_EN_J1 << 1) | (ARM_GRAVITY_EN_J2 << 2) | \

@@ -9,5 +9,7 @@
   "files.associations": {
     "*.h": "c"
   },
-    "emberprobe.sampleFrequencyHz": 50
+    "emberprobe.sampleFrequencyHz": 5,
+    "emberprobe.adapterSpeedKhz": 100,
+    "emberprobe.samplingAdapterSpeedKhz": 100
 }
