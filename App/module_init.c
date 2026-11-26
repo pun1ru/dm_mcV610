@@ -60,12 +60,12 @@ static void Module_MonitorInit(void)
 
 //关节 PID 参数，单位 deg -> N*m，阻抗用PD
 //每行：kp, ki, kd, d_alpha, sum_error_max, output_max, total_output_max，单位 deg -> N*m
-#define ARM_GAIN_J0                   {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.2f, 0.2f}
-#define ARM_GAIN_J1                   {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 2.5f, 2.5f}
-#define ARM_GAIN_J2                   {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.5f}
-#define ARM_GAIN_J3                   {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.6f, 0.6f}
-#define ARM_GAIN_J4                   {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.25f, 0.25f}
-#define ARM_GAIN_J5                   {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.2f, 0.2f}
+#define ARM_GAIN_J0                   {0.2f, 0.0f, 2.0f, 0.90f, 0.0f, 1.5f, 1.5f}
+#define ARM_GAIN_J1                   {1.0f, 0.0f, 5.0f, 0.0f, 0.0f, 2.5f, 2.5f}
+#define ARM_GAIN_J2                   {0.06f, 0.0f, 0.6f, 0.0f, 0.0f, 0.5f, 0.5f}
+#define ARM_GAIN_J3                   {0.3f, 0.0f, 3.0f, 0.0f, 0.0f, 0.6f, 0.6f}
+#define ARM_GAIN_J4                   {0.01f, 0.0f, 0.1f, 0.0f, 0.0f, 0.25f, 0.25f}
+#define ARM_GAIN_J5                   {0.01f, 0.0f, 0.1f, 0.0f, 0.0f, 0.2f, 0.2f}
 #define ARM_GAIN_J6                   {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.05f, 0.05f}
 
 //重力补偿
