@@ -2,3 +2,11 @@
 /MDK-ARM/out/
 /MDK-ARM/tmp/
 /MDK-ARM/.cmsis/tools-environment.yml
+
+# EmberProbe / OpenOCD / debug-probe generated integration files.
+.agents/skills/_emberprobe/
+.agents/skills/mcu-*/
+.agents/skills/computer-use/
+.openocd/
+openocd*.log
+*.openocd.log

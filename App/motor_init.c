@@ -4,15 +4,13 @@
 #include "system_instance.h"
 //宏定义，电机绑定的can总线，电机型号，电机ID，电机反馈ID，电机零点，电机方向，控制模式
 //inverse 只影响力矩/电流指令方向（各驱动内部取反），不改变反馈，也不影响观测角
-//J4/J6 motor positions were swapped on 2026-10-31. IDs/models below follow the new positions.
 //关节观测角的正负由 module_init.c 里 ArmConfig.param.direction 决定，见 arm_kinematics 的 Arm_UpdateJointAngle
-//Arm_Init overrides zero_point from ArmConfig.param.zero_point; keep both tables in sync.
+
 //J0~J3 在 CAN1，J4~J6 在 CAN2
 #define ARM_CAN1_INDEX                SYSTEM_CAN1_INDEX
 #define ARM_CAN2_INDEX                SYSTEM_CAN2_INDEX
-//GM6020 电流环力矩控制：ID 1~4 发 0x1FE，ID 5~7 发 0x2FE，反馈 ID 都是 0x204 + ID
-//注意：0x1FE/0x2FE 只有在电机的"电流环"开关打开后才生效（调参软件里设，固件 >= 1.0.11.2），
-//开关关着时电机只认电压帧 0x1FF/0x2FF，电流帧会被直接忽略
+
+//GM6020
 #define ARM_RM_TX_ID_LOW              0x1FEU
 #define ARM_RM_TX_ID_HIGH             0x2FEU
 #define ARM_RM_MOTOR_TYPE             RM_GM6020
@@ -21,13 +19,13 @@
 //DM 的 zero_point 是 MIT 位置映射下的原始值（0~65535 线性映射到 P_MIN~P_MAX），各关节不同，见下面 J1/J3
 #define ARM_DM_CONTROL_MODE           MODE_MIT
 // 末三轴 LK 控制方式：1 = 多圈角度控制模式2/0xA4，0 = 原力矩模式/0xA1
-#define ARM_LK_USE_MULTI_ANGLE_MODE2  1U
+#define ARM_LK_USE_MULTI_ANGLE_MODE2  0U
 #if ARM_LK_USE_MULTI_ANGLE_MODE2
 #define ARM_LK_CONTROL_MODE           MODE_POSITION
 #else
 #define ARM_LK_CONTROL_MODE           MODE_TORQUE
 #endif
-//MF4005 有 25T 和 40T 两种绕组，扭矩常数不同，装的是哪种需要确认
+//MF4005 有 25T 和 40T 两种绕组，扭矩常数不同，装的是哪种需要确认 是25T
 #define ARM_J4_MOTOR_MODEL            LK_MF4015
 //J0 GM6020，拨码 ID 3，发送 0x1FE，反馈 0x207
 #define ARM_J0_MOTOR_ID               3U

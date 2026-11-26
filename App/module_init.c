@@ -21,7 +21,7 @@ static void Module_MonitorInit(void)
 }
 
 /*--------------------------------------七轴臂--------------------------------------*/
-//角色在这里定下，初始化后不再改：本板是自定义控制器，做主机
+//自定义控制器，做主机
 #define ARM_ROLE                      ARM_ROLE_MASTER
 //改进DH参数表
 #define ARM_DH_J0                     {0.0f, 0.0f, 0.0626f, 0.0f}
@@ -56,15 +56,19 @@ static void Module_MonitorInit(void)
 #define ARM_LIMIT_J4                  {(-175.0f), 175.0f}
 #define ARM_LIMIT_J5                  {(-120.0f), 70.0f}
 #define ARM_LIMIT_J6                  {(-175.0f), 175.0f}
-//每行：kp, ki, kd, d_alpha, sum_error_max, output_max, total_output_max，单位 deg -> N*m
-#define ARM_GAIN_J0                   {0.1f, 0.0f, 0.0f, 0.0f, 0.0f, 0.2f, 0.2f}
-#define ARM_GAIN_J1                   {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 2.5f, 2.5f}
-#define ARM_GAIN_J2                   {0.1f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.5f}
-#define ARM_GAIN_J3                   {0.1f, 0.0f, 0.0f, 0.0f, 0.0f, 0.6f, 0.6f}
-#define ARM_GAIN_J4                   {0.0005f, 0.0001f, 0.011f, 0.0f, 0.0f, 0.25f, 0.25f}
-#define ARM_GAIN_J5                   {0.0005f, 0.0001f, 0.011f, 0.0f, 0.0f, 0.2f, 0.2f}
-#define ARM_GAIN_J6                   {0.002f, 0.0f, 0.000f, 0.0f, 0.0f, 0.05f, 0.05f}
+//关节速度限制 待加
 
+//关节 PID 参数，单位 deg -> N*m，阻抗用PD
+//每行：kp, ki, kd, d_alpha, sum_error_max, output_max, total_output_max，单位 deg -> N*m
+#define ARM_GAIN_J0                   {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.2f, 0.2f}
+#define ARM_GAIN_J1                   {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 2.5f, 2.5f}
+#define ARM_GAIN_J2                   {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.5f}
+#define ARM_GAIN_J3                   {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.6f, 0.6f}
+#define ARM_GAIN_J4                   {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.25f, 0.25f}
+#define ARM_GAIN_J5                   {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.2f, 0.2f}
+#define ARM_GAIN_J6                   {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.05f, 0.05f}
+
+//重力补偿
 #define ARM_GRAVITY_ENABLE            1U        //0：不计算，也不会有任何前馈
 #define ARM_GRAVITY_USE_BETA          1U        //1：用 12 维 beta（正式控制）；0：用 28 维 pi（核对用）
 //前馈符号相对 dU/dq：+1 同号；若实测悬停时关节往重力方向塌，把它改成 -1（只在 Arm_GravityUpdate 里乘一次）
@@ -75,12 +79,36 @@ static void Module_MonitorInit(void)
 #define ARM_GRAVITY_EN_J1             1U
 #define ARM_GRAVITY_EN_J2             1U
 #define ARM_GRAVITY_EN_J3             1U
-#define ARM_GRAVITY_EN_J4             0U
-#define ARM_GRAVITY_EN_J5             0U
-#define ARM_GRAVITY_EN_J6             0U
+#define ARM_GRAVITY_EN_J4             1U
+#define ARM_GRAVITY_EN_J5             1U
+#define ARM_GRAVITY_EN_J6             1U
 #define ARM_GRAVITY_JOINT_MASK        ((ARM_GRAVITY_EN_J0 << 0) | (ARM_GRAVITY_EN_J1 << 1) | (ARM_GRAVITY_EN_J2 << 2) | \
                                        (ARM_GRAVITY_EN_J3 << 3) | (ARM_GRAVITY_EN_J4 << 4) | (ARM_GRAVITY_EN_J5 << 5) | \
                                        (ARM_GRAVITY_EN_J6 << 6))
+
+//28 维 pi
+static const float armGravityPi[ARM_GRAVITY_PI_DIM] =
+{
+    +0.0000000000f, +0.0000000000f, +0.0000000000f, +0.0000000000f,  //link0 (J0)
+    -0.0004752478f, +0.0819734718f, +0.0000000000f, +0.0000000000f,  //link1 (J1)
+    -0.0054564876f, +0.0000241475f, -0.0819734718f, +0.0121320738f,  //link2 (J2)
+    +0.0006196353f, -0.0130415714f, -0.0000241475f, +0.0121320738f,  //link3 (J3)
+    -0.0003754912f, +0.0002746489f, +0.0130415714f, +0.0134362310f,  //link4 (J4)
+    +0.0004932583f, +0.0030319493f, -0.0002746489f, +0.0134362310f,  //link5 (J5)
+    -0.0001107794f, +0.0001979887f, -0.0030319493f, +0.0134362310f,  //link6 (J6)
+};
+//12 维基参数 beta = [h2x h2y h3x h3y h4x h4y h5x h5y h6x h6y h7x h7y]
+//来源：gravity_20261126_210025.csv，按上方嵌入式 DH 和保存的逐关节噪声做加权拟合后投影
+static const float armGravityBeta[ARM_GRAVITY_BETA_DIM] =
+{
+    -0.0004752478f, +0.1735037239f,  //h2x, h2y
+    -0.0054564876f, +0.0000482951f,  //h3x, h3y
+    +0.0006196353f, -0.0301140122f,  //h4x, h4y
+    -0.0003754912f, +0.0005492978f,  //h5x, h5y
+    +0.0004932583f, +0.0060638986f,  //h6x, h6y
+    -0.0001107794f, +0.0001979887f,  //h7x, h7y
+};
+
 //数值逆解（含义见 ik_numeric.h，与 Simulation/ArmSim 的 NumericIkParam 一一对应）
 //首次上板取保守值：步长和领先量都比仿真默认（0.2 / 5.0）小一半以上；跟踪正常后再逐步放大
 #define ARM_IK_DAMPING                0.03      //λ
@@ -95,29 +123,6 @@ static void Module_MonitorInit(void)
 #define ARM_IK_MAX_LIMIT_PASSES       4
 #define ARM_IK_MAX_LEAD_DEG           2.0       //指令领先实测角的上限
 #define ARM_IK_WEIGHT                 {1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f}  //关节权重，越大越不愿动
-//28 维 pi：用户实测拟合值（Host 重力拟合 + 最小范数解），link0 与 link1 的质量项在 Y 里恒为 0
-static const float armGravityPi[ARM_GRAVITY_PI_DIM] =
-{
-    +0.00000f, +0.00000f, -0.00000f, +0.00000f,     //link0 (J0)
-    -0.00052f, +0.08218f, -0.00000f, +0.00000f,     //link1 (J1)
-    -0.00375f, +0.00012f, -0.08218f, +0.01216f,     //link2 (J2)
-    +0.00040f, -0.01262f, -0.00012f, +0.01216f,     //link3 (J3)
-    +0.00053f, +0.00012f, +0.01262f, +0.01342f,     //link4 (J4)
-    +0.00137f, +0.00458f, -0.00012f, +0.01342f,     //link5 (J5)
-    -0.00116f, +0.00064f, -0.00458f, +0.01342f,     //link6 (J6)
-};
-//12 维基参数 beta = [h2x h2y h3x h3y h4x h4y h5x h5y h6x h6y h7x h7y]，对应 pi 的列 4 5 8 9 12 13 16 17 20 21 24 25
-//拟合口径：Host 内置 gravity_fit，torque_cmd_nm、sign=+1、rcond=1e-3、max_vel=20 dps，仅用 J1~J4 方程；
-//数据：gravity_20261031_155813.csv + gravity_20261031_180013.csv + gravity_20261124_205756.csv
-static const float armGravityBeta[ARM_GRAVITY_BETA_DIM] =
-{
-    +0.00016161f, +0.17297906f,     //h2x, h2y
-    -0.00436530f, +0.00051086f,     //h3x, h3y
-    +0.00036617f, -0.02981606f,     //h4x, h4y
-    +0.00070752f, +0.00048763f,     //h5x, h5y
-    +0.00122868f, +0.00826247f,     //h6x, h6y
-    -0.00115391f, +0.00073239f,     //h7x, h7y
-};
 
 //J0~J3 在 CAN1，J4~J6 在 CAN2，反馈在 Arm_Init 里绑到对应 CAN
 static void Module_ArmInit(void)
