@@ -100,6 +100,7 @@ void UartTransmitTask(void *argument)
 /* 遥控状态机：
  * 双上拨（左右拨杆都在上挡）-> 保护，七个关节全部发零指令；
  * 左中 + 右下 -> TEST，CH1 增量调整选中关节，CH4 循环切换 J0~J6；
+ * 左中 + 右中 -> ARM_IK，CH1~CH3 调位置，CH4 切换后 CH0/CH2/CH3 调姿态；
  * 左上 + 右下 -> HOST，由上位机设定关节目标；
  * 右拨杆中挡 -> 使能，关节角度环工作，目标默认对齐当前关节角，PID 参数全 0 时不出力；
  * 其余拨杆组合、遥控掉线或没有有效帧 -> 保护。 */
@@ -116,16 +117,21 @@ static void Arm_RcStateSync(Arm_t *arm)
     if (rc_online == 0U || RC_Remote_Read(&rc_receiver, &raw, &command) == 0U ||
         (command.switch_left == DT7_RC_SW_UP && command.switch_right == DT7_RC_SW_UP))
     {
-        Arm_SetTestInput(arm, 0, 0);
+        Arm_SetRcInput(arm, 0, 0, 0, 0, 0);
         (void)Arm_SetState(arm, ARM_PROTECTED);
         return;
     }
 
-    Arm_SetTestInput(arm, command.ch1, command.ch4);
+    Arm_SetRcInput(arm, command.ch0, command.ch1, command.ch2,
+                   command.ch3, command.ch4);
 
     if (command.switch_left == DT7_RC_SW_MID && command.switch_right == DT7_RC_SW_DOWN)
     {
         (void)Arm_SetState(arm, ARM_TEST);
+    }
+    else if (command.switch_left == DT7_RC_SW_MID && command.switch_right == DT7_RC_SW_MID)
+    {
+        (void)Arm_SetState(arm, ARM_IK);
     }
     else if (command.switch_left == DT7_RC_SW_UP && command.switch_right == DT7_RC_SW_DOWN)
     {

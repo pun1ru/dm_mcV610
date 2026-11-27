@@ -60,13 +60,13 @@ static void Module_MonitorInit(void)
 
 //关节 PID 参数，单位 deg -> N*m，阻抗用PD
 //每行：kp, ki, kd, d_alpha, sum_error_max, output_max, total_output_max，单位 deg -> N*m
-#define ARM_GAIN_J0                   {0.2f, 0.0f, 2.0f, 0.90f, 0.0f, 1.5f, 1.5f}
-#define ARM_GAIN_J1                   {1.0f, 0.0f, 5.0f, 0.0f, 0.0f, 2.5f, 2.5f}
-#define ARM_GAIN_J2                   {0.06f, 0.0f, 0.6f, 0.0f, 0.0f, 0.5f, 0.5f}
-#define ARM_GAIN_J3                   {0.3f, 0.0f, 3.0f, 0.0f, 0.0f, 0.6f, 0.6f}
-#define ARM_GAIN_J4                   {0.01f, 0.0f, 0.1f, 0.0f, 0.0f, 0.25f, 0.25f}
-#define ARM_GAIN_J5                   {0.01f, 0.0f, 0.1f, 0.0f, 0.0f, 0.2f, 0.2f}
-#define ARM_GAIN_J6                   {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.05f, 0.05f}
+#define ARM_GAIN_J0                   {0.1f, 0.0f, 1.5f, 0.90f, 0.0f, 1.2f, 1.2f}
+#define ARM_GAIN_J1                   {0.8f, 0.0f, 4.0f, 0.90f, 0.0f, 2.5f, 2.5f}
+#define ARM_GAIN_J2                   {0.05f, 0.0f, 0.6f, 0.90f, 0.0f, 0.5f, 0.5f}
+#define ARM_GAIN_J3                   {0.3f, 0.0f, 3.5f, 0.0f, 0.0f, 0.6f, 0.6f}
+#define ARM_GAIN_J4                   {0.01f, 0.0f, 0.15f, 0.0f, 0.0f, 0.25f, 0.25f}
+#define ARM_GAIN_J5                   {0.01f, 0.0f, 0.15f, 0.0f, 0.0f, 0.2f, 0.2f}
+#define ARM_GAIN_J6                   {0.001f, 0.0f, 0.01f, 0.0f, 0.0f, 0.05f, 0.05f}
 
 //重力补偿
 #define ARM_GRAVITY_ENABLE            1U        //0：不计算，也不会有任何前馈
@@ -109,20 +109,19 @@ static const float armGravityBeta[ARM_GRAVITY_BETA_DIM] =
     -0.0001107794f, +0.0001979887f,  //h7x, h7y
 };
 
-//数值逆解（含义见 ik_numeric.h，与 Simulation/ArmSim 的 NumericIkParam 一一对应）
-//首次上板取保守值：步长和领先量都比仿真默认（0.2 / 5.0）小一半以上；跟踪正常后再逐步放大
-#define ARM_IK_DAMPING                0.03      //λ
-#define ARM_IK_ORIENTATION_LENGTH_M   0.1       //姿态误差折算成位置误差的等效长度
-#define ARM_IK_NULLSPACE_GAIN         0.02      //零空间向参考构型拉回的比例，0 = 关闭
+//数值逆解
+#define ARM_IK_DAMPING                0.03      //阻尼参数，越大越不容易发散，但收敛慢
+#define ARM_IK_ORIENTATION_LENGTH_M   1.0       //姿态误差到位置误差的系数
+#define ARM_IK_NULLSPACE_GAIN         0.02      //零空间权重
 #define ARM_IK_MAX_STEP_DEG           0.1       //每关节每周期最大转角，2 ms 周期下约 50 °/s
-#define ARM_IK_MAX_POS_ERR_M          0.01
-#define ARM_IK_MAX_ROT_ERR_RAD        0.05
-#define ARM_IK_WEIGHT_FLOOR           1e-3
-#define ARM_IK_CONVERGED_POS_M        5e-4
-#define ARM_IK_CONVERGED_ROT_RAD      2e-3
-#define ARM_IK_MAX_LIMIT_PASSES       4
-#define ARM_IK_MAX_LEAD_DEG           2.0       //指令领先实测角的上限
-#define ARM_IK_WEIGHT                 {1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f}  //关节权重，越大越不愿动
+#define ARM_IK_MAX_POS_ERR_M          0.01      //每次求解的最大误差
+#define ARM_IK_MAX_ROT_ERR_RAD        0.05      //每次求解最大的姿态误差
+#define ARM_IK_WEIGHT_FLOOR           1e-3      //关节权重下限，防止0
+#define ARM_IK_CONVERGED_POS_M        5e-4      //位置收敛误差
+#define ARM_IK_CONVERGED_ROT_RAD      2e-3      //姿态收敛误差
+#define ARM_IK_MAX_LIMIT_PASSES       4         //关节越位最大次数
+#define ARM_IK_MAX_LEAD_DEG           1000.0      //指令领先实测角的上限，why这个意思是就是慢慢跟防止跳变？，直接算呢
+#define ARM_IK_WEIGHT                 {1.0f, 1.0f, 1.0f, 1.0f, 0.5f, 0.5f, 0.5f}  //关节权重，越大越不愿动
 
 //J0~J3 在 CAN1，J4~J6 在 CAN2，反馈在 Arm_Init 里绑到对应 CAN
 static void Module_ArmInit(void)

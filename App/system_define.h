@@ -17,7 +17,7 @@
 #define TASK_INIT_STACK_SIZE          512U
 #define TASK_CAN_TRANSMIT_STACK_SIZE  512U
 #define TASK_UART_TRANSMIT_STACK_SIZE 256U
-#define TASK_ARM_STACK_SIZE           256U
+#define TASK_ARM_STACK_SIZE           1024U
 //任务优先级
 #define TASK_MONITOR_PRIORITY         1U
 #define TASK_INIT_PRIORITY            6U
