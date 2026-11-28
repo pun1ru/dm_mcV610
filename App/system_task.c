@@ -16,10 +16,6 @@
 #define TASK_MONITOR_BREATHE_GREEN      255U
 
 /* 每个任务循环末尾发一次心跳 */
-static void Task_Beat(SystemTaskId_t task)
-{
-    Monitor_Beat(&systemMonitor, (uint8_t)task);
-}
 
 /*--------------------------------------基础任务--------------------------------------*/
 void MonitorTask(void *argument)
@@ -75,7 +71,7 @@ void CanTransmitTask(void *argument)
     for (;;)
     {
         Comm_ProcessCanTransmit();
-        Task_Beat(SYSTEM_TASK_CAN_TRANSMIT);
+        Monitor_Heartbeat(can_tx_heartbeat);
     }
 }
 
@@ -89,9 +85,11 @@ void UartTransmitTask(void *argument)
 
     for (;;)
     {
+        Monitor_CycleBegin(uart_tx_heartbeat);
         UART_MonitorPoll();
         Comm_ProcessUartTransmit();
-        Task_Beat(SYSTEM_TASK_UART_TRANSMIT);
+        Monitor_CycleEnd(uart_tx_heartbeat);
+        Monitor_Heartbeat(uart_tx_heartbeat);
         vTaskDelayUntil(&last_wake, pdMS_TO_TICKS(TASK_UART_TRANSMIT_PERIOD_MS));
     }
 }
@@ -143,7 +141,7 @@ static void Arm_RcStateSync(Arm_t *arm)
     }
 }
 
-/* 模块任务往这里加：循环里调用模块运行函数，末尾 Task_Beat，再 vTaskDelayUntil */
+/* 模块任务往这里加：循环里调用模块运行函数，末尾 Monitor_Heartbeat，再 vTaskDelayUntil */
 void ArmTask(void *argument)
 {
     TickType_t last_wake;
@@ -153,9 +151,11 @@ void ArmTask(void *argument)
 
     for (;;)
     {
+        Monitor_CycleBegin(arm_heartbeat);
         Arm_RcStateSync(&armInstance);
         Arm_Run(&armInstance);
-        Task_Beat(SYSTEM_TASK_ARM);
+        Monitor_CycleEnd(arm_heartbeat);
+        Monitor_Heartbeat(arm_heartbeat);
         vTaskDelayUntil(&last_wake, pdMS_TO_TICKS(TASK_ARM_PERIOD_MS));
     }
 }

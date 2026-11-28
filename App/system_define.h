@@ -12,6 +12,10 @@
 #define TASK_CAN_TRANSMIT_PERIOD_MS   1U
 #define TASK_UART_TRANSMIT_PERIOD_MS  2U
 #define TASK_ARM_PERIOD_MS            2U
+/* Monitor timeout: a task is LOST when no heartbeat arrives within this time */
+#define MONITOR_CAN_TX_TIMEOUT_MS     20U
+#define MONITOR_UART_TX_TIMEOUT_MS    20U
+#define MONITOR_ARM_TIMEOUT_MS        20U
 //任务的栈空间
 #define TASK_MONITOR_STACK_SIZE       512U
 #define TASK_INIT_STACK_SIZE          512U

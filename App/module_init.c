@@ -5,6 +5,38 @@
 
 //每个模块的配置按外设、通信、电机、状态、参数五层写,没有就不写
 /*--------------------------------------监控--------------------------------------*/
+/* Order must match SystemTaskId_t; Monitor_Init fills each .heartbeat token */
+static const MonitorTaskConfig_t monitorTasks[SYSTEM_TASK_COUNT] =
+{
+    [SYSTEM_TASK_CAN_TRANSMIT] = {
+        .name = "CAN TX",
+        .task_handle = &CanTransmitTaskHandle,
+        .period_ms = TASK_CAN_TRANSMIT_PERIOD_MS,
+        .timeout_ms = MONITOR_CAN_TX_TIMEOUT_MS,
+        .on_event = NULL,
+        .context = NULL,
+        .heartbeat = &can_tx_heartbeat,
+    },
+    [SYSTEM_TASK_UART_TRANSMIT] = {
+        .name = "UART TX",
+        .task_handle = &UartTransmitTaskHandle,
+        .period_ms = TASK_UART_TRANSMIT_PERIOD_MS,
+        .timeout_ms = MONITOR_UART_TX_TIMEOUT_MS,
+        .on_event = NULL,
+        .context = NULL,
+        .heartbeat = &uart_tx_heartbeat,
+    },
+    [SYSTEM_TASK_ARM] = {
+        .name = "Arm",
+        .task_handle = &ArmTaskHandle,
+        .period_ms = TASK_ARM_PERIOD_MS,
+        .timeout_ms = MONITOR_ARM_TIMEOUT_MS,
+        .on_event = NULL,
+        .context = NULL,
+        .heartbeat = &arm_heartbeat,
+    },
+};
+
 static void Module_MonitorInit(void)
 {
     const MonitorConfig_t config =
@@ -14,10 +46,10 @@ static void Module_MonitorInit(void)
         {
             .sample_period_ms = TASK_MONITOR_LOOP_PERIOD_MS,
             .task_count = SYSTEM_TASK_COUNT,
-            .task_period_ms = systemTaskPeriodMs,
+            .tasks = monitorTasks,
         },
     };
-    Monitor_Init(&systemMonitor, &config);
+    configASSERT(Monitor_Init(&systemMonitor, &config) == pdPASS);
 }
 
 /*--------------------------------------七轴臂--------------------------------------*/
@@ -60,12 +92,12 @@ static void Module_MonitorInit(void)
 
 //关节 PID 参数，单位 deg -> N*m，阻抗用PD
 //每行：kp, ki, kd, d_alpha, sum_error_max, output_max, total_output_max，单位 deg -> N*m
-#define ARM_GAIN_J0                   {0.1f, 0.0f, 1.5f, 0.90f, 0.0f, 1.2f, 1.2f}
-#define ARM_GAIN_J1                   {0.8f, 0.0f, 4.0f, 0.90f, 0.0f, 2.5f, 2.5f}
-#define ARM_GAIN_J2                   {0.05f, 0.0f, 0.6f, 0.90f, 0.0f, 0.5f, 0.5f}
-#define ARM_GAIN_J3                   {0.3f, 0.0f, 3.5f, 0.0f, 0.0f, 0.6f, 0.6f}
-#define ARM_GAIN_J4                   {0.01f, 0.0f, 0.15f, 0.0f, 0.0f, 0.25f, 0.25f}
-#define ARM_GAIN_J5                   {0.01f, 0.0f, 0.15f, 0.0f, 0.0f, 0.2f, 0.2f}
+#define ARM_GAIN_J0                   {0.1f, 0.0f, 1.2f, 0.90f, 0.0f, 1.2f, 1.2f}
+#define ARM_GAIN_J1                   {0.5f, 0.0f, 3.0f, 0.90f, 0.0f, 2.5f, 2.5f}
+#define ARM_GAIN_J2                   {0.03f, 0.0f, 0.5f, 0.90f, 0.0f, 0.5f, 0.5f}
+#define ARM_GAIN_J3                   {0.2f, 0.0f, 3.0f, 0.0f, 0.0f, 0.6f, 0.6f}
+#define ARM_GAIN_J4                   {0.007f, 0.0f, 0.15f, 0.0f, 0.0f, 0.25f, 0.25f}
+#define ARM_GAIN_J5                   {0.007f, 0.0f, 0.15f, 0.0f, 0.0f, 0.2f, 0.2f}
 #define ARM_GAIN_J6                   {0.001f, 0.0f, 0.01f, 0.0f, 0.0f, 0.05f, 0.05f}
 
 //重力补偿
